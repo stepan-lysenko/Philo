@@ -7,7 +7,7 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
 
-        self.setGeometry(300, 300, 350, 150)
+        self.setGeometry(300, 300, 550, 550)
 
         widget = MainWidget.MainWidget()
         self.setWindowTitle("Philo")
