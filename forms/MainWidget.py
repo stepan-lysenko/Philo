@@ -30,6 +30,8 @@ class PhiloTab(QtGui.QWidget):
         QtGui.QWidget.__init__(self, parent)
 
         self.lvThesis = QtGui.QListWidget()
+        self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
+        self.lvThesis.setSortingEnabled(1)
 
         spacer1 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
                                                 QtGui.QSizePolicy.Maximum)
