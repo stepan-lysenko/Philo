@@ -38,7 +38,11 @@ class MainWindow(QtGui.QMainWindow):
         File.addAction(aExit)
         File.addAction(aOpen)
         File.addAction(aSaveAs)
-		
+
+        self.ToolBar = self.addToolBar('Open/Save')
+        self.ToolBar.addAction(aOpen)
+        self.ToolBar.addAction(aSaveAs)
+
 #       self.statusBar()
 
         self.setCentralWidget(widget)
