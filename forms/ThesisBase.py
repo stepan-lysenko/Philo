@@ -2,7 +2,8 @@
 
 class ThesisBase:
     ListNames = []
-    def __init__(self):
+    path = ''
+    def __init__(self, dest):
         return
     def getListNames(self)
         return

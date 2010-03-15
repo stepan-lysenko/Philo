@@ -20,18 +20,25 @@ class MainWindow(QtGui.QMainWindow):
         QtCore.SLOT('close()'))
 
         aSaveAs = QtGui.QAction(QtGui.QIcon('icons/save_as.png'),
-                                                'Save', self)
+                                                    'Save', self)
         aSaveAs.setShortcut('Ctrl+S')
         aSaveAs.setStatusTip('Save data as')
         self.connect(aSaveAs, QtCore.SIGNAL('triggered()'),
                                             widget.SaveListAs)
 
         aOpen = QtGui.QAction(QtGui.QIcon('icons/open.png'),
-                                                'Open', self)
+                                                    'Open', self)
         aOpen.setShortcut('Ctrl+O')
         aOpen.setStatusTip('Open file with data')
         self.connect(aOpen, QtCore.SIGNAL('triggered()'),
                                             widget.OpenList)
+
+        aNewThesis = QtGui.QAction(QtGui.QIcon('icon/new_thesis.png'),
+                                                'New Thesis', self)
+        aNewThesis.setStatusTip('Create new thesis')
+        self.connect(aNewThesis, QtCore.SIGNAL('triggered()'),
+                                            widget.currentTab.AddNewThesis)
+
 
         MenuBar = self.menuBar()
         File = MenuBar.addMenu('&File')
@@ -42,6 +49,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ToolBar = self.addToolBar('Open/Save')
         self.ToolBar.addAction(aOpen)
         self.ToolBar.addAction(aSaveAs)
+        self.ToolBar.addAction(aNewThesis)
 
 #       self.statusBar()
 
