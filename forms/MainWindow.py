@@ -33,7 +33,7 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(aOpen, QtCore.SIGNAL('triggered()'),
                                             widget.OpenList)
 
-        aNewThesis = QtGui.QAction(QtGui.QIcon('icon/new_thesis.png'),
+        aNewThesis = QtGui.QAction(QtGui.QIcon('icons/new_thesis.png'),
                                                 'New Thesis', self)
         aNewThesis.setStatusTip('Create new thesis')
         self.connect(aNewThesis, QtCore.SIGNAL('triggered()'),
