@@ -24,20 +24,26 @@ class MainWindow(QtGui.QMainWindow):
         aSaveAs.setShortcut('Ctrl+S')
         aSaveAs.setStatusTip('Save data as')
         self.connect(aSaveAs, QtCore.SIGNAL('triggered()'),
-                                            widget.SaveListAs)
+                                            widget.currentTab.SaveListAs)
 
         aOpen = QtGui.QAction(QtGui.QIcon('icons/open.png'),
                                                     'Open', self)
         aOpen.setShortcut('Ctrl+O')
         aOpen.setStatusTip('Open file with data')
         self.connect(aOpen, QtCore.SIGNAL('triggered()'),
-                                            widget.OpenList)
+                                            widget.currentTab.OpenList)
 
         aNewThesis = QtGui.QAction(QtGui.QIcon('icons/new_thesis.png'),
                                                 'New Thesis', self)
         aNewThesis.setStatusTip('Create new thesis')
         self.connect(aNewThesis, QtCore.SIGNAL('triggered()'),
                                             widget.currentTab.AddNewThesis)
+
+        aDelThesis = QtGui.QAction(QtGui.QIcon('icons/del_thesis.png'),
+                                                'Delete Thesis', self)
+        aDelThesis.setStatusTip('Delete current thesis')
+        self.connect(aDelThesis, QtCore.SIGNAL('triggered()'),
+                                        widget.currentTab.DelCurrentThesis)
 
 
         MenuBar = self.menuBar()
@@ -50,6 +56,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ToolBar.addAction(aOpen)
         self.ToolBar.addAction(aSaveAs)
         self.ToolBar.addAction(aNewThesis)
+        self.ToolBar.addAction(aDelThesis)
 
 #       self.statusBar()
 

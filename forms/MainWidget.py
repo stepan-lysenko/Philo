@@ -20,9 +20,6 @@ class MainWidget(QtGui.QWidget):
         layout = QtGui.QHBoxLayout(self)
         layout.addWidget(self.TabWidget)
 
-    def SaveListAs(self):
-        return
-
     def OpenList(self):
         return
 
@@ -60,8 +57,24 @@ class PhiloTab(QtGui.QWidget):
                 return 1
         return 0
                 
+    def SaveListAs(self):
+        return
+
+    def OpenList(self):
+        return
+
+    def DelCurrentThesis(self):
+        i = self.lvThesis.currentRow()
+        if i < 0:
+            return
+        self.lvThesis.takeItem(i)
+        
 
     def SelectionChanged(self):
+        if self.lvThesis.currentRow() < 0:
+            self.teThesisView.setText('')
+            self.currentItem = QtGui.QListWidgetItem()
+            return
         self.currentItem.desc = self.teThesisView.toPlainText()
         self.currentItem = self.lvThesis.currentItem()
         self.teThesisView.setText(self.currentItem.desc)
