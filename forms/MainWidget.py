@@ -72,8 +72,13 @@ class PhiloTab(QtGui.QWidget):
         tmp = ''
         while self.SearchName(name + tmp) == 1:
             i += 1
-            tmp = str(i)
-        if i != 0:
+            if i < 10:
+                tmp = str(0) + str(i)
+            else:
+                tmp = str(i)
+        if 0 < i < 10:
+            name += str(0) + str(i)
+        elif i >= 10:
             name += str(i)
         tmp = QtGui.QListWidgetItem(name)
         tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
