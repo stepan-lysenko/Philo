@@ -98,3 +98,4 @@ class PhiloTab(QtGui.QWidget):
                                                     | QtCore.Qt.ItemIsEnabled)
         tmp.desc = ''
         self.lvThesis.addItem(tmp)
+        self.lvThesis.setCurrentItem(tmp)
