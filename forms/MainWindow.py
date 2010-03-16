@@ -35,6 +35,7 @@ class MainWindow(QtGui.QMainWindow):
 
         aNewThesis = QtGui.QAction(QtGui.QIcon('icons/new_thesis.png'),
                                                 'New Thesis', self)
+        aNewThesis.setShortcut('Ctrl+N')
         aNewThesis.setStatusTip('Create new thesis')
         self.connect(aNewThesis, QtCore.SIGNAL('triggered()'),
                                             widget.currentTab.AddNewThesis)
