@@ -84,7 +84,7 @@ class PhiloTab(QtGui.QWidget):
             file = open(path + '/' + name + '/desc.txt', 'r')
             item.desc = ''
             for i in file.readlines():
-                item.desc += i + '\n'
+                item.desc += i
             file.close()
             self.lvThesis.addItem(item)
 
