@@ -20,11 +20,16 @@ class MainWindow(QtGui.QMainWindow):
         QtCore.SLOT('close()'))
 
         aSaveAs = QtGui.QAction(QtGui.QIcon('icons/save_as.png'),
-                                                    'Save', self)
-        aSaveAs.setShortcut('Ctrl+S')
-        aSaveAs.setStatusTip('Save data as')
+                                                    'SaveAs', self)
+        aSaveAs.setStatusTip('Save workspace as')
         self.connect(aSaveAs, QtCore.SIGNAL('triggered()'),
                                             widget.currentTab.SaveListAs)
+
+        aSave = QtGui.QAction(QtGui.QIcon('icons/save.png'),
+                                                    'Save', self)
+        aSave.setStatusTip('Save workspace')
+        self.connect(aSave, QtCore.SIGNAL('triggered()'),
+                                            widget.currentTab.SaveList)
 
         aOpen = QtGui.QAction(QtGui.QIcon('icons/open.png'),
                                                     'Open', self)
@@ -35,7 +40,6 @@ class MainWindow(QtGui.QMainWindow):
 
         aNewThesis = QtGui.QAction(QtGui.QIcon('icons/new_thesis.png'),
                                                 'New Thesis', self)
-        aNewThesis.setShortcut('Ctrl+N')
         aNewThesis.setStatusTip('Create new thesis')
         self.connect(aNewThesis, QtCore.SIGNAL('triggered()'),
                                             widget.currentTab.AddNewThesis)
@@ -46,18 +50,27 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(aDelThesis, QtCore.SIGNAL('triggered()'),
                                         widget.currentTab.DelCurrentThesis)
 
-
+        aNewWorkspace = QtGui.QAction(QtGui.QIcon('icons/new.png'),
+                                                    'Clear', self)
+        aNewWorkspace.setStatusTip('Clear all')
+        self.connect(aNewWorkspace, QtCore.SIGNAL('triggered()'),
+                                        widget.currentTab.NewWorkspace)
+        
         MenuBar = self.menuBar()
         File = MenuBar.addMenu('&File')
         File.addAction(aExit)
         File.addAction(aOpen)
         File.addAction(aSaveAs)
 
-        self.ToolBar = self.addToolBar('Open/Save')
-        self.ToolBar.addAction(aOpen)
-        self.ToolBar.addAction(aSaveAs)
-        self.ToolBar.addAction(aNewThesis)
-        self.ToolBar.addAction(aDelThesis)
+        self.tbWorkspace = self.addToolBar('Manipulate WorkSpace')
+        self.tbWorkspace.addAction(aNewWorkspace)
+        self.tbWorkspace.addAction(aOpen)
+        self.tbWorkspace.addAction(aSave)
+        self.tbWorkspace.addAction(aSaveAs)
+
+        self.tbThesis = self.addToolBar('Edit Thesises')
+        self.tbThesis.addAction(aNewThesis)
+        self.tbThesis.addAction(aDelThesis)
 
 #       self.statusBar()
 
