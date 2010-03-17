@@ -72,7 +72,7 @@ class PhiloTab(QtGui.QWidget):
             file.close()
 
     def OpenList(self):
-        if self.lvThesis.count > 0:
+        if self.lvThesis.count() > 0:
             reply = QtGui.QMessageBox.question(self, "Open?",
               "If you open new ThesisBase, you lost all data. Continue open?",
                                 QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
@@ -85,6 +85,8 @@ class PhiloTab(QtGui.QWidget):
             break
         for name in ListDir:
             item = QtGui.QListWidgetItem(name)
+            item.setFlags(QtCore.Qt.ItemIsEditable |
+                    QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
             file = open(path + '/' + name + '/desc.txt', 'r')
             item.desc = ''
             for i in file.readlines():
