@@ -55,7 +55,7 @@ class PhiloTab(QtGui.QWidget):
         return 0
                 
     def SaveListAs(self):
-        path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
+        path = str(QtGui.QFileDialog.getExistingDirectory(self, "Save",
                                     './', QtGui.QFileDialog.ShowDirsOnly))
         if path == '':
             return
@@ -67,10 +67,26 @@ class PhiloTab(QtGui.QWidget):
             file = open(path + '/' + name + '/desc.txt', 'w')
             file.write(self.lvThesis.item(i).desc)
             file.close()
-        return
 
     def OpenList(self):
-        return
+        reply = QtGui.QMessageBox.question(self, "Open?",
+            "If you open new ThesisBase, you lost all data. Continue open?",
+                            QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        if reply == QtGui.QMessageBox.No:
+            return
+        path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
+                                    './', QtGui.QFileDialog.ShowDirsOnly))
+        self.lvThesis.clear()
+        for Bill, ListDir, Bob in os.walk(path):
+            break
+        for name in ListDir:
+            item = QtGui.QListWidgetItem(name)
+            file = open(path + '/' + name + '/desc.txt', 'r')
+            item.desc = ''
+            for i in file.readlines():
+                item.desc += i + '\n'
+            file.close()
+            self.lvThesis.addItem(item)
 
     def DelCurrentThesis(self):
         i = self.lvThesis.currentRow()
