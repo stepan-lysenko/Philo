@@ -24,6 +24,7 @@ class PhiloTab(QtGui.QWidget):
 
     currentItem = QtGui.QListWidgetItem()
     currentItem.desc = ''
+    path = ''
 
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
@@ -55,13 +56,25 @@ class PhiloTab(QtGui.QWidget):
         return 0
 
     def SaveList(self):
-        return
+        if self.path == '':
+            self.SaveListAs()
+            return
+        
+        self.currentItem.desc = self.teThesisView.toPlainText()
+        for i in xrange(self.lvThesis.count()):
+            name = str(self.lvThesis.item(i).text())
+            if not os.path.exists(self.path + '/' + name):
+                os.makedirs(self.path + '/' + name)
+            file = open(self.path + '/' + name + '/desc.txt', 'w')
+            file.write(self.lvThesis.item(i).desc)
+            file.close()
                 
     def SaveListAs(self):
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Save",
                                     './', QtGui.QFileDialog.ShowDirsOnly))
         if path == '':
             return
+        
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
             name = str(self.lvThesis.item(i).text())
@@ -70,6 +83,7 @@ class PhiloTab(QtGui.QWidget):
             file = open(path + '/' + name + '/desc.txt', 'w')
             file.write(self.lvThesis.item(i).desc)
             file.close()
+        self.path = path
 
     def OpenList(self):
         if self.lvThesis.count() > 0:
@@ -97,6 +111,9 @@ class PhiloTab(QtGui.QWidget):
     def NewWorkspace(self):
         self.lvThesis.clear()
         self.teThesisView.clear()
+        self.path = ''
+        self.currentItem = QtGui.QListWidgetItem()
+        self.desc = ''
 
     def DelCurrentThesis(self):
         i = self.lvThesis.currentRow()
