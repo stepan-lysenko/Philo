@@ -2,7 +2,7 @@
 
 import sys
 from PyQt4 import QtGui, QtCore
-import string
+import string, os
 
 class MainWidget(QtGui.QWidget):
 
@@ -19,9 +19,6 @@ class MainWidget(QtGui.QWidget):
 
         layout = QtGui.QHBoxLayout(self)
         layout.addWidget(self.TabWidget)
-
-    def OpenList(self):
-        return
 
 class PhiloTab(QtGui.QWidget):
 
@@ -58,6 +55,18 @@ class PhiloTab(QtGui.QWidget):
         return 0
                 
     def SaveListAs(self):
+        path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
+                                    './', QtGui.QFileDialog.ShowDirsOnly))
+        if path == '':
+            return
+        self.currentItem.desc = self.teThesisView.toPlainText()
+        for i in xrange(self.lvThesis.count()):
+            name = str(self.lvThesis.item(i).text())
+            if not os.path.exists(path + '/' + name):
+                os.makedirs(path + '/' + name)
+            file = open(path + '/' + name + '/desc.txt', 'w')
+            file.write(self.lvThesis.item(i).desc)
+            file.close()
         return
 
     def OpenList(self):
