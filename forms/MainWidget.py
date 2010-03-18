@@ -49,6 +49,7 @@ class PhiloTab(QtGui.QWidget):
 
     currentItem = QtGui.QListWidgetItem()
     currentItem.desc = ''
+    curItemText = ''
     path = ''
 
     def __init__(self, parent = None):
@@ -59,6 +60,8 @@ class PhiloTab(QtGui.QWidget):
         self.lvThesis.setSortingEnabled(1)
         self.connect(self.lvThesis, QtCore.SIGNAL('itemSelectionChanged()'), 
                                                         self.SelectionChanged)
+        self.connect(self.lvThesis, QtCore.SIGNAL(
+                'itemChanged(QListWidgetItem *)'), self.ItemChanged)
 
         spacer1 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
                                                 QtGui.QSizePolicy.Maximum)
@@ -73,6 +76,15 @@ class PhiloTab(QtGui.QWidget):
         Box.addItem(spacer1)
         Box.addWidget(self.teThesisView)
         Box.addItem(spacer2)
+
+    def ItemChanged(self, item):
+        for i in xrange(self.lvThesis.count()):
+            if (item.text() == self.lvThesis.item(i).text()) & (
+                                self.lvThesis.item(i) != self.currentItem):
+                QtGui.QMessageBox.warning(self, 'Error', 'Item exist')
+                item.setText(self.curItemText)
+                return
+        self.curItemText = self.lvThesis.currentItem().text()
 
     def SearchName(self, name):
         for i in xrange(self.lvThesis.count()):
@@ -102,7 +114,7 @@ class PhiloTab(QtGui.QWidget):
             QtGui.QMessageBox.warning(self, 'Warning', 'Nothing to save')
             return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Save",
-                                    './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+                            './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
         removeall(path, self)
@@ -124,7 +136,7 @@ class PhiloTab(QtGui.QWidget):
             if reply == QtGui.QMessageBox.No:
                 return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
-                                    './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+                            './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
         self.lvThesis.clear()
@@ -148,6 +160,7 @@ class PhiloTab(QtGui.QWidget):
         self.path = ''
         self.currentItem = QtGui.QListWidgetItem()
         self.desc = ''
+        self.curItemText = ''
 
     def DelCurrentThesis(self):
         i = self.lvThesis.currentRow()
@@ -164,6 +177,7 @@ class PhiloTab(QtGui.QWidget):
         self.currentItem.desc = self.teThesisView.toPlainText()
         self.currentItem = self.lvThesis.currentItem()
         self.teThesisView.setText(self.currentItem.desc)
+        self.curItemText = self.lvThesis.currentItem().text()
 
     def AddNewThesis(self):
         i = 0
@@ -185,4 +199,6 @@ class PhiloTab(QtGui.QWidget):
         tmp.desc = ''
         self.lvThesis.addItem(tmp)
         self.lvThesis.setCurrentItem(tmp)
+        self.lvThesis.editItem(self.lvThesis.currentItem())
+        self.curItemText = self.lvThesis.currentItem().text()
 
