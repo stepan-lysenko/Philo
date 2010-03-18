@@ -13,7 +13,7 @@ def rmgeneric(path, __func__, widget):
         QtGui.QMessageBox.warning(widget, 'Error', REMOVE_ERROR % 
                                 {'path' : path, 'error': strerror })
 
-def removeall(path):
+def removeall(path, widget):
     if not os.path.isdir(path):
         return
 
@@ -23,11 +23,11 @@ def removeall(path):
         fullpath=os.path.join(path, x)
         if os.path.isfile(fullpath):
             f=os.remove
-            rmgeneric(fullpath, f)
+            rmgeneric(fullpath, f, widget)
         elif os.path.isdir(fullpath):
-            removeall(fullpath)
+            removeall(fullpath, widget)
             f=os.rmdir
-            rmgeneric(fullpath, f)
+            rmgeneric(fullpath, f, widget)
 
 class MainWidget(QtGui.QWidget):
 
@@ -87,7 +87,7 @@ class PhiloTab(QtGui.QWidget):
         if self.path == '':
             self.SaveListAs()
             return
-        removeall(path)
+        removeall(path, self)
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
             name = str(self.lvThesis.item(i).text())
@@ -102,13 +102,13 @@ class PhiloTab(QtGui.QWidget):
             QtGui.QMessageBox.warning(self, 'Warning', 'Nothing to save')
             return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Save",
-                                    './', QtGui.QFileDialog.ShowDirsOnly))
+                                    './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
-        removeall(path)
+        removeall(path, self)
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
-            name = str(self.lvThesis.item(i).text())
+            name = str(self.lvThesis.item(i).text().toUtf8())
             if not os.path.exists(path + '/' + name):
                 os.makedirs(path + '/' + name)
             file = open(path + '/' + name + '/desc.txt', 'w')
@@ -124,8 +124,11 @@ class PhiloTab(QtGui.QWidget):
             if reply == QtGui.QMessageBox.No:
                 return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
-                                    './', QtGui.QFileDialog.ShowDirsOnly))
+                                    './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+        if path == '':
+            return
         self.lvThesis.clear()
+        ListDir = []
         for Bill, ListDir, Bob in os.walk(path):
             break
         for name in ListDir:
