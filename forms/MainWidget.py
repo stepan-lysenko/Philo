@@ -4,6 +4,31 @@ import sys
 from PyQt4 import QtGui, QtCore
 import string, os
 
+REMOVE_ERROR = """Error removing %(path)s, %(error)s """
+
+def rmgeneric(path, __func__, widget):
+    try:
+        __func__(path)
+    except OSError, (errno, strerror):
+        QtGui.QMessageBox.warning(widget, 'Error', REMOVE_ERROR % 
+                                {'path' : path, 'error': strerror })
+
+def removeall(path):
+    if not os.path.isdir(path):
+        return
+
+    files=os.listdir(path)
+
+    for x in files:
+        fullpath=os.path.join(path, x)
+        if os.path.isfile(fullpath):
+            f=os.remove
+            rmgeneric(fullpath, f)
+        elif os.path.isdir(fullpath):
+            removeall(fullpath)
+            f=os.rmdir
+            rmgeneric(fullpath, f)
+
 class MainWidget(QtGui.QWidget):
 
 
@@ -56,10 +81,13 @@ class PhiloTab(QtGui.QWidget):
         return 0
 
     def SaveList(self):
+        if self.lvThesis.count() <= 0:
+            QtGui.QMessageBox.warning(self, 'Warning', 'Nothing to save')
+            return
         if self.path == '':
             self.SaveListAs()
             return
-        
+        removeall(path)
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
             name = str(self.lvThesis.item(i).text())
@@ -70,11 +98,14 @@ class PhiloTab(QtGui.QWidget):
             file.close()
                 
     def SaveListAs(self):
+        if self.lvThesis.count() <= 0:
+            QtGui.QMessageBox.warning(self, 'Warning', 'Nothing to save')
+            return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Save",
                                     './', QtGui.QFileDialog.ShowDirsOnly))
         if path == '':
             return
-        
+        removeall(path)
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
             name = str(self.lvThesis.item(i).text())
@@ -151,3 +182,4 @@ class PhiloTab(QtGui.QWidget):
         tmp.desc = ''
         self.lvThesis.addItem(tmp)
         self.lvThesis.setCurrentItem(tmp)
+
