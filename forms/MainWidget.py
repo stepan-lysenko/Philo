@@ -137,6 +137,7 @@ class PhiloTab(QtGui.QWidget):
                 return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
                             './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+	self.path = path
         if path == '':
             return
         self.lvThesis.clear()
