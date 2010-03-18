@@ -100,9 +100,9 @@ class PhiloTab(QtGui.QWidget):
             self.SaveListAs()
             return
         removeall(self.path, self)
-        self.currentItem.desc = self.teThesisView.toPlainText()
+        self.currentItem.desc = str(self.teThesisView.toPlainText().toUtf8())
         for i in xrange(self.lvThesis.count()):
-            name = str(self.lvThesis.item(i).text())
+            name = str(self.lvThesis.item(i).text().toUtf8())
             if not os.path.exists(self.path + '/' + name):
                 os.makedirs(self.path + '/' + name)
             file = open(self.path + '/' + name + '/desc.txt', 'w')
@@ -118,13 +118,13 @@ class PhiloTab(QtGui.QWidget):
         if path == '':
             return
         removeall(path, self)
-        self.currentItem.desc = self.teThesisView.toPlainText()
+        self.currentItem.desc = str(self.teThesisView.toPlainText().toUtf8())
         for i in xrange(self.lvThesis.count()):
             name = str(self.lvThesis.item(i).text().toUtf8())
             if not os.path.exists(path + '/' + name):
                 os.makedirs(path + '/' + name)
             file = open(path + '/' + name + '/desc.txt', 'w')
-            file.write(str(self.lvThesis.item(i).desc.toUtf8()))
+            file.write(self.lvThesis.item(i).desc)
             file.close()
         self.path = path
 
@@ -137,7 +137,7 @@ class PhiloTab(QtGui.QWidget):
                 return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
                             './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
-	self.path = path
+        self.path = path
         if path == '':
             return
         self.lvThesis.clear()
@@ -145,13 +145,13 @@ class PhiloTab(QtGui.QWidget):
         for Bill, ListDir, Bob in os.walk(path):
             break
         for name in ListDir:
-            item = QtGui.QListWidgetItem(name)
+            item = QtGui.QListWidgetItem(unicode(name, 'UTF8'))
             item.setFlags(QtCore.Qt.ItemIsEditable |
                     QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
             file = open(path + '/' + name + '/desc.txt', 'r')
             item.desc = ''
             for i in file.readlines():
-                item.desc += i
+                item.desc += unicode(i, 'UTF8')
             file.close()
             self.lvThesis.addItem(item)
 
