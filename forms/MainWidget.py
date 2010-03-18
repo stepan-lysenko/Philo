@@ -99,7 +99,7 @@ class PhiloTab(QtGui.QWidget):
         if self.path == '':
             self.SaveListAs()
             return
-        removeall(path, self)
+        removeall(self.path, self)
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
             name = str(self.lvThesis.item(i).text())
@@ -124,7 +124,7 @@ class PhiloTab(QtGui.QWidget):
             if not os.path.exists(path + '/' + name):
                 os.makedirs(path + '/' + name)
             file = open(path + '/' + name + '/desc.txt', 'w')
-            file.write(self.lvThesis.item(i).desc)
+            file.write(str(self.lvThesis.item(i).desc.toUtf8()))
             file.close()
         self.path = path
 
