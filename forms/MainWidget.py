@@ -4,7 +4,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 import string, os
 
-REMOVE_ERROR = """Error removing %(path)s, %(error)s """
+REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error) """
 
 def rmgeneric(path, __func__, widget):
     try:
@@ -83,20 +83,23 @@ class PhiloTab(QtGui.QWidget):
         for i in xrange(self.lvThesis.count()):
             if (item.text() == self.lvThesis.item(i).text()) & (
                                 self.lvThesis.item(i) != self.currentItem):
-                QtGui.QMessageBox.warning(self, 'Error', 'Item exist')
+                QtGui.QMessageBox.warning(self, u'Ошибка',
+			u'Понятие с данным именем уже присутствует в списке')
                 item.setText(self.curItemText)
                 return
         self.curItemText = self.lvThesis.currentItem().text()
 
     def SearchName(self, name):
+	n = QtCore.QString(name)
         for i in xrange(self.lvThesis.count()):
-            if name == self.lvThesis.item(i).text():
+            if n == self.lvThesis.item(i).text():
                 return 1
         return 0
 
     def SaveList(self):
         if self.lvThesis.count() <= 0:
-            QtGui.QMessageBox.warning(self, 'Warning', 'Nothing to save')
+            QtGui.QMessageBox.warning(self, u'Сохрание',
+					u'Список понятий пуст.')
             return
         if self.path == '':
             self.SaveListAs()
@@ -113,10 +116,12 @@ class PhiloTab(QtGui.QWidget):
                 
     def SaveListAs(self):
         if self.lvThesis.count() <= 0:
-            QtGui.QMessageBox.warning(self, 'Warning', 'Nothing to save')
+            QtGui.QMessageBox.warning(self, u'Сохранение',
+					u'Список понятий пуст')
             return
-        path = str(QtGui.QFileDialog.getExistingDirectory(self, "Save",
-                            './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+        path = str(QtGui.QFileDialog.getExistingDirectory(self,
+						u"Сохранить Как", './',
+				QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
         removeall(path, self)
@@ -132,12 +137,12 @@ class PhiloTab(QtGui.QWidget):
 
     def OpenList(self):
         if self.lvThesis.count() > 0:
-            reply = QtGui.QMessageBox.question(self, "Open?",
-              "If you open new ThesisBase, you lost all data. Continue open?",
+            reply = QtGui.QMessageBox.question(self, u"Открыть?",
+              u"Если вы продолжите, все изменения будут потеряны",
                                 QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
             if reply == QtGui.QMessageBox.No:
                 return
-        path = str(QtGui.QFileDialog.getExistingDirectory(self, "Open",
+        path = str(QtGui.QFileDialog.getExistingDirectory(self, u"Открытие",
                             './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         self.path = path
         if path == '':
@@ -184,18 +189,18 @@ class PhiloTab(QtGui.QWidget):
 
     def AddNewThesis(self):
         i = 0
-        name = 'New Thesis'
-        tmp = ''
+        name = u'Новое Понятие'
+        tmp = u''
         while self.SearchName(name + tmp) == 1:
             i += 1
             if i < 10:
-                tmp = str(0) + str(i)
+                tmp = unicode(str(0) + str(i), 'UTF8')
             else:
-                tmp = str(i)
+                tmp = unicode(str(i), 'UTF8')
         if 0 < i < 10:
-            name += str(0) + str(i)
+            name += unicode(str(0) + str(i), 'UTF8')
         elif i >= 10:
-            name += str(i)
+            name += unicode(str(i), 'UTF8')
         tmp = QtGui.QListWidgetItem(name)
         tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
                                                     | QtCore.Qt.ItemIsEnabled)
