@@ -51,8 +51,8 @@ class MainWindow(QtGui.QMainWindow):
                                         widget.currentTab.DelCurrentThesis)
 
         aNewWorkspace = QtGui.QAction(QtGui.QIcon('icons/new.png'),
-                                                    'Clear', self)
-        aNewWorkspace.setStatusTip('Clear all')
+                                                    'New Workspace', self)
+        aNewWorkspace.setStatusTip('New Workspace')
         self.connect(aNewWorkspace, QtCore.SIGNAL('triggered()'),
                                         widget.currentTab.NewWorkspace)
         
