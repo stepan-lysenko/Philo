@@ -58,6 +58,7 @@ class PhiloTab(QtGui.QWidget):
         QtGui.QWidget.__init__(self, parent)
 
         self.lvThesis = QtGui.QListWidget()
+	self.lvThesis.setMaximumWidth(150)
         self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
         self.lvThesis.setSortingEnabled(1)
         self.connect(self.lvThesis, QtCore.SIGNAL('itemSelectionChanged()'), 
@@ -69,15 +70,24 @@ class PhiloTab(QtGui.QWidget):
                                                 QtGui.QSizePolicy.Maximum)
 
         self.teThesisView = QtGui.QTextEdit()
+	self.teThesisView.setMaximumWidth(200)
 
         spacer2 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
                                                 QtGui.QSizePolicy.Maximum)
 
+	self.sGraph = QtGui.QGraphicsScene()
+	self.sGraph.addLine(25, -50, 50, 0)
+	self.sGraph.addLine(50, 0, 0, 0)
+	self.sGraph.addLine(0, 0, 25, -50)
+	self.vGraph = QtGui.QGraphicsView(self.sGraph)
+
+
         Box = QtGui.QHBoxLayout(self)
         Box.addWidget(self.lvThesis)
-        Box.addItem(spacer1)
+        Box.addSpacerItem(spacer1)
         Box.addWidget(self.teThesisView)
-        Box.addItem(spacer2)
+        Box.addSpacerItem(spacer2)
+	Box.addWidget(self.vGraph)
 
     def ItemChanged(self, item):
         for i in xrange(self.lvThesis.count()):

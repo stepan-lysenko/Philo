@@ -7,7 +7,7 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
 
-        self.setGeometry(300, 300, 550, 550)
+        self.setGeometry(100, 150, 850, 550)
 
         widget = MainWidget.MainWidget()
         self.setWindowTitle(u"Редактор когнитивных схем")
