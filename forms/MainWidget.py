@@ -2,8 +2,7 @@
 
 import sys
 from PyQt4 import QtGui, QtCore
-import string, os
-import ThesisBase
+import string, os, ThesisBase
 
 REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error) """
 
@@ -32,16 +31,15 @@ def removeall(path, widget):
 
 class MainWidget(QtGui.QWidget):
 
-    currentItem = QtGui.QListWidgetItem()
-    currentItem.desc = QtCore.QString()
-    curItemText = ''
+    currentItem = ThesisBase.Thesis()
+    curItemText = QtCore.QString()
     path = ''
 
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
 
         self.lvThesis = QtGui.QListWidget()
-	self.lvThesis.setMaximumWidth(150)
+        self.lvThesis.setMaximumWidth(150)
         self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
         self.lvThesis.setSortingEnabled(1)
         self.connect(self.lvThesis, QtCore.SIGNAL('itemSelectionChanged()'), 
@@ -53,16 +51,16 @@ class MainWidget(QtGui.QWidget):
                                                 QtGui.QSizePolicy.Maximum)
 
         self.teThesisView = QtGui.QTextEdit()
-	self.teThesisView.setMaximumWidth(200)
+        self.teThesisView.setMaximumWidth(200)
 
         spacer2 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
                                                 QtGui.QSizePolicy.Maximum)
 
-	self.sGraph = QtGui.QGraphicsScene()
-	self.sGraph.addLine(25, -50, 50, 0)
-	self.sGraph.addLine(50, 0, 0, 0)
-	self.sGraph.addLine(0, 0, 25, -50)
-	self.vGraph = QtGui.QGraphicsView(self.sGraph)
+        self.sGraph = QtGui.QGraphicsScene()
+        self.sGraph.addLine(25, -50, 50, 0)
+        self.sGraph.addLine(50, 0, 0, 0)
+        self.sGraph.addLine(0, 0, 25, -50)
+        self.vGraph = QtGui.QGraphicsView(self.sGraph)
 
 
         Box = QtGui.QHBoxLayout(self)
@@ -70,7 +68,7 @@ class MainWidget(QtGui.QWidget):
         Box.addSpacerItem(spacer1)
         Box.addWidget(self.teThesisView)
         Box.addSpacerItem(spacer2)
-	Box.addWidget(self.vGraph)
+        Box.addWidget(self.vGraph)
 
     def ItemChanged(self, item):
         for i in xrange(self.lvThesis.count()):
@@ -83,7 +81,7 @@ class MainWidget(QtGui.QWidget):
         self.curItemText = self.lvThesis.currentItem().text()
 
     def SearchName(self, name):
-	n = QtCore.QString(name)
+        n = QtCore.QString(name)
         for i in xrange(self.lvThesis.count()):
             if n == self.lvThesis.item(i).text():
                 return 1
@@ -154,7 +152,7 @@ class MainWidget(QtGui.QWidget):
         self.path = ''
         self.currentItem = QtGui.QListWidgetItem()
         self.desc = QtCore.QString()
-        self.curItemText = ''
+        self.curItemText = QtCore.QString()
 
     def DelCurrentThesis(self):
         i = self.lvThesis.currentRow()
@@ -187,12 +185,13 @@ class MainWidget(QtGui.QWidget):
             name += unicode(str(0) + str(i), 'UTF8')
         elif i >= 10:
             name += unicode(str(i), 'UTF8')
-        tmp = QtGui.QListWidgetItem(name)
+        tmp = ThesisBase.Thesis(name)
         tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
                                                     | QtCore.Qt.ItemIsEnabled)
-        tmp.desc = QtCore.QString()
         self.lvThesis.addItem(tmp)
         self.lvThesis.setCurrentItem(tmp)
         self.lvThesis.editItem(self.lvThesis.currentItem())
         self.curItemText = self.lvThesis.currentItem().text()
+        self.teThesisView.clear()
+        
 
