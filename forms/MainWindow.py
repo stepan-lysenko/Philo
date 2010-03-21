@@ -23,38 +23,38 @@ class MainWindow(QtGui.QMainWindow):
                                                     u'Сохранить как', self)
         aSaveAs.setStatusTip(u'Сохранить схему как')
         self.connect(aSaveAs, QtCore.SIGNAL('triggered()'),
-                                            widget.currentTab.SaveListAs)
+                                            widget.SaveListAs)
 
         aSave = QtGui.QAction(QtGui.QIcon('icons/save.png'),
                                                     u'Сохранить', self)
         aSave.setStatusTip(u'Сохранить схему')
         self.connect(aSave, QtCore.SIGNAL('triggered()'),
-                                            widget.currentTab.SaveList)
+                                            widget.SaveList)
 
         aOpen = QtGui.QAction(QtGui.QIcon('icons/open.png'),
                                                     u'Открыть', self)
         aOpen.setShortcut('Ctrl+O')
         aOpen.setStatusTip(u'Выбрать рабочую папку')
         self.connect(aOpen, QtCore.SIGNAL('triggered()'),
-                                            widget.currentTab.OpenList)
+                                            widget.OpenList)
 
         aNewThesis = QtGui.QAction(QtGui.QIcon('icons/new_thesis.png'),
                                                 u'Добавить понятие', self)
         aNewThesis.setStatusTip(u'Добавить новое понятие')
         self.connect(aNewThesis, QtCore.SIGNAL('triggered()'),
-                                            widget.currentTab.AddNewThesis)
+                                            widget.AddNewThesis)
 
         aDelThesis = QtGui.QAction(QtGui.QIcon('icons/del_thesis.png'),
                                                 u'Удалить понятие', self)
         aDelThesis.setStatusTip(u'Удалить выбранное понятие')
         self.connect(aDelThesis, QtCore.SIGNAL('triggered()'),
-                                        widget.currentTab.DelCurrentThesis)
+                                        widget.DelCurrentThesis)
 
         aNewWorkspace = QtGui.QAction(QtGui.QIcon('icons/new.png'),
                                                     u'Очистить список', self)
         aNewWorkspace.setStatusTip(u'Очистить список понятий')
         self.connect(aNewWorkspace, QtCore.SIGNAL('triggered()'),
-                                        widget.currentTab.NewWorkspace)
+                                        widget.NewWorkspace)
         
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')

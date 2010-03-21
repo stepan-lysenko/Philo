@@ -31,24 +31,6 @@ def removeall(path, widget):
 
 class MainWidget(QtGui.QWidget):
 
-
-#    def NewTab(self):
-#        self.currentTab = PhiloTab(self)
-#        self.TabWidget.addTab(self.currentTab, "Tab1")
-
-    def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self, parent)
-
-#        self.TabWidget = QtGui.QTabWidget()
-#        self.NewTab()
-
-        layout = QtGui.QHBoxLayout(self)
-        self.currentTab = PhiloTab(self)
-#        layout.addWidget(self.TabWidget)
-        layout.addWidget(self.currentTab)
-
-class PhiloTab(QtGui.QWidget):
-
     currentItem = QtGui.QListWidgetItem()
     currentItem.desc = QtCore.QString()
     curItemText = ''
