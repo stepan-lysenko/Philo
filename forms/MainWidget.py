@@ -3,6 +3,7 @@
 import sys
 from PyQt4 import QtGui, QtCore
 import string, os
+import ThesisBase
 
 REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error) """
 
@@ -136,22 +137,15 @@ class MainWidget(QtGui.QWidget):
                 return
         path = str(QtGui.QFileDialog.getExistingDirectory(self, u"Открытие",
                             './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
-        self.path = path
         if path == '':
             return
+        self.path = path
         self.lvThesis.clear()
-        ListDir = []
-        for Bill, ListDir, Bob in os.walk(path):
-            break
-        for name in ListDir:
-            item = QtGui.QListWidgetItem(unicode(name, 'UTF8'))
+        ListThesis = ThesisBase.getThesisList(self.path)
+        for name in ListThesis:
+            item = QtGui.QListWidgetItem(name)
             item.setFlags(QtCore.Qt.ItemIsEditable |
                     QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
-            file = open(path + '/' + name + '/desc.txt', 'r')
-            item.desc = QtCore.QString()
-            for i in file.readlines():
-                item.desc += QtCore.QString(unicode(i, 'UTF8'))
-            file.close()
             self.lvThesis.addItem(item)
 
     def NewWorkspace(self):
