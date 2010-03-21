@@ -98,12 +98,7 @@ class MainWidget(QtGui.QWidget):
         removeall(self.path, self)
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
-            name = str(self.lvThesis.item(i).text().toUtf8())
-            if not os.path.exists(self.path + '/' + name):
-                os.makedirs(self.path + '/' + name)
-            file = open(self.path + '/' + name + '/desc.txt', 'w')
-            file.write(str(self.lvThesis.item(i).desc.toUtf8()))
-            file.close()
+            self.lvThesis.item(i).saveThesis(self.path)
                 
     def SaveListAs(self):
         if self.lvThesis.count() <= 0:
@@ -118,12 +113,7 @@ class MainWidget(QtGui.QWidget):
         removeall(path, self)
         self.currentItem.desc = self.teThesisView.toPlainText()
         for i in xrange(self.lvThesis.count()):
-            name = str(self.lvThesis.item(i).text().toUtf8())
-            if not os.path.exists(path + '/' + name):
-                os.makedirs(path + '/' + name)
-            file = open(path + '/' + name + '/desc.txt', 'w')
-            file.write(str(self.lvThesis.item(i).desc.toUtf8()))
-            file.close()
+            self.lvThesis.item(i).saveThesis(path)
         self.path = path
 
     def OpenList(self):

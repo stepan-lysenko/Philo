@@ -60,19 +60,23 @@ class Thesis(QListWidgetItem):
         return
 
     def saveDesc(self, path):
-        file = open(path + '/' + self.hash[:2] + '/' + self.hash[2:] +
-                                                            '/desc.txt', 'w')
-        file.write(self.desc)
+        file = open(path + '/' + str(self.hash[:2]) + '/' +
+                            str(self.hash[2:]) + '/desc.txt', 'w')
+        file.write(str(self.desc.toUtf8()))
         file.close()
 
     def saveLinks():
         return
 
     def saveThesis(self, path):
-        if not os.path.exists(path + '/' + str(self.text().toUtf8())):
-            os.makedirs(path + '/' + str(self.text().toUtf8()))
+        if not os.path.exists(path + '/' + str(self.hash[:2])):
+            os.makedirs(path + '/' + str(self.hash[:2]))
+        if not os.path.exists(path + '/' + str(self.hash[:2]) + '/' +
+                                                    str(self.hash[2:])):
+            os.makedirs(path + '/' + str(self.hash[:2]) + '/' +
+                                                    str(self.hash[2:]))
         self.saveDesc(path)
         f = open(path + '/' + self.hash[:2] + '/' + self.hash[2:] + '/' +
                                                             'name.txt', 'w')
-        f.write(str(self.text().toUft8()))      
+        f.write(str(self.text().toUtf8()))      
         f.close()
