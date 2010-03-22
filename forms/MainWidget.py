@@ -93,12 +93,16 @@ class MainWidget(QtGui.QWidget):
 					u'Список понятий пуст.')
             return
         if self.path == '':
-            self.SaveListAs()
-            return
+            path = str(QtGui.QFileDialog.getExistingDirectory(self,
+                                    u"Выбор папки для сохранения", './',
+                                QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+            if path == '':
+                return
+            self.path = path
         removeall(self.path, self)
-        self.currentItem.desc = self.teThesisView.toPlainText()
+        self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
-            self.lvThesis.item(i).saveThesis(self.path)
+            self.lvThesis.item(i).saveThesis(self.path, 1)
                 
     def SaveListAs(self):
         if self.lvThesis.count() <= 0:
@@ -110,10 +114,9 @@ class MainWidget(QtGui.QWidget):
 				QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
-        removeall(path, self)
-        self.currentItem.desc = self.teThesisView.toPlainText()
+        self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
-            self.lvThesis.item(i).saveThesis(path)
+            self.lvThesis.item(i).saveThesis(path, 1)
         self.path = path
 
     def OpenList(self):
@@ -129,12 +132,7 @@ class MainWidget(QtGui.QWidget):
             return
         self.path = path
         self.lvThesis.clear()
-        ListThesis = ThesisBase.getThesisList(self.path)
-        for name in ListThesis:
-            item = QtGui.QListWidgetItem(name)
-            item.setFlags(QtCore.Qt.ItemIsEditable |
-                    QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
-            self.lvThesis.addItem(item)
+        ThesisBase.loadThesisesToList(self.lvThesis, path)
 
     def NewWorkspace(self):
         self.lvThesis.clear()
@@ -156,9 +154,9 @@ class MainWidget(QtGui.QWidget):
             self.teThesisView.setText('')
             self.currentItem = QtGui.QListWidgetItem()
             return
-        self.currentItem.desc = self.teThesisView.toPlainText()
+        self.currentItem.setDesc(self.teThesisView.toPlainText())
         self.currentItem = self.lvThesis.currentItem()
-        self.teThesisView.setText(self.currentItem.desc)
+        self.teThesisView.setText(self.currentItem.getDesc(self.path))
         self.curItemText = self.lvThesis.currentItem().text()
 
     def AddNewThesis(self):

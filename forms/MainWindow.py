@@ -60,13 +60,13 @@ class MainWindow(QtGui.QMainWindow):
         mbFile = MenuBar.addMenu(u'&Файл')
         mbFile.addAction(aNewWorkspace)
         mbFile.addAction(aOpen)
-	mbFile.addAction(aSave)
+        mbFile.addAction(aSave)
         mbFile.addAction(aSaveAs)
-	mbFile.addAction(aExit)
+        mbFile.addAction(aExit)
 
-	mbThesis = MenuBar.addMenu(u'&Понятия')
-	mbThesis.addAction(aNewThesis)
-	mbThesis.addAction(aDelThesis)
+        mbThesis = MenuBar.addMenu(u'&Понятия')
+        mbThesis.addAction(aNewThesis)
+        mbThesis.addAction(aDelThesis)
 	
         self.tbWorkspace = self.addToolBar(u'Файл')
         self.tbWorkspace.addAction(aNewWorkspace)
