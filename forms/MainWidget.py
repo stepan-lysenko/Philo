@@ -4,7 +4,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 import string, os, ThesisBase
 
-REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error) """
+REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error)"""
 
 def rmgeneric(path, __func__, widget):
     try:
@@ -110,8 +110,8 @@ class MainWidget(QtGui.QWidget):
 					u'Список понятий пуст')
             return
         path = str(QtGui.QFileDialog.getExistingDirectory(self,
-						u"Сохранить Как", './',
-				QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+			            			u"Сохранить Как", './',
+            				QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
         self.currentItem.setDesc(self.teThesisView.toPlainText())
@@ -138,26 +138,31 @@ class MainWidget(QtGui.QWidget):
         self.lvThesis.clear()
         self.teThesisView.clear()
         self.path = ''
-        self.currentItem = QtGui.QListWidgetItem()
+        self.currentItem = ThesisBase.Thesis()
         self.desc = QtCore.QString()
         self.curItemText = QtCore.QString()
 
     def DelCurrentThesis(self):
-        i = self.lvThesis.currentRow()
-        if i < 0:
-            return
-        self.lvThesis.takeItem(i)
+#        i = self.lvThesis.currentRow()
+#        if i < 0:
+#            return
+#        self.lvThesis.takeItem(i)
+        sel = self.lvThesis.selectedItems()
+        print sel.count()
         
 
     def SelectionChanged(self):
         if self.lvThesis.currentRow() < 0:
             self.teThesisView.setText('')
-            self.currentItem = QtGui.QListWidgetItem()
+            self.currentItem = ThesisBase.Thesis()
+            return
+        sel = self.lvThesis.selectedItems()
+        if len(sel) <= 0:
             return
         self.currentItem.setDesc(self.teThesisView.toPlainText())
-        self.currentItem = self.lvThesis.currentItem()
+        self.currentItem = sel.pop()
         self.teThesisView.setText(self.currentItem.getDesc(self.path))
-        self.curItemText = self.lvThesis.currentItem().text()
+        self.curItemText = self.lvThesis.selectedItems().pop().text()
 
     def AddNewThesis(self):
         i = 0

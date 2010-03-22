@@ -3,7 +3,7 @@
 import os, sys, string, hashlib
 from PyQt4.QtGui import QListWidgetItem
 from PyQt4.QtGui import QListWidget
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, QString
 
 def loadThesisesToList(QListWidget, path):
     ListDir = []
@@ -17,7 +17,7 @@ def loadThesisesToList(QListWidget, path):
             QListWidget.addItem(Thesis(path = path + '/' + dir + '/' + sdir))
 
 class Thesis(QListWidgetItem):
-    def __init__(self, name='', desc='', links=[], path=''):
+    def __init__(self, name='', desc=QString(), links=[], path=''):
         if path == '':
             QListWidgetItem.__init__(self, name)
             self.desc = desc
@@ -70,7 +70,7 @@ class Thesis(QListWidgetItem):
                                                     str(self.hash[2:])):
             os.makedirs(path + '/' + str(self.hash[:2]) + '/' +
                                                     str(self.hash[2:]))
-        self.saveDesc(path)
+        self.saveDesc(path, force)
         f = open(path + '/' + self.hash[:2] + '/' + self.hash[2:] + '/' +
                                                             'name.txt', 'w')
         f.write(str(self.text().toUtf8()))      
