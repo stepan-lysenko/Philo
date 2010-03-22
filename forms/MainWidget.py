@@ -3,6 +3,7 @@
 import sys
 from PyQt4 import QtGui, QtCore
 import string, os, ThesisBase
+from SchemeView import SchemeView
 
 REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error)"""
 
@@ -56,11 +57,7 @@ class MainWidget(QtGui.QWidget):
         spacer2 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
                                                 QtGui.QSizePolicy.Maximum)
 
-        self.sGraph = QtGui.QGraphicsScene()
-        self.sGraph.addLine(25, -50, 50, 0)
-        self.sGraph.addLine(50, 0, 0, 0)
-        self.sGraph.addLine(0, 0, 25, -50)
-        self.vGraph = QtGui.QGraphicsView(self.sGraph)
+        self.Scheme = SchemeView()
 
 
         Box = QtGui.QHBoxLayout(self)
@@ -68,14 +65,14 @@ class MainWidget(QtGui.QWidget):
         Box.addSpacerItem(spacer1)
         Box.addWidget(self.teThesisView)
         Box.addSpacerItem(spacer2)
-        Box.addWidget(self.vGraph)
+        Box.addWidget(self.Scheme)
 
     def ItemChanged(self, item):
         for i in xrange(self.lvThesis.count()):
             if (item.text() == self.lvThesis.item(i).text()) & (
                                 self.lvThesis.item(i) != self.currentItem):
                 QtGui.QMessageBox.warning(self, u'Ошибка',
-			u'Понятие с данным именем уже присутствует в списке')
+                    u'Понятие с данным именем уже присутствует в списке')
                 item.setText(self.curItemText)
                 return
         self.curItemText = self.lvThesis.currentItem().text()
