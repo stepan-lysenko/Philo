@@ -143,12 +143,10 @@ class MainWidget(QtGui.QWidget):
         self.curItemText = QtCore.QString()
 
     def DelCurrentThesis(self):
-#        i = self.lvThesis.currentRow()
-#        if i < 0:
-#            return
-#        self.lvThesis.takeItem(i)
-        sel = self.lvThesis.selectedItems()
-        print sel.count()
+        i = self.lvThesis.currentRow()
+        if i < 0:
+            return
+        self.lvThesis.takeItem(i)
         
 
     def SelectionChanged(self):
