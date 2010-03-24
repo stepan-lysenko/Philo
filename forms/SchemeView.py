@@ -42,6 +42,9 @@ class ThesisView(QtGui.QGraphicsItem):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 1))
         painter.setBrush(QtGui.QBrush(self.color))
         painter.drawRect(-20, -20, 40, 40)
+        font = painter.font()
+        font.setPixelSize(12)
+        painter.setFont(font)
         painter.drawText(QtCore.QRectF(-20, -20, 40, 40),
                             QtCore.Qt.AlignCenter, self.text)
 
