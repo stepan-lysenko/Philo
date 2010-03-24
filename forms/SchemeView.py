@@ -53,8 +53,11 @@ class ThesisView(QtGui.QGraphicsItem):
 
     def mouseReleaseEvent(self, event):
         self.setCursor(QtCore.Qt.OpenHandCursor)
+        self.moveBy(self.dp.x(), self.dp.y())
 
-    
+    def mouseMoveEvent(self, event):
+        self.dp = event.screenPos() - event.buttonDownScreenPos(
+                                            QtCore.Qt.LeftButton)
 
     def boundingRect(self):
         return QtCore.QRectF(-20.5, -20.5, 41, 41);
