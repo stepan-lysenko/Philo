@@ -50,14 +50,17 @@ class ThesisView(QtGui.QGraphicsItem):
             event.ignore()
             return
         self.setCursor(QtCore.Qt.ClosedHandCursor)
+        self.sp = event.screenPos()
 
     def mouseReleaseEvent(self, event):
         self.setCursor(QtCore.Qt.OpenHandCursor)
-        self.moveBy(self.dp.x(), self.dp.y())
+#        self.moveBy(self.dp.x(), self.dp.y())
 
     def mouseMoveEvent(self, event):
-        self.dp = event.screenPos() - event.buttonDownScreenPos(
-                                            QtCore.Qt.LeftButton)
+        dp = event.screenPos() - self.sp
+        self.sp = event.screenPos()
+
+        self.moveBy(dp.x(), dp.y())
 
     def boundingRect(self):
         return QtCore.QRectF(-20.5, -20.5, 41, 41);
