@@ -14,11 +14,11 @@ class SchemeView(QtGui.QGraphicsView):
 
         self.setRenderHint(QtGui.QPainter.Antialiasing)
 
-        item1 = ThesisView(u'Гиперэкстензия')
+        item1 = ThesisView(u'text1')
         item1.setPos(0, 0)
         self.scene.addItem(item1)
 
-        item2 = ThesisView(u'Эллада')
+        item2 = ThesisView(u'text2')
         item2.setPos(-40, 40)
         self.scene.addItem(item2)
 
@@ -43,7 +43,7 @@ class ThesisView(QtGui.QGraphicsItem):
         painter.setBrush(QtGui.QBrush(self.color))
         painter.drawRect(-20, -20, 40, 40)
         painter.drawText(QtCore.QRectF(-20, -20, 40, 40),
-                            QtCore.Qt.AlignCenter, 'text')
+                            QtCore.Qt.AlignCenter, self.text)
 
     def mousePressEvent(self, event):
         if event.button() != QtCore.Qt.LeftButton:
@@ -51,10 +51,11 @@ class ThesisView(QtGui.QGraphicsItem):
             return
         self.setCursor(QtCore.Qt.ClosedHandCursor)
         self.sp = event.screenPos()
+        self.setZValue(self.zValue() + 1)
 
     def mouseReleaseEvent(self, event):
         self.setCursor(QtCore.Qt.OpenHandCursor)
-#        self.moveBy(self.dp.x(), self.dp.y())
+        self.setZValue(self.zValue() - 1)
 
     def mouseMoveEvent(self, event):
         dp = event.screenPos() - self.sp
