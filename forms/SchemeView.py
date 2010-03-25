@@ -14,18 +14,18 @@ class SchemeView(QtGui.QGraphicsView):
 
         self.setRenderHint(QtGui.QPainter.Antialiasing)
 
-        item1 = ThesisView(u'text1')
-        item1.setPos(0, 0)
-        self.scene.addItem(item1)
+    curPos = QtCore.QPointF(0, 0)
 
-        item2 = ThesisView(u'text2')
-        item2.setPos(-40, 40)
-        self.scene.addItem(item2)
-
-    def dropEvent(self, event):
-        print 'dropEvent in Scheme'
+    def addThesis(self, name):
+        item = ThesisView(name)
+        item.setPos(self.curPos)
+        self.scene.addItem(item)
+        self.curPos += QtCore.QPointF(10, 10)
 
 class ThesisView(QtGui.QGraphicsItem):
+
+    form = QtCore.QRectF(-55, -20, 110, 40)
+
     def __init__(self, text = '', color = QtCore.Qt.white):
         QtGui.QGraphicsItem.__init__(self)
         self.setCursor(QtCore.Qt.OpenHandCursor)
@@ -41,11 +41,11 @@ class ThesisView(QtGui.QGraphicsItem):
     def paint(self, painter, option, widget):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 1))
         painter.setBrush(QtGui.QBrush(self.color))
-        painter.drawRect(-20, -20, 40, 40)
+        painter.drawRect(self.form)
         font = painter.font()
         font.setPixelSize(12)
         painter.setFont(font)
-        painter.drawText(QtCore.QRectF(-20, -20, 40, 40),
+        painter.drawText(self.form,
                             QtCore.Qt.AlignCenter, self.text)
 
     def mousePressEvent(self, event):
@@ -67,4 +67,5 @@ class ThesisView(QtGui.QGraphicsItem):
         self.moveBy(dp.x(), dp.y())
 
     def boundingRect(self):
-        return QtCore.QRectF(-20.5, -20.5, 41, 41);
+        x, y, w, h = self.form.getRect()
+        return QtCore.QRectF(x - 0.5, y - 0.5, w + 1, h + 1)

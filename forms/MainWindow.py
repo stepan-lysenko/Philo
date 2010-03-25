@@ -55,6 +55,12 @@ class MainWindow(QtGui.QMainWindow):
         aNewWorkspace.setStatusTip(u'Очистить список понятий')
         self.connect(aNewWorkspace, QtCore.SIGNAL('triggered()'),
                                         widget.NewWorkspace)
+
+        aAddToScheme = QtGui.QAction(QtGui.QIcon('icons/add_to_scheme.png'),
+                                        u'Добавить на схему', self)
+        aAddToScheme.setStatusTip(u'Добавить понятие на схему')
+        self.connect(aAddToScheme, QtCore.SIGNAL('triggered()'),
+                                        widget.AddToScheme)
         
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')
@@ -67,6 +73,7 @@ class MainWindow(QtGui.QMainWindow):
         mbThesis = MenuBar.addMenu(u'&Понятия')
         mbThesis.addAction(aNewThesis)
         mbThesis.addAction(aDelThesis)
+        mbThesis.addAction(aAddToScheme)
 	
         self.tbWorkspace = self.addToolBar(u'Файл')
         self.tbWorkspace.addAction(aNewWorkspace)
@@ -77,6 +84,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis = self.addToolBar(u'Понятия')
         self.tbThesis.addAction(aNewThesis)
         self.tbThesis.addAction(aDelThesis)
+        self.tbThesis.addAction(aAddToScheme)
 
 #       self.statusBar()
 

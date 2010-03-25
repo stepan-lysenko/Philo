@@ -116,6 +116,12 @@ class MainWidget(QtGui.QWidget):
             self.lvThesis.item(i).saveThesis(path, 1)
         self.path = path
 
+    def AddToScheme(self):
+        i = self.lvThesis.currentRow()
+        if i < 0:
+            return
+        self.Scheme.addThesis(self.lvThesis.item(i).text())
+
     def OpenList(self):
         if self.lvThesis.count() > 0:
             reply = QtGui.QMessageBox.question(self, u"Открыть?",
