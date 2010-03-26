@@ -21,8 +21,8 @@ def loadScheme(path, list, scheme):
     f = open(path, 'r')
     for line in f.readlines():
         tmp = line.split()
-        x = float(tmp.pop())
         y = float(tmp.pop())
+        x = float(tmp.pop())
         name = ''
         for s in tmp:
             name += ' ' + s
