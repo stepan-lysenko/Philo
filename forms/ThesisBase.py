@@ -29,7 +29,8 @@ def loadScheme(path, list, scheme):
         name = name[1:]
         item = SearchInList(list, QString(unicode(name, 'UTF8')))
         if item != 0:
-            scheme.addThesis(item)
+            scheme.addThesis(item, x = x, y = y)
+            
     
    
 def SearchInList(list, name):

@@ -30,12 +30,16 @@ class SchemeView(QtGui.QGraphicsView):
         if self.itemsOnScheme.has_key(thesis):
             self.itemsOnScheme[thesis].setColor(color)
 
-    def addThesis(self, thesis, color = QtCore.Qt.white):
+    def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None):
+        if (x == None) | (y == None):
+            pos = self.curPos
+            self.curPos += QtCore.QPointF(10, 10)
+        else:
+            pos = QtCore.QPointF(x, y)
         item = ThesisView(thesis, color)
-        item.setPos(self.curPos)
+        item.setPos(pos)
         self.itemsOnScheme[thesis] = item
         self.scene.addItem(item)
-        self.curPos += QtCore.QPointF(10, 10)
 
 class ThesisView(QtGui.QGraphicsItem):
 
