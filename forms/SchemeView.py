@@ -17,12 +17,15 @@ class SchemeView(QtGui.QGraphicsView):
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
 
-    def addThesis(self, name):
-        item = ThesisView(name)
-        item.setPos(self.curPos)
-        self.itemsOnScheme[name] = item
-        self.scene.addItem(item)
+    def addThesis(self, item):
+        tv = ThesisView(item)
+        tv.setPos(self.curPos)
+        self.itemsOnScheme[item] = tv
+        self.scene.addItem(tv)
         self.curPos += QtCore.QPointF(10, 10)
+
+    def removeItem(self, item):
+        self.scene.removeItem(item)
 
 class ThesisView(QtGui.QGraphicsItem):
 

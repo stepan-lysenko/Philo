@@ -68,6 +68,8 @@ class MainWidget(QtGui.QWidget):
         Box.addWidget(self.Scheme)
 
     def ItemChanged(self, item):
+        for i in self.Scheme.itemsOnScheme.keys():
+            self.Scheme.itemsOnScheme[i].update()
         for i in xrange(self.lvThesis.count()):
             if (item.text() == self.lvThesis.item(i).text()) & (
                                 self.lvThesis.item(i) != self.currentItem):
@@ -121,11 +123,22 @@ class MainWidget(QtGui.QWidget):
         if i < 0:
             return
         for t in self.Scheme.itemsOnScheme.keys():
-            if self.lvThesis.item(i).text() == t:
+            if self.lvThesis.item(i) == t:
                 QtGui.QMessageBox.warning(self, u'Ошибка',
                     u'Текущий эллемент уже представлен на схеме')
                 return
         self.Scheme.addThesis(self.lvThesis.item(i))
+
+    def delFromScheme(self):
+        i = self.lvThesis.currentRow()
+        if i < 0:
+            return
+        key = self.lvThesis.item(i)
+        a = {}
+        if self.Scheme.itemsOnScheme.has_key(key):
+            self.Scheme.removeItem(self.Scheme.itemsOnScheme[key])
+            self.Scheme.update()
+            self.Scheme.itemsOnScheme.pop(key)
 
     def OpenList(self):
         if self.lvThesis.count() > 0:

@@ -61,6 +61,12 @@ class MainWindow(QtGui.QMainWindow):
         aAddToScheme.setStatusTip(u'Добавить понятие на схему')
         self.connect(aAddToScheme, QtCore.SIGNAL('triggered()'),
                                         widget.addToScheme)
+
+        aDelFromScheme = QtGui.QAction(QtGui.QIcon(
+                'icons/del_from_scheme.png'), u'Удалить со схемы', self)
+        aDelFromScheme.setStatusTip(u'Удалить понятие со схемы')
+        self.connect(aDelFromScheme, QtCore.SIGNAL('triggered()'),
+                                        widget.delFromScheme)
         
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')
@@ -74,6 +80,7 @@ class MainWindow(QtGui.QMainWindow):
         mbThesis.addAction(aNewThesis)
         mbThesis.addAction(aDelThesis)
         mbThesis.addAction(aAddToScheme)
+        mbThesis.addAction(aDelFromScheme)
 	
         self.tbWorkspace = self.addToolBar(u'Файл')
         self.tbWorkspace.addAction(aNewWorkspace)
@@ -85,6 +92,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis.addAction(aNewThesis)
         self.tbThesis.addAction(aDelThesis)
         self.tbThesis.addAction(aAddToScheme)
+        self.tbThesis.addAction(aDelFromScheme)
 
 #       self.statusBar()
 
