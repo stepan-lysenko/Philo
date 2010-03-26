@@ -19,7 +19,8 @@ class SchemeView(QtGui.QGraphicsView):
 
     def delThesis(self, thesis):
         if self.itemsOnScheme.has_key(thesis):
-            self.scene.removeItem(self.itemsOnScheme[thesis])
+            for item in self.itemsOnScheme[thesis]:
+                self.scene.removeItem(item)
             self.scene.update()
             self.itemsOnScheme.pop(thesis)
 
@@ -28,9 +29,12 @@ class SchemeView(QtGui.QGraphicsView):
 
     def setColorOfThesis(self, thesis, color = QtCore.Qt.white):
         if self.itemsOnScheme.has_key(thesis):
-            self.itemsOnScheme[thesis].setColor(color)
+            for item in self.itemsOnScheme[thesis]:
+                item.setColor(color)
 
     def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None):
+        if not self.itemsOnScheme.has_key(thesis):
+            self.itemsOnScheme[thesis] = []
         if (x == None) | (y == None):
             pos = self.curPos
             self.curPos += QtCore.QPointF(10, 10)
@@ -38,7 +42,7 @@ class SchemeView(QtGui.QGraphicsView):
             pos = QtCore.QPointF(x, y)
         item = ThesisView(thesis, color)
         item.setPos(pos)
-        self.itemsOnScheme[thesis] = item
+        self.itemsOnScheme[thesis].append(item)
         self.scene.addItem(item)
 
 class ThesisView(QtGui.QGraphicsItem):

@@ -9,9 +9,9 @@ from SchemeView import SchemeView
 def saveScheme(scheme, path):
     f = open(path, 'w')
     for key in scheme.itemsOnScheme.keys():
-        f.write(str(key.text().toUtf8()) + '  ' +
-                str(scheme.itemsOnScheme[key].x()) + ' ' +
-                    str(scheme.itemsOnScheme[key].y()) + '\n')
+        for item in scheme.itemsOnScheme[key]:
+            f.write(str(key.text().toUtf8()) + '  ' +
+                str(item[key].x()) + ' ' + str(item.y()) + '\n')
     f.close()
 
 def loadScheme(path, list, scheme):

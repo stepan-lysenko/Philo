@@ -125,11 +125,6 @@ class MainWidget(QtGui.QWidget):
         i = self.lvThesis.currentRow()
         if i < 0:
             return
-        for t in self.Scheme.itemsOnScheme.keys():
-            if self.lvThesis.item(i) == t:
-                QtGui.QMessageBox.warning(self, u'Ошибка',
-                    u'Текущий эллемент уже представлен на схеме')
-                return
         self.Scheme.addThesis(self.lvThesis.item(i), QtCore.Qt.green)
 
     def delFromScheme(self):
