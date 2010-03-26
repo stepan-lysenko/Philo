@@ -149,8 +149,8 @@ class MainWidget(QtGui.QWidget):
                             './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
+        self.NewWorkspace()
         self.path = path
-        self.lvThesis.clear()
         ThesisBase.loadThesisesToList(self.lvThesis, path)
         ThesisBase.loadScheme(path + '/scheme.sch', self.lvThesis, self.Scheme)
 
