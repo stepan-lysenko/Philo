@@ -17,15 +17,18 @@ class SchemeView(QtGui.QGraphicsView):
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
 
-    def addThesis(self, item):
-        tv = ThesisView(item)
-        tv.setPos(self.curPos)
-        self.itemsOnScheme[item] = tv
-        self.scene.addItem(tv)
-        self.curPos += QtCore.QPointF(10, 10)
+    def delThesis(self, thesis):
+        if self.itemsOnScheme.has_key(thesis):
+            self.scene.removeItem(self.itemsOnScheme[thesis])
+            self.scene.update()
+            self.itemsOnScheme.pop(thesis)
 
-    def removeItem(self, item):
-        self.scene.removeItem(item)
+    def addThesis(self, thesis):
+        item = ThesisView(thesis)
+        item.setPos(self.curPos)
+        self.itemsOnScheme[thesis] = item
+        self.scene.addItem(item)
+        self.curPos += QtCore.QPointF(10, 10)
 
 class ThesisView(QtGui.QGraphicsItem):
 
@@ -36,6 +39,7 @@ class ThesisView(QtGui.QGraphicsItem):
         self.setCursor(QtCore.Qt.OpenHandCursor)
         self.color = color
         self.item = item
+        self.setZValue(0)
 
     def setColor(self, color):
         self.color = color
@@ -56,11 +60,9 @@ class ThesisView(QtGui.QGraphicsItem):
             return
         self.setCursor(QtCore.Qt.ClosedHandCursor)
         self.sp = event.screenPos()
-        self.setZValue(self.zValue() + 1)
 
     def mouseReleaseEvent(self, event):
         self.setCursor(QtCore.Qt.OpenHandCursor)
-        self.setZValue(self.zValue() - 1)
 
     def mouseMoveEvent(self, event):
         dp = event.screenPos() - self.sp

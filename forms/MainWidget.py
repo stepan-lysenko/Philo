@@ -133,12 +133,7 @@ class MainWidget(QtGui.QWidget):
         i = self.lvThesis.currentRow()
         if i < 0:
             return
-        key = self.lvThesis.item(i)
-        a = {}
-        if self.Scheme.itemsOnScheme.has_key(key):
-            self.Scheme.removeItem(self.Scheme.itemsOnScheme[key])
-            self.Scheme.update()
-            self.Scheme.itemsOnScheme.pop(key)
+        self.Scheme.delThesis(self.lvThesis.item(i))
 
     def OpenList(self):
         if self.lvThesis.count() > 0:
@@ -167,6 +162,7 @@ class MainWidget(QtGui.QWidget):
         i = self.lvThesis.currentRow()
         if i < 0:
             return
+        self.Scheme.delThesis(self.lvThesis.item(i))
         self.lvThesis.takeItem(i)
         
 
