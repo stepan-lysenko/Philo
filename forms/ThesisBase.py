@@ -61,6 +61,7 @@ class Thesis(QListWidgetItem):
             self.links = links
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             self.DescChanged = 1
+            self.LinksChanged = 1
         if path != '':
             f = open(path + '/name.txt', 'r')
             QListWidgetItem.__init__(self, unicode(f.readline(), 'UTF8'))
@@ -69,6 +70,12 @@ class Thesis(QListWidgetItem):
             self.DescChanged = 0
             self.setFlags(Qt.ItemIsEditable | Qt.ItemIsSelectable
                                                 | Qt.ItemIsEnabled)
+            f = open(path + '/links.txt', 'r')
+            self.links = [QtString(unicode(l[:len(l) - 1], 'UTF8')) for l in f.readlines()]
+            f.close()
+            self.LinksChanged = 0
+
+            self.setToolTip(str([str(l.toUtf8()) for l in self.links]))
 
     def setDesc(self, desc):
         self.desc = desc
@@ -94,9 +101,16 @@ class Thesis(QListWidgetItem):
                                 str(self.hash[2:]) + '/desc.txt', 'w')
             file.write(str(self.desc.toUtf8()))
             file.close()
+            self.DescChanged = 0
 
-    def saveLinks():
-        return
+    def saveLinks(self, path, force=0):
+        if (force == 1) | (self.LinksChanged == 1):
+            f = open(path + '/' + str(self.hash[:2]) + '/' +
+                                str(self.hash[2:]) + '/links.txt', 'w')
+            for l in self.links:
+                f.write(str(l.toUtf8()) + '\n')
+            f.close()
+            self.ListChanged = 0
 
     def saveThesis(self, path, force=0):
         if (force == 0) & (self.DescChanged == 0):
@@ -112,4 +126,4 @@ class Thesis(QListWidgetItem):
                                                             'name.txt', 'w')
         f.write(str(self.text().toUtf8()))      
         f.close()
-        self.DescChanged = 0
+        self.saveLinks(path, force)
