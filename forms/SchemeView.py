@@ -23,12 +23,15 @@ class SchemeView(QtGui.QGraphicsView):
             self.scene.update()
             self.itemsOnScheme.pop(thesis)
 
+    def clear(self):
+        self.scene.clear()
+
     def setColorOfThesis(self, thesis, color = QtCore.Qt.white):
         if self.itemsOnScheme.has_key(thesis):
             self.itemsOnScheme[thesis].setColor(color)
 
-    def addThesis(self, thesis):
-        item = ThesisView(thesis, QtCore.Qt.green)
+    def addThesis(self, thesis, color = QtCore.Qt.white):
+        item = ThesisView(thesis, color)
         item.setPos(self.curPos)
         self.itemsOnScheme[thesis] = item
         self.scene.addItem(item)

@@ -4,6 +4,42 @@ import os, sys, string, hashlib
 from PyQt4.QtGui import QListWidgetItem
 from PyQt4.QtGui import QListWidget
 from PyQt4.QtCore import Qt, QString
+from SchemeView import SchemeView
+
+def saveScheme(scheme, path):
+    f = open(path, 'w')
+    for key in scheme.itemsOnScheme.keys():
+        f.write(str(key.text().toUtf8()) + '  ' +
+                str(scheme.itemsOnScheme[key].x()) + ' ' +
+                    str(scheme.itemsOnScheme[key].y()) + '\n')
+    f.close()
+
+def loadScheme(path, list, scheme):
+    scheme.clear()
+    if not os.path.exists(path):
+        return
+    f = open(path, 'r')
+    for line in f.readlines():
+        tmp = line.split()
+        x = float(tmp.pop())
+        y = float(tmp.pop())
+        name = ''
+        for s in tmp:
+            name += ' ' + s
+        name = name[1:]
+        item = SearchInList(list, QString(unicode(name, 'UTF8')))
+        if item != 0:
+            scheme.addThesis(item)
+    
+   
+def SearchInList(list, name):
+    n = QString(name)
+    for i in xrange(list.count()):
+        if n == list.item(i).text():
+            return list.item(i)
+    return 0
+ 
+    
 
 def loadThesisesToList(QListWidget, path):
     ListDir = []

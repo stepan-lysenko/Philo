@@ -102,7 +102,9 @@ class MainWidget(QtGui.QWidget):
         self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(self.path, 1)
-                
+        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
+
+
     def SaveListAs(self):
         if self.lvThesis.count() <= 0:
             QtGui.QMessageBox.warning(self, u'Сохранение',
@@ -117,6 +119,7 @@ class MainWidget(QtGui.QWidget):
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(path, 1)
         self.path = path
+        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
 
     def addToScheme(self):
         i = self.lvThesis.currentRow()
@@ -127,7 +130,7 @@ class MainWidget(QtGui.QWidget):
                 QtGui.QMessageBox.warning(self, u'Ошибка',
                     u'Текущий эллемент уже представлен на схеме')
                 return
-        self.Scheme.addThesis(self.lvThesis.item(i))
+        self.Scheme.addThesis(self.lvThesis.item(i), QtCore.Qt.green)
 
     def delFromScheme(self):
         i = self.lvThesis.currentRow()
@@ -149,6 +152,7 @@ class MainWidget(QtGui.QWidget):
         self.path = path
         self.lvThesis.clear()
         ThesisBase.loadThesisesToList(self.lvThesis, path)
+        ThesisBase.loadScheme(path + '/scheme.sch', self.lvThesis, self.Scheme)
 
     def NewWorkspace(self):
         self.lvThesis.clear()
@@ -157,6 +161,7 @@ class MainWidget(QtGui.QWidget):
         self.currentItem = ThesisBase.Thesis()
         self.desc = QtCore.QString()
         self.curItemText = QtCore.QString()
+        self.Scheme.clear()
 
     def DelCurrentThesis(self):
         i = self.lvThesis.currentRow()
