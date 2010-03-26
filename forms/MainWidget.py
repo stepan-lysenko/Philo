@@ -175,7 +175,9 @@ class MainWidget(QtGui.QWidget):
         if len(sel) <= 0:
             return
         self.currentItem.setDesc(self.teThesisView.toPlainText())
+        self.Scheme.setColorOfThesis(self.currentItem)
         self.currentItem = sel.pop()
+        self.Scheme.setColorOfThesis(self.currentItem, QtCore.Qt.green)
         self.teThesisView.setText(self.currentItem.getDesc(self.path))
         self.curItemText = self.lvThesis.selectedItems().pop().text()
 

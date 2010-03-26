@@ -23,6 +23,10 @@ class SchemeView(QtGui.QGraphicsView):
             self.scene.update()
             self.itemsOnScheme.pop(thesis)
 
+    def setColorOfThesis(self, thesis, color = QtCore.Qt.white):
+        if self.itemsOnScheme.has_key(thesis):
+            self.itemsOnScheme[thesis].setColor(color)
+
     def addThesis(self, thesis):
         item = ThesisView(thesis)
         item.setPos(self.curPos)
@@ -34,7 +38,8 @@ class ThesisView(QtGui.QGraphicsItem):
 
     form = QtCore.QRectF(-55, -20, 110, 40)
 
-    def __init__(self, item = QtGui.QListWidgetItem(), color = QtCore.Qt.white):
+    def __init__(self, item = QtGui.QListWidgetItem(),
+                                    color = QtCore.Qt.white):
         QtGui.QGraphicsItem.__init__(self)
         self.setCursor(QtCore.Qt.OpenHandCursor)
         self.color = color
@@ -43,6 +48,7 @@ class ThesisView(QtGui.QGraphicsItem):
 
     def setColor(self, color):
         self.color = color
+        self.update()
 
     def paint(self, painter, option, widget):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 1))
