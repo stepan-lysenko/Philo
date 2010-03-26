@@ -203,5 +203,3 @@ class MainWidget(QtGui.QWidget):
         self.lvThesis.editItem(self.lvThesis.currentItem())
         self.curItemText = self.lvThesis.currentItem().text()
         self.teThesisView.clear()
-        
-
