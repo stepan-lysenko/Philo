@@ -15,10 +15,12 @@ class SchemeView(QtGui.QGraphicsView):
         self.setRenderHint(QtGui.QPainter.Antialiasing)
 
     curPos = QtCore.QPointF(0, 0)
+    itemsOnScheme = {}
 
     def addThesis(self, name):
         item = ThesisView(name)
         item.setPos(self.curPos)
+        self.itemsOnScheme[name] = item
         self.scene.addItem(item)
         self.curPos += QtCore.QPointF(10, 10)
 
@@ -26,17 +28,14 @@ class ThesisView(QtGui.QGraphicsItem):
 
     form = QtCore.QRectF(-55, -20, 110, 40)
 
-    def __init__(self, text = '', color = QtCore.Qt.white):
+    def __init__(self, item = QtGui.QListWidgetItem(), color = QtCore.Qt.white):
         QtGui.QGraphicsItem.__init__(self)
         self.setCursor(QtCore.Qt.OpenHandCursor)
         self.color = color
-        self.text = text
+        self.item = item
 
     def setColor(self, color):
         self.color = color
-
-    def setText(self, text):
-        self.text = text
 
     def paint(self, painter, option, widget):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 1))
@@ -46,7 +45,7 @@ class ThesisView(QtGui.QGraphicsItem):
         font.setPixelSize(12)
         painter.setFont(font)
         painter.drawText(self.form,
-                            QtCore.Qt.AlignCenter, self.text)
+                            QtCore.Qt.AlignCenter, self.item.text())
 
     def mousePressEvent(self, event):
         if event.button() != QtCore.Qt.LeftButton:

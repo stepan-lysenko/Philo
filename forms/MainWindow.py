@@ -60,7 +60,7 @@ class MainWindow(QtGui.QMainWindow):
                                         u'Добавить на схему', self)
         aAddToScheme.setStatusTip(u'Добавить понятие на схему')
         self.connect(aAddToScheme, QtCore.SIGNAL('triggered()'),
-                                        widget.AddToScheme)
+                                        widget.addToScheme)
         
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')

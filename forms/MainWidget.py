@@ -116,11 +116,16 @@ class MainWidget(QtGui.QWidget):
             self.lvThesis.item(i).saveThesis(path, 1)
         self.path = path
 
-    def AddToScheme(self):
+    def addToScheme(self):
         i = self.lvThesis.currentRow()
         if i < 0:
             return
-        self.Scheme.addThesis(self.lvThesis.item(i).text())
+        for t in self.Scheme.itemsOnScheme.keys():
+            if self.lvThesis.item(i).text() == t:
+                QtGui.QMessageBox.warning(self, u'Ошибка',
+                    u'Текущий эллемент уже представлен на схеме')
+                return
+        self.Scheme.addThesis(self.lvThesis.item(i))
 
     def OpenList(self):
         if self.lvThesis.count() > 0:
