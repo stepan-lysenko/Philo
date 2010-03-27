@@ -63,6 +63,7 @@ class Thesis(QListWidgetItem):
             self.DescChanged = 1
             self.LinksChanged = 1
         if path != '':
+            self.desc = QString()
             f = open(path + '/name.txt', 'r')
             QListWidgetItem.__init__(self, unicode(f.readline(), 'UTF8'))
             f.close()
@@ -72,11 +73,13 @@ class Thesis(QListWidgetItem):
                                                 | Qt.ItemIsEnabled)
             f = open(path + '/links.txt', 'r')
             self.links = [QString(unicode(l[:len(l) - 1], 'UTF8')) for l in f.readlines()]
-            print self.links
             f.close()
             self.LinksChanged = 0
 
-            self.setToolTip(str([str(l.toUtf8()) for l in self.links]))
+            tip = QString()
+            for link in self.links:
+                tip += link + QString('\n')
+            self.setToolTip(tip)
 
     def setDesc(self, desc):
         self.desc = desc

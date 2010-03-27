@@ -179,7 +179,14 @@ class MainWidget(QtGui.QWidget):
         self.currentItem = sel.pop()
         self.Scheme.setColorOfThesis(self.currentItem, QtCore.Qt.green)
         self.teThesisView.setText(self.currentItem.getDesc(self.path))
-        self.curItemText = self.lvThesis.selectedItems().pop().text()
+        tmp = self.lvThesis.selectedItems().pop()
+        self.curItemText = tmp.text()
+
+#        text = QtCore.QString()
+#        for link in tmp.links:
+#            text += link + QtCore.QString('\n')
+#        self.teThesisView.setText(text)
+        
 
 
     def AddNewThesis(self):

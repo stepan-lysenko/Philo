@@ -14,8 +14,8 @@ class SchemeView(QtGui.QGraphicsView):
 
         self.setRenderHint(QtGui.QPainter.Antialiasing)
 
-#        self.arrows = Arrows(self.itemsOnScheme)
-#        self.scene.addItem(self.arrows)
+        self.arrows = Arrows(self.itemsOnScheme)
+        self.scene.addItem(self.arrows)
 
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
@@ -30,6 +30,8 @@ class SchemeView(QtGui.QGraphicsView):
     def clear(self):
         self.scene.clear()
         self.itemsOnScheme = {}
+        self.arrows = Arrows(self.itemsOnScheme)
+        self.scene.addItem(self.arrows)
 
     def setColorOfThesis(self, thesis, color = QtCore.Qt.white):
         if self.itemsOnScheme.has_key(thesis):
@@ -48,7 +50,7 @@ class SchemeView(QtGui.QGraphicsView):
         item.setPos(pos)
         self.itemsOnScheme[thesis].append(item)
         self.scene.addItem(item)
-#        self.arrows.updateDic(self.itemsOnScheme)
+        self.arrows.updateDic(self.itemsOnScheme)
         
 
 class Arrows(QtGui.QGraphicsItem):
@@ -58,28 +60,31 @@ class Arrows(QtGui.QGraphicsItem):
         self.setZValue(100)
 
     def updateDic(self, dic):
-        self.dic = dic
         self.update()
+        self.dic = dic
+
+    def SearchThesis(self, name):
+        for key in self.dic.keys():
+            if key.text() == name:
+                print 'SearchTesis return True'
+                return key
+        return 0
 
     def paint(self, painter, option, widget):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 1))
         for key in self.dic.keys():
-            print key.text().toUtf8()
             for link in key.links:
-                print link
-                for key in self.dic.keys():
-                    print key.text()
-                    if key.text() == link:
-                        LThesis = key
-                for start in self.dic[key]:
-                    for end in self.dic[LThesis]:
-                        a = QtCore.QPointF(start.x(), start.y())
-                        b = QtCore.QPointF(end.x(), end.y())
-                        painter.drawLine(a, b)
+                thesis = self.SearchThesis(link)
+                if thesis != 0:
+                    for start in self.dic[key]:
+                        StartPoint = QtCore.QPointF(start.x(), start.y())
+                        for end in self.dic[thesis]:
+                            EndPoint = QtCore.QPointF(end.x(), end.y())
+                            painter.drawLine(StartPoint, EndPoint)
                 
 
     def boundingRect(self):
-        return QtCore.QRectF(-50, -50, 100, 100)
+        return QtCore.QRectF(-200, -200, 400, 400)
 
 class ThesisView(QtGui.QGraphicsItem):
 
