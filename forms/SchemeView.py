@@ -20,6 +20,13 @@ class SchemeView(QtGui.QGraphicsView):
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
 
+    def mouseDoubleClickEvent(self, event):
+        items = self.items(event.pos())
+        if len(items) < 2:
+            return
+        cur = items[1]
+        print cur
+
     def delThesis(self, thesis):
         if self.itemsOnScheme.has_key(thesis):
             for item in self.itemsOnScheme[thesis]:
