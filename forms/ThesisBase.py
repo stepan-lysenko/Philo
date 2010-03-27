@@ -11,7 +11,7 @@ def saveScheme(scheme, path):
     for key in scheme.itemsOnScheme.keys():
         for item in scheme.itemsOnScheme[key]:
             f.write(str(key.text().toUtf8()) + '  ' +
-                str(item[key].x()) + ' ' + str(item.y()) + '\n')
+                str(item.x()) + ' ' + str(item.y()) + '\n')
     f.close()
 
 def loadScheme(path, list, scheme):
@@ -71,7 +71,8 @@ class Thesis(QListWidgetItem):
             self.setFlags(Qt.ItemIsEditable | Qt.ItemIsSelectable
                                                 | Qt.ItemIsEnabled)
             f = open(path + '/links.txt', 'r')
-            self.links = [QtString(unicode(l[:len(l) - 1], 'UTF8')) for l in f.readlines()]
+            self.links = [QString(unicode(l[:len(l) - 1], 'UTF8')) for l in f.readlines()]
+            print self.links
             f.close()
             self.LinksChanged = 0
 

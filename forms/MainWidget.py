@@ -59,7 +59,6 @@ class MainWidget(QtGui.QWidget):
 
         self.Scheme = SchemeView()
 
-
         Box = QtGui.QHBoxLayout(self)
         Box.addWidget(self.lvThesis)
         Box.addSpacerItem(spacer1)
@@ -68,8 +67,9 @@ class MainWidget(QtGui.QWidget):
         Box.addWidget(self.Scheme)
 
     def ItemChanged(self, item):
-        for i in self.Scheme.itemsOnScheme.keys():
-            self.Scheme.itemsOnScheme[i].update()
+        for key in self.Scheme.itemsOnScheme.keys():
+            for view in self.Scheme.itemsOnScheme[key]:
+                view.update()
         for i in xrange(self.lvThesis.count()):
             if (item.text() == self.lvThesis.item(i).text()) & (
                                 self.lvThesis.item(i) != self.currentItem):
@@ -180,6 +180,7 @@ class MainWidget(QtGui.QWidget):
         self.Scheme.setColorOfThesis(self.currentItem, QtCore.Qt.green)
         self.teThesisView.setText(self.currentItem.getDesc(self.path))
         self.curItemText = self.lvThesis.selectedItems().pop().text()
+
 
     def AddNewThesis(self):
         i = 0
