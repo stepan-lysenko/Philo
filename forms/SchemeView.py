@@ -24,17 +24,21 @@ class SchemeView(QtGui.QGraphicsView):
     def mouseDoubleClickEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
+            self.setCursor(QtCore.Qt.ArrowCursor)
             return
         cur = items[1]
         if self.setLink == 0:
             self.setLink = 1
             self.curItem = self.SearchByView(cur)
-            
+            self.setCursor(QtCore.Qt.CrossCursor)
         else:
             self.setLink = 0
             link = self.SearchByView(cur)
+            self.setCursor(QtCore.Qt.ArrowCursor)
             if len(self.curItem.links) < 3:
                self.curItem.links.append(link.text())
+        self.update()
+        self.arrows.update()
 
     def SearchByView(self, view):
         for key in self.itemsOnScheme:
