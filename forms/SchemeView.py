@@ -19,13 +19,29 @@ class SchemeView(QtGui.QGraphicsView):
 
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
+    setLink = 0
 
     def mouseDoubleClickEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
             return
         cur = items[1]
-        print cur
+        if self.setLink == 0:
+            self.setLink = 1
+            self.curItem = self.SearchByView(cur)
+            
+        else:
+            self.setLink = 0
+            link = self.SearchByView(cur)
+            if len(self.curItem.links) < 3:
+               self.curItem.links.append(link.text())
+
+    def SearchByView(self, view):
+        for key in self.itemsOnScheme:
+            for item in self.itemsOnScheme[key]:
+                if item == view:
+                    return key
+        return 0
 
     def delThesis(self, thesis):
         if self.itemsOnScheme.has_key(thesis):
@@ -73,7 +89,6 @@ class Arrows(QtGui.QGraphicsItem):
     def SearchThesis(self, name):
         for key in self.dic.keys():
             if key.text() == name:
-                print 'SearchTesis return True'
                 return key
         return 0
 

@@ -182,10 +182,10 @@ class MainWidget(QtGui.QWidget):
         tmp = self.lvThesis.selectedItems().pop()
         self.curItemText = tmp.text()
 
-#        text = QtCore.QString()
-#        for link in tmp.links:
-#            text += link + QtCore.QString('\n')
-#        self.teThesisView.setText(text)
+        text = QtCore.QString()
+        for link in tmp.links:
+            text += link + QtCore.QString('\n')
+        self.teThesisView.setText(text)
         
 
 
