@@ -94,6 +94,10 @@ class MainWidget(QtGui.QWidget):
         return 0
 
     def SaveList(self):
+        QtGui.QMessageBox.warning(self, u'Сохранение',
+                    u"Функция временно не доступна, используйте 'Сохранить Как' в пустую папку")
+        return
+
         if self.lvThesis.count() <= 0:
             QtGui.QMessageBox.warning(self, u'Сохрание',
 					u'Список понятий пуст.')
@@ -105,14 +109,10 @@ class MainWidget(QtGui.QWidget):
             if path == '':
                 return
             self.path = path
-        QtGui.QMessageBox.warning(self, u'Сохранение',
-                    u"Функция временно не доступна, используйте 'Сохранить Как' в пустую папку")
-#        removeall(self.path, self)
-#        self.currentItem.setDesc(self.teThesisView.toPlainText())
-#        for i in xrange(self.lvThesis.count()):
-#            self.lvThesis.item(i).saveThesis(self.path, 1)
-#        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
-
+        self.currentItem.setDesc(self.teThesisView.toPlainText())
+        for i in xrange(self.lvThesis.count()):
+            self.lvThesis.item(i).saveThesis(self.path, 1)
+        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
 
     def SaveListAs(self):
         if self.lvThesis.count() <= 0:

@@ -141,7 +141,7 @@ class Arrows(QtGui.QGraphicsItem):
         return 0
 
     def paint(self, painter, option, widget):
-        painter.setPen(QtGui.QPen(QtCore.Qt.black, 1))
+        painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
         for key in self.dic.keys():
             for link in key.links:
                 thesis = self.SearchThesis(link)
@@ -155,22 +155,22 @@ class Arrows(QtGui.QGraphicsItem):
                                                             n.y() * n.y()))
                             s = math.sin(math.pi / 9.)
                             c = math.cos(math.pi / 9.)
-                            EndPoint -= n * 1.6
-                            StartPoint += n * 1.6
-                            painter.drawLine(StartPoint, EndPoint)
+                            endR = EndPoint - n * 1.6
+                            startR = StartPoint + n * 1.6
+                            painter.drawLine(startR, endR)
                             tmp = QtCore.QPointF(c*n.x() - s*n.y(),
                                                     s*n.x() + c*n.y())
-                            painter.drawLine(EndPoint, EndPoint - tmp)
+                            painter.drawLine(endR, endR - tmp)
                             tmp = QtCore.QPointF(c*n.x() + s*n.y(),
                                                     -s*n.x() + c*n.y())
-                            painter.drawLine(EndPoint, EndPoint - tmp)
+                            painter.drawLine(endR, endR - tmp)
 
     def boundingRect(self):
         return QtCore.QRectF(-500, -500, 1000, 1000)
 
 class ThesisView(QtGui.QGraphicsItem):
 
-    form = QtCore.QRectF(-55, -20, 110, 40)
+    form = QtCore.QRectF(-65, -20, 130, 40)
 
     def __init__(self, item = QtGui.QListWidgetItem(),
                                     color = QtCore.Qt.white):
@@ -184,11 +184,11 @@ class ThesisView(QtGui.QGraphicsItem):
         self.update()
 
     def paint(self, painter, option, widget):
-        painter.setPen(QtGui.QPen(QtCore.Qt.black, 1))
+        painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
         painter.setBrush(QtGui.QBrush(self.color))
         painter.drawRect(self.form)
         font = painter.font()
-        font.setPixelSize(12)
+        font.setPixelSize(13)
         painter.setFont(font)
         painter.drawText(self.form,
                             QtCore.Qt.AlignCenter, self.item.text())
