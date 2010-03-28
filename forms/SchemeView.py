@@ -7,7 +7,6 @@ class SchemeView(QtGui.QGraphicsView):
     def __init__(self):
         QtGui.QGraphicsView.__init__(self)
         self.setBackgroundBrush(QtGui.QBrush())
-#        self.setMaximumSize(500, 800)
 
         self.scene = QtGui.QGraphicsScene()
         self.setScene(self.scene)
@@ -151,20 +150,20 @@ class Arrows(QtGui.QGraphicsItem):
                         StartPoint = QtCore.QPointF(start.x(), start.y())
                         for end in self.dic[thesis]:
                             EndPoint = QtCore.QPointF(end.x(), end.y())
-                            painter.drawLine(StartPoint, EndPoint)
                             n = EndPoint - StartPoint
                             n = n / (0.05 * math.sqrt(n.x() * n.x() +
                                                             n.y() * n.y()))
                             s = math.sin(math.pi / 9.)
                             c = math.cos(math.pi / 9.)
+                            EndPoint -= n * 1.6
+                            StartPoint += n * 1.6
+                            painter.drawLine(StartPoint, EndPoint)
                             tmp = QtCore.QPointF(c*n.x() - s*n.y(),
                                                     s*n.x() + c*n.y())
                             painter.drawLine(EndPoint, EndPoint - tmp)
                             tmp = QtCore.QPointF(c*n.x() + s*n.y(),
                                                     -s*n.x() + c*n.y())
                             painter.drawLine(EndPoint, EndPoint - tmp)
-                            
-                
 
     def boundingRect(self):
         return QtCore.QRectF(-500, -500, 1000, 1000)
