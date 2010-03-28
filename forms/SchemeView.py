@@ -16,10 +16,36 @@ class SchemeView(QtGui.QGraphicsView):
 
         self.arrows = Arrows(self.itemsOnScheme)
         self.scene.addItem(self.arrows)
+        self.setCursor(QtCore.Qt.OpenHandCursor)
 
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
     setLink = 0
+
+    def mousePressEvent(self, event):
+        if event.button() != QtCore.Qt.LeftButton:
+            event.ignore()
+            return
+        self.setCursor(QtCore.Qt.ClosedHandCursor)
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setCursor(QtCore.Qt.ArrowCursor)
+            return
+        self.cur = items[1]
+        self.move = 1
+
+    def mouseReleaseEvent(self, event):
+        self.setCursor(QtCore.Qt.OpenHandCursor)
+        self.move = 0
+
+    def mouseMoveEvent(self, event):
+        if self.move == 1:
+            dp = event.pos() - self.sp
+            self.sp = event.pos()
+
+            self.cur.moveBy(dp.x(), dp.y())
+            self.arrows.update()
 
     def mouseDoubleClickEvent(self, event):
         items = self.items(event.pos())
@@ -119,7 +145,7 @@ class ThesisView(QtGui.QGraphicsItem):
     def __init__(self, item = QtGui.QListWidgetItem(),
                                     color = QtCore.Qt.white):
         QtGui.QGraphicsItem.__init__(self)
-        self.setCursor(QtCore.Qt.OpenHandCursor)
+#        self.setCursor(QtCore.Qt.OpenHandCursor)
         self.color = color
         self.item = item
         self.setZValue(0)
@@ -138,21 +164,21 @@ class ThesisView(QtGui.QGraphicsItem):
         painter.drawText(self.form,
                             QtCore.Qt.AlignCenter, self.item.text())
 
-    def mousePressEvent(self, event):
-        if event.button() != QtCore.Qt.LeftButton:
-            event.ignore()
-            return
-        self.setCursor(QtCore.Qt.ClosedHandCursor)
-        self.sp = event.screenPos()
+#    def mousePressEvent(self, event):
+#        if event.button() != QtCore.Qt.LeftButton:
+#            event.ignore()
+#            return
+#        self.setCursor(QtCore.Qt.ClosedHandCursor)
+#        self.sp = event.screenPos()
 
-    def mouseReleaseEvent(self, event):
-        self.setCursor(QtCore.Qt.OpenHandCursor)
+#    def mouseReleaseEvent(self, event):
+#        self.setCursor(QtCore.Qt.OpenHandCursor)
 
-    def mouseMoveEvent(self, event):
-        dp = event.screenPos() - self.sp
-        self.sp = event.screenPos()
-
-        self.moveBy(dp.x(), dp.y())
+#    def mouseMoveEvent(self, event):
+#        dp = event.screenPos() - self.sp
+#        self.sp = event.screenPos()
+#
+#        self.moveBy(dp.x(), dp.y())
 
     def boundingRect(self):
         x, y, w, h = self.form.getRect()
