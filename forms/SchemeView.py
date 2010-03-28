@@ -26,6 +26,11 @@ class SchemeView(QtGui.QGraphicsView):
         if event.button() != QtCore.Qt.LeftButton:
             event.ignore()
             return
+
+        for key in self.itemsOnScheme.keys():
+            for item in self.itemsOnScheme[key]:
+                item.setZValue(0)
+
         self.sp = event.pos()
         items = self.items(event.pos())
         if len(items) < 2:
@@ -33,6 +38,7 @@ class SchemeView(QtGui.QGraphicsView):
             return
 
         self.cur = items[1]
+        self.cur.setZValue(1)
 
         if self.setLink == 1:
             self.setLink = 0
