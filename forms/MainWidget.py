@@ -42,7 +42,6 @@ class MainWidget(QtGui.QWidget):
         self.lvThesis = QtGui.QListWidget()
         self.lvThesis.setMaximumWidth(150)
         self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
-        self.lvThesis.setSortingEnabled(1)
         self.connect(self.lvThesis, QtCore.SIGNAL('itemSelectionChanged()'), 
                                                         self.SelectionChanged)
         self.connect(self.lvThesis, QtCore.SIGNAL(
@@ -65,6 +64,12 @@ class MainWidget(QtGui.QWidget):
         Box.addWidget(self.teThesisView)
         Box.addSpacerItem(spacer2)
         Box.addWidget(self.Scheme)
+
+    def sortByAscendingOrder(self):
+        self.lvThesis.sortItems(QtCore.Qt.AscendingOrder)
+
+    def sortByDescendingOrder(self):
+        self.lvThesis.sortItems(QtCore.Qt.DescendingOrder)
 
     def ItemChanged(self, item):
         for key in self.Scheme.itemsOnScheme.keys():

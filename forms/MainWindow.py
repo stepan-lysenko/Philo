@@ -67,6 +67,22 @@ class MainWindow(QtGui.QMainWindow):
         aDelFromScheme.setStatusTip(u'Удалить понятие со схемы')
         self.connect(aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         widget.delFromScheme)
+
+        aSortByAscendingOrder = QtGui.QAction(QtGui.QIcon(
+                        'icons/sort_by_ascending_order.png'),
+                                u'Сортировать по возрастанию', self)
+        aSortByAscendingOrder.setStatusTip(
+                u'Сортировать список понятий в порядке возрастания')
+        self.connect(aSortByAscendingOrder, QtCore.SIGNAL('triggered()'),
+                                        widget.sortByAscendingOrder)
+
+        aSortByDescendingOrder = QtGui.QAction(QtGui.QIcon(
+                        'icons/sort_by_descending_order.png'),
+                                u'Сортировать по убыванию', self)
+        aSortByDescendingOrder.setStatusTip(
+                u'Сортировать список понятий в порядке убывания')
+        self.connect(aSortByDescendingOrder, QtCore.SIGNAL('triggered()'),
+                                        widget.sortByDescendingOrder)
         
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')
@@ -93,6 +109,8 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis.addAction(aDelThesis)
         self.tbThesis.addAction(aAddToScheme)
         self.tbThesis.addAction(aDelFromScheme)
+        self.tbThesis.addAction(aSortByAscendingOrder)
+        self.tbThesis.addAction(aSortByDescendingOrder)
 
 #       self.statusBar()
 
