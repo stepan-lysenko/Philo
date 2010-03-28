@@ -98,11 +98,13 @@ class MainWidget(QtGui.QWidget):
             if path == '':
                 return
             self.path = path
-        removeall(self.path, self)
-        self.currentItem.setDesc(self.teThesisView.toPlainText())
-        for i in xrange(self.lvThesis.count()):
-            self.lvThesis.item(i).saveThesis(self.path, 1)
-        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
+        QtGui.QMessageBox.warning(self, u'Сохранение',
+                    u"Функция временно не доступна, используйте 'Сохранить Как' в пустую папку")
+#        removeall(self.path, self)
+#        self.currentItem.setDesc(self.teThesisView.toPlainText())
+#        for i in xrange(self.lvThesis.count()):
+#            self.lvThesis.item(i).saveThesis(self.path, 1)
+#        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
 
 
     def SaveListAs(self):
@@ -184,7 +186,7 @@ class MainWidget(QtGui.QWidget):
 
         text = QtCore.QString()
         for link in tmp.links:
-            text += link + QtCore.QString('\n')
+            text = text + link + QtCore.QString('\n')
         self.teThesisView.setText(text)
         
 
@@ -203,7 +205,7 @@ class MainWidget(QtGui.QWidget):
             name += unicode(str(0) + str(i), 'UTF8')
         elif i >= 10:
             name += unicode(str(i), 'UTF8')
-        tmp = ThesisBase.Thesis(name)
+        tmp = ThesisBase.Thesis(name = name)
         tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
                                                     | QtCore.Qt.ItemIsEnabled)
         self.lvThesis.addItem(tmp)

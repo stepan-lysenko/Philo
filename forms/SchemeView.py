@@ -39,7 +39,7 @@ class SchemeView(QtGui.QGraphicsView):
             link = self.SearchByView(self.cur)
             self.setCursor(QtCore.Qt.ArrowCursor)
             if (len(self.curItem.links) < 3) & (link != self.curItem):
-               self.curItem.links.append(link.text())
+                self.curItem.links.append(link.text())
         else:
            self.setCursor(QtCore.Qt.ClosedHandCursor)
            self.move = 1

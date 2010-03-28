@@ -54,11 +54,11 @@ def loadThesisesToList(QListWidget, path):
             QListWidget.addItem(Thesis(path = path + '/' + dir + '/' + sdir))
 
 class Thesis(QListWidgetItem):
-    def __init__(self, name='', desc=QString(), links=[], path=''):
+    def __init__(self, name='', desc=QString(), path=''):
         if path == '':
             QListWidgetItem.__init__(self, name)
             self.desc = desc
-            self.links = links
+            self.links = []
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             self.DescChanged = 1
             self.LinksChanged = 1
@@ -75,11 +75,6 @@ class Thesis(QListWidgetItem):
             self.links = [QString(unicode(l[:len(l) - 1], 'UTF8')) for l in f.readlines()]
             f.close()
             self.LinksChanged = 0
-
-            tip = QString()
-            for link in self.links:
-                tip += link + QString('\n')
-            self.setToolTip(tip)
 
     def setDesc(self, desc):
         self.desc = desc
