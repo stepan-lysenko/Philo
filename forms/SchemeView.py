@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-import sys, string
+import sys, string, math
 from PyQt4 import QtCore, QtGui
 
 class SchemeView(QtGui.QGraphicsView):
@@ -145,6 +145,17 @@ class Arrows(QtGui.QGraphicsItem):
                         for end in self.dic[thesis]:
                             EndPoint = QtCore.QPointF(end.x(), end.y())
                             painter.drawLine(StartPoint, EndPoint)
+                            n = EndPoint - StartPoint
+                            n = n / (0.05 * math.sqrt(n.x() * n.x() +
+                                                            n.y() * n.y()))
+                            s = math.sin(math.pi / 9.)
+                            c = math.cos(math.pi / 9.)
+                            tmp = QtCore.QPointF(c*n.x() - s*n.y(),
+                                                    s*n.x() + c*n.y())
+                            painter.drawLine(EndPoint, EndPoint - tmp)
+                            tmp = QtCore.QPointF(c*n.x() + s*n.y(),
+                                                    -s*n.x() + c*n.y())
+                            painter.drawLine(EndPoint, EndPoint - tmp)
                             
                 
 
