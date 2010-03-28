@@ -41,6 +41,7 @@ class MainWidget(QtGui.QWidget):
 
         self.lvThesis = QtGui.QListWidget()
         self.lvThesis.setMaximumWidth(150)
+        self.lvThesis.setMinimumWidth(150)
         self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
         self.connect(self.lvThesis, QtCore.SIGNAL('itemSelectionChanged()'), 
                                                         self.SelectionChanged)
@@ -52,6 +53,7 @@ class MainWidget(QtGui.QWidget):
 
         self.teThesisView = QtGui.QTextEdit()
         self.teThesisView.setMaximumWidth(200)
+        self.teThesisView.setMinimumWidth(150)
 
         spacer2 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
                                                 QtGui.QSizePolicy.Maximum)

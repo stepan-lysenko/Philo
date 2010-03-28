@@ -7,10 +7,11 @@ class SchemeView(QtGui.QGraphicsView):
     def __init__(self):
         QtGui.QGraphicsView.__init__(self)
         self.setBackgroundBrush(QtGui.QBrush())
+#        self.setMaximumSize(500, 800)
 
         self.scene = QtGui.QGraphicsScene()
         self.setScene(self.scene)
-        self.scene.setSceneRect(QtCore.QRectF(-200, -200, 400, 400))
+        self.scene.setSceneRect(QtCore.QRectF(-500, -500, 1000, 1000))
 
         self.setRenderHint(QtGui.QPainter.Antialiasing)
 
@@ -166,7 +167,7 @@ class Arrows(QtGui.QGraphicsItem):
                 
 
     def boundingRect(self):
-        return QtCore.QRectF(-200, -200, 400, 400)
+        return QtCore.QRectF(-500, -500, 1000, 1000)
 
 class ThesisView(QtGui.QGraphicsItem):
 
