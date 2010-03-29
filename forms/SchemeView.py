@@ -181,27 +181,15 @@ class Arrows(QtGui.QGraphicsItem):
                             elif n.x() != 0:
                                 k = n.y() / float(n.x())
                                 at = abs(20 / 65.)
-                                if (abs(k) > at) & (n.x() > 0):
-                                    if n.y() <= 0:
-                                        startR = StartPoint - QtCore.QPointF(
+                                if (abs(k) > at) & (n.y() <= 0):
+                                    startR = StartPoint - QtCore.QPointF(
                                                                 20. / k, 20)
-                                        endR = EndPoint + QtCore.QPointF(
+                                    endR = EndPoint + QtCore.QPointF(
                                                                 20. / k, 20)
-                                    else:
-                                        startR = StartPoint + QtCore.QPointF(
+                                elif (abs(k) > at) & (n.y() > 0):
+                                    startR = StartPoint + QtCore.QPointF(
                                                                 20. / k, 20)
-                                        endR = EndPoint - QtCore.QPointF(
-                                                                20. / k, 20)
-                                elif (abs(k) > at) & (n.x() < 0):
-                                    if n.y() <= 0:
-                                        startR = StartPoint - QtCore.QPointF(
-                                                                20. / k, 20)
-                                        endR = EndPoint + QtCore.QPointF(
-                                                                20. / k, 20)
-                                    else:
-                                        startR = StartPoint + QtCore.QPointF(
-                                                                20. / k, 20)
-                                        endR = EndPoint - QtCore.QPointF(
+                                    endR = EndPoint - QtCore.QPointF(
                                                                 20. / k, 20)
                                 elif (abs(k) < at) & (n.x() > 0):
                                     startR = StartPoint + QtCore.QPointF(
