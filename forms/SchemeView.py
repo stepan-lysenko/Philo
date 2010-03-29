@@ -10,7 +10,7 @@ class SchemeView(QtGui.QGraphicsView):
 
         self.scene = QtGui.QGraphicsScene()
         self.setScene(self.scene)
-        self.scene.setSceneRect(QtCore.QRectF(-500, -500, 1000, 1000))
+        self.scene.setSceneRect(QtCore.QRectF(-1000, -1000, 2000, 2000))
 
         self.setRenderHint(QtGui.QPainter.Antialiasing)
 
@@ -215,7 +215,7 @@ class Arrows(QtGui.QGraphicsItem):
                             painter.drawLine(endR, endR - tmp)
 
     def boundingRect(self):
-        return QtCore.QRectF(-500, -500, 1000, 1000)
+        return QtCore.QRectF(-1000, -1000, 2000, 2000)
 
 class ThesisView(QtGui.QGraphicsItem):
 

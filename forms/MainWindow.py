@@ -97,6 +97,8 @@ class MainWindow(QtGui.QMainWindow):
         mbThesis.addAction(aDelThesis)
         mbThesis.addAction(aAddToScheme)
         mbThesis.addAction(aDelFromScheme)
+        mbThesis.addAction(aSortByAscendingOrder)
+        mbThesis.addAction(aSortByDescendingOrder)
 	
         self.tbWorkspace = self.addToolBar(u'Файл')
         self.tbWorkspace.addAction(aNewWorkspace)
@@ -109,8 +111,8 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis.addAction(aDelThesis)
         self.tbThesis.addAction(aAddToScheme)
         self.tbThesis.addAction(aDelFromScheme)
-        self.tbThesis.addAction(aSortByAscendingOrder)
-        self.tbThesis.addAction(aSortByDescendingOrder)
+#        self.tbThesis.addAction(aSortByAscendingOrder)
+#        self.tbThesis.addAction(aSortByDescendingOrder)
 
 #       self.statusBar()
 
