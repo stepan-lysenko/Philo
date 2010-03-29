@@ -155,8 +155,69 @@ class Arrows(QtGui.QGraphicsItem):
                                                             n.y() * n.y()))
                             s = math.sin(math.pi / 9.)
                             c = math.cos(math.pi / 9.)
-                            endR = EndPoint - n * 1.6
-                            startR = StartPoint + n * 1.6
+
+                            if EndPoint.x() == StartPoint.x():
+                                if EndPoint.y() > StartPoint.y():
+                                    startR = QtCore.QPointF(StartPoint.x(),
+                                                        StartPoint.y() + 20)
+                                    endR = QtCore.QPointF(StartPoint.x(),
+                                                        EndPoint.y() - 20)
+                                else:
+                                    startR = QtCore.QPointF(StartPoint.x(),
+                                                        StartPoint.y() - 20)
+                                    endR = QtCore.QPointF(StartPoint.x(),
+                                                        EndPoint.y() + 20)
+                            elif EndPoint.y() == StartPoint.y():
+                                if EndPoint.x() > StartPoint.x():
+                                    startR = QtCore.QPointF(StartPoint.x() +
+                                                        65, StartPoint.y())
+                                    endR = QtCore.QPointF(EndPoint.x() -
+                                                        65, EndPoint.y())
+                                else:
+                                    startR = QtCore.QPointF(StartPoint.x() -
+                                                        65, StartPoint.y())
+                                    endR = QtCore.QPointF(EndPoint.x() +
+                                                        65, EndPoint.y())
+                            elif n.x() != 0:
+                                k = n.y() / float(n.x())
+                                at = abs(20 / 65.)
+                                if (abs(k) > at) & (n.x() > 0):
+                                    if n.y() <= 0:
+                                        startR = StartPoint - QtCore.QPointF(
+                                                                20. / k, 20)
+                                        endR = EndPoint + QtCore.QPointF(
+                                                                20. / k, 20)
+                                    else:
+                                        startR = StartPoint + QtCore.QPointF(
+                                                                20. / k, 20)
+                                        endR = EndPoint - QtCore.QPointF(
+                                                                20. / k, 20)
+                                elif (abs(k) > at) & (n.x() < 0):
+                                    if n.y() <= 0:
+                                        startR = StartPoint - QtCore.QPointF(
+                                                                20. / k, 20)
+                                        endR = EndPoint + QtCore.QPointF(
+                                                                20. / k, 20)
+                                    else:
+                                        startR = StartPoint + QtCore.QPointF(
+                                                                20. / k, 20)
+                                        endR = EndPoint - QtCore.QPointF(
+                                                                20. / k, 20)
+                                elif (abs(k) < at) & (n.x() > 0):
+                                    startR = StartPoint + QtCore.QPointF(
+                                                                65, 65 * k)
+                                    endR = EndPoint - QtCore.QPointF(
+                                                                65, 65 * k)
+                                else:
+                                    startR = StartPoint - QtCore.QPointF(
+                                                                65, 65 * k)
+                                    endR = EndPoint + QtCore.QPointF(
+                                                                65, 65 * k)
+
+                            r = endR - startR
+                            if r.x() * n.x() + r.y() * n.y() <= 0:
+                                break
+
                             painter.drawLine(startR, endR)
                             tmp = QtCore.QPointF(c*n.x() - s*n.y(),
                                                     s*n.x() + c*n.y())
