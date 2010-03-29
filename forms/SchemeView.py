@@ -34,6 +34,7 @@ class SchemeView(QtGui.QGraphicsView):
         self.sp = event.pos()
         items = self.items(event.pos())
         if len(items) < 2:
+            self.setLink = 0
             self.setCursor(QtCore.Qt.ArrowCursor)
             return
 
@@ -44,8 +45,13 @@ class SchemeView(QtGui.QGraphicsView):
             self.setLink = 0
             link = self.SearchByView(self.cur)
             self.setCursor(QtCore.Qt.ArrowCursor)
+            flag = 0
             if (len(self.curItem.links) < 3) & (link != self.curItem):
-                self.curItem.links.append(link.text())
+                for i in self.curItem.links:
+                    if i == link.text():
+                        flag = 1
+                if flag == 0:
+                    self.curItem.links.append(link.text())
         else:
            self.setCursor(QtCore.Qt.ClosedHandCursor)
            self.move = 1
