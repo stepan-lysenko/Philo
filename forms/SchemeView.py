@@ -50,13 +50,19 @@ class SchemeView(QtGui.QGraphicsView):
                 for i in self.curItem.links:
                     if i == link.text():
                         flag = 1
+                        if (len(self.curItem.links) > 0):
+                            self.curItem.links.remove(link.text())
                 if flag == 0:
                     self.curItem.links.append(link.text())
+                    
         else:
            self.setCursor(QtCore.Qt.ClosedHandCursor)
            self.move = 1
         self.update()
         self.arrows.update()
+
+    def searchCircle(self, name, root):
+        return
 
     def mouseReleaseEvent(self, event):
         if self.move == 1:
