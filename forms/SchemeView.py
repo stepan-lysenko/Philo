@@ -46,14 +46,18 @@ class SchemeView(QtGui.QGraphicsView):
             link = self.SearchByView(self.cur)
             self.setCursor(QtCore.Qt.ArrowCursor)
             flag = 0
-            if (len(self.curItem.links) < 3) & (link != self.curItem):
-                for i in self.curItem.links:
-                    if i == link.text():
-                        flag = 1
-                        if (len(self.curItem.links) > 0):
-                            self.curItem.links.remove(link.text())
-                if flag == 0:
-                    self.curItem.links.append(link.text())
+            if self.searchCircle(link, self.curItem.text()):
+                QtGui.QMessageBox.warning(self, u'Цикл', 
+                    u'Добавление данной связи приведёт к возникновению цикла')
+            else:
+               if (len(self.curItem.links) < 3) & (link != self.curItem):
+                   for i in self.curItem.links:
+                       if i == link.text():
+                           flag = 1
+                           if (len(self.curItem.links) > 0):
+                               self.curItem.links.remove(link.text())
+                   if flag == 0:
+                       self.curItem.links.append(link.text())
                     
         else:
            self.setCursor(QtCore.Qt.ClosedHandCursor)
@@ -61,9 +65,17 @@ class SchemeView(QtGui.QGraphicsView):
         self.update()
         self.arrows.update()
 
-    def searchCircle(self, name, root):
-        return
-
+    def searchCircle(self, root, link):
+        if len(root.links) == 0:
+            return 0
+        for i in root.links:
+            if i == link:
+                return 1
+            item = self.SearchThesis(i)
+            if self.searchCircle(item, link):
+                return 1
+            
+        
     def mouseReleaseEvent(self, event):
         if self.move == 1:
             self.setCursor(QtCore.Qt.OpenHandCursor)
@@ -89,6 +101,12 @@ class SchemeView(QtGui.QGraphicsView):
             self.setCursor(QtCore.Qt.CrossCursor)
         self.update()
         self.arrows.update()
+
+    def SearchThesis(self, name):
+        for key in self.itemsOnScheme.keys():
+            if key.text() == name:
+                return key
+        return 0
 
     def SearchByView(self, view):
         for key in self.itemsOnScheme:
