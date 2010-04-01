@@ -84,6 +84,13 @@ class MainWidget(QtGui.QWidget):
                     u'Понятие с данным именем уже присутствует в списке')
                 item.setText(self.curItemText)
                 return
+        for i in xrange(self.lvThesis.count()):
+            for link in self.lvThesis.item(i).links:
+                if link == self.curItemText:
+                    self.lvThesis.item(i).links.remove(link)
+                    self.lvThesis.item(i).links.append(
+                                    self.lvThesis.currentItem().text())
+                
         self.curItemText = self.lvThesis.currentItem().text()
 
     def SearchName(self, name):
