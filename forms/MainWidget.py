@@ -222,6 +222,7 @@ class MainWidget(QtGui.QWidget):
         tmp = ThesisBase.Thesis(name = name)
         tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
                                                     | QtCore.Qt.ItemIsEnabled)
+        self.Scheme.itemsOnScheme[tmp] = []
         self.lvThesis.addItem(tmp)
         self.lvThesis.setCurrentItem(tmp)
         self.lvThesis.editItem(self.lvThesis.currentItem())

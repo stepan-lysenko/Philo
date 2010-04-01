@@ -45,9 +45,7 @@ class SchemeView(QtGui.QGraphicsView):
 
         if (event.button() == QtCore.Qt.RightButton):
             thesis = self.searchByView(self.cur)
-            if len(self.itemsOnScheme[thesis]) <= 1:
-                self.itemsOnScheme.pop(thesis)
-            else:
+            if len(self.itemsOnScheme[thesis]) >= 1:
                 self.itemsOnScheme[thesis].remove(self.cur)
             self.scene.removeItem(self.cur)
             self.arrows.update()
