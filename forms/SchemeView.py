@@ -23,9 +23,13 @@ class SchemeView(QtGui.QGraphicsView):
     setLink = 0
 
     def mousePressEvent(self, event):
+        if event.button() == QtCore.Qt.RightButton:
+            
+            print 1
         if event.button() != QtCore.Qt.LeftButton:
             event.ignore()
             return
+
 
         for key in self.itemsOnScheme.keys():
             for item in self.itemsOnScheme[key]:
@@ -50,13 +54,13 @@ class SchemeView(QtGui.QGraphicsView):
                 QtGui.QMessageBox.warning(self, u'Цикл', 
                     u'Добавление данной связи приведёт к возникновению цикла')
             else:
-               if (len(self.curItem.links) < 3) & (link != self.curItem):
+               if (link != self.curItem):
                    for i in self.curItem.links:
                        if i == link.text():
                            flag = 1
                            if (len(self.curItem.links) > 0):
                                self.curItem.links.remove(link.text())
-                   if flag == 0:
+                   if (flag == 0) & (len(self.curItem.links) < 3):
                        self.curItem.links.append(link.text())
                     
         else:
