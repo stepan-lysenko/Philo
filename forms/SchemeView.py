@@ -23,10 +23,8 @@ class SchemeView(QtGui.QGraphicsView):
     setLink = 0
 
     def mousePressEvent(self, event):
-        if event.button() == QtCore.Qt.RightButton:
-            
-            print 1
-        if event.button() != QtCore.Qt.LeftButton:
+        if (event.button() != QtCore.Qt.LeftButton) & (event.button() != 
+                                                    QtCore.Qt.RightButton):
             event.ignore()
             return
 
@@ -45,9 +43,20 @@ class SchemeView(QtGui.QGraphicsView):
         self.cur = items[1]
         self.cur.setZValue(1)
 
+        if (event.button() == QtCore.Qt.RightButton):
+            thesis = self.searchByView(self.cur)
+            if len(self.itemsOnScheme[thesis]) <= 1:
+                self.itemsOnScheme.pop(thesis)
+            else:
+                self.itemsOnScheme[thesis].remove(self.cur)
+            self.scene.removeItem(self.cur)
+            self.arrows.update()
+            self.update()
+            return
+
         if self.setLink == 1:
             self.setLink = 0
-            link = self.SearchByView(self.cur)
+            link = self.searchByView(self.cur)
             self.setCursor(QtCore.Qt.ArrowCursor)
             flag = 0
             if self.searchCircle(link, self.curItem.text()):
@@ -75,7 +84,7 @@ class SchemeView(QtGui.QGraphicsView):
         for i in root.links:
             if i == link:
                 return 1
-            item = self.SearchThesis(i)
+            item = self.searchThesis(i)
             if self.searchCircle(item, link):
                 return 1
             
@@ -101,18 +110,18 @@ class SchemeView(QtGui.QGraphicsView):
         cur = items[1]
         if self.setLink == 0:
             self.setLink = 1
-            self.curItem = self.SearchByView(cur)
+            self.curItem = self.searchByView(cur)
             self.setCursor(QtCore.Qt.CrossCursor)
         self.update()
         self.arrows.update()
 
-    def SearchThesis(self, name):
+    def searchThesis(self, name):
         for key in self.itemsOnScheme.keys():
             if key.text() == name:
                 return key
         return 0
 
-    def SearchByView(self, view):
+    def searchByView(self, view):
         for key in self.itemsOnScheme:
             for item in self.itemsOnScheme[key]:
                 if item == view:
@@ -168,7 +177,7 @@ class Arrows(QtGui.QGraphicsItem):
         self.update()
         self.dic = dic
 
-    def SearchThesis(self, name):
+    def searchThesis(self, name):
         for key in self.dic.keys():
             if key.text() == name:
                 return key
@@ -178,7 +187,7 @@ class Arrows(QtGui.QGraphicsItem):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
         for key in self.dic.keys():
             for link in key.links:
-                thesis = self.SearchThesis(link)
+                thesis = self.searchThesis(link)
                 if thesis != 0:
                     for start in self.dic[key]:
                         StartPoint = QtCore.QPointF(start.x(), start.y())
