@@ -45,7 +45,9 @@ class SchemeView(QtGui.QGraphicsView):
 
         if (event.button() == QtCore.Qt.RightButton):
             thesis = self.searchByView(self.cur)
-            if len(self.itemsOnScheme[thesis]) >= 1:
+            if len(self.itemsOnScheme[thesis]) <= 1:
+                self.itemsOnScheme.pop(thesis)
+            else:
                 self.itemsOnScheme[thesis].remove(self.cur)
             self.scene.removeItem(self.cur)
             self.arrows.update()
@@ -56,19 +58,21 @@ class SchemeView(QtGui.QGraphicsView):
             self.setLink = 0
             link = self.searchByView(self.cur)
             self.setCursor(QtCore.Qt.ArrowCursor)
+            if link == self.curItem:
+                return
             flag = 0
-            if self.searchCircle(link, self.curItem.text()):
-                QtGui.QMessageBox.warning(self, u'Цикл', 
-                    u'Добавление данной связи приведёт к возникновению цикла')
-            else:
-               if (link != self.curItem):
-                   for i in self.curItem.links:
-                       if i == link.text():
-                           flag = 1
-                           if (len(self.curItem.links) > 0):
-                               self.curItem.links.remove(link.text())
-                   if (flag == 0) & (len(self.curItem.links) < 3):
-                       self.curItem.links.append(link.text())
+            for i in self.curItem.links:
+                if i == link.text():
+                    flag = 1
+                    if (len(self.curItem.links) > 0):
+                        self.curItem.links.remove(link.text())
+            if flag == 0:
+                if self.searchCircle(link, self.curItem.text()):
+                    QtGui.QMessageBox.warning(self, u'Цикл', 
+                        u'Добавление данной связи приведёт к возникновению цикла')
+                else:
+                    if (link != self.curItem) & (len(self.curItem.links) < 3):
+                        self.curItem.links.append(link.text())
                     
         else:
            self.setCursor(QtCore.Qt.ClosedHandCursor)
@@ -76,14 +80,23 @@ class SchemeView(QtGui.QGraphicsView):
         self.update()
         self.arrows.update()
 
-    def searchCircle(self, root, link):
-        if len(root.links) == 0:
-            return 0
+    def searchCircle(self, root, link, parent = QtCore.QString()):
+        cand = []
         for i in root.links:
+            if i != parent:
+                cand.append(i)
+        for key in self.itemsOnScheme.keys():
+            for i in key.links:
+                if key.text != parent:
+                    if i == root.text():
+                            cand.append(key.text())
+        if len(cand) == 0:
+            return 0
+        for i in cand:
             if i == link:
                 return 1
             item = self.searchThesis(i)
-            if self.searchCircle(item, link):
+            if self.searchCircle(item, link, root.text()):
                 return 1
             
         

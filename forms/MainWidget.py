@@ -22,12 +22,12 @@ def removeall(path, widget):
 
     for x in files:
         fullpath=os.path.join(path, x)
-        if os.path.isfile(fullpath):
-            f=os.remove
-            rmgeneric(fullpath, f, widget)
-        elif os.path.isdir(fullpath):
+        if os.path.isdir(fullpath):
             removeall(fullpath, widget)
-            f=os.rmdir
+            f = os.rmdir
+            rmgeneric(fullpath, f, widget)
+        elif os.path.isfile(fullpath):
+            f = os.remove
             rmgeneric(fullpath, f, widget)
 
 class MainWidget(QtGui.QWidget):
@@ -101,10 +101,6 @@ class MainWidget(QtGui.QWidget):
         return 0
 
     def SaveList(self):
-        QtGui.QMessageBox.warning(self, u'Сохранение',
-                    u"Функция временно не доступна, используйте 'Сохранить Как' в пустую папку")
-        return
-
         if self.lvThesis.count() <= 0:
             QtGui.QMessageBox.warning(self, u'Сохрание',
 					u'Список понятий пуст.')
@@ -115,7 +111,18 @@ class MainWidget(QtGui.QWidget):
                                 QtGui.QFileDialog.ShowDirsOnly).toUtf8())
             if path == '':
                 return
+            for Bill, SubDirs, Bob in os.walk(path):
+                break
+            for dir in SubDirs:
+                if len(dir) != 2:
+                    QtGui.QMessageBox.warning(self, u'Сохранение',
+                            u'Данная папка не является хранилищем тезисов')
+                    return
             self.path = path
+        for Bill, SubDirs, Bob in os.walk(self.path):
+            break
+        for dir in SubDirs:
+            removeall(self.path + '/' + dir, self)
         self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(self.path, 1)
@@ -222,7 +229,6 @@ class MainWidget(QtGui.QWidget):
         tmp = ThesisBase.Thesis(name = name)
         tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
                                                     | QtCore.Qt.ItemIsEnabled)
-        self.Scheme.itemsOnScheme[tmp] = []
         self.lvThesis.addItem(tmp)
         self.lvThesis.setCurrentItem(tmp)
         self.lvThesis.editItem(self.lvThesis.currentItem())
