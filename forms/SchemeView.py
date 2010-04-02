@@ -87,7 +87,7 @@ class SchemeView(QtGui.QGraphicsView):
                 cand.append(i)
         for key in self.itemsOnScheme.keys():
             for i in key.links:
-                if key.text != parent:
+                if key.text() != parent:
                     if i == root.text():
                             cand.append(key.text())
         if len(cand) == 0:
