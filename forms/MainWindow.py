@@ -25,6 +25,12 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(aSaveAs, QtCore.SIGNAL('triggered()'),
                                             widget.SaveListAs)
 
+        aConfig = QtGui.QAction(QtGui.QIcon('icons/config.png'),
+                                                    u'Конфигурация', self)
+        aConfig.setStatusTip(u'Открыть окно конфигурации')
+        self.connect(aConfig, QtCore.SIGNAL('triggered()'),
+                                            widget.config)
+
         aSave = QtGui.QAction(QtGui.QIcon('icons/save.png'),
                                                     u'Сохранить', self)
         aSave.setStatusTip(u'Сохранить схему')
@@ -87,6 +93,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbWorkspace.addAction(aOpen)
         self.tbWorkspace.addAction(aSave)
         self.tbWorkspace.addAction(aSaveAs)
+        self.tbWorkspace.addAction(aConfig)
 
         self.tbThesis = self.addToolBar(u'Понятия')
         self.tbThesis.addAction(aNewThesis)

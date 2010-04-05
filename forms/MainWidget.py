@@ -4,6 +4,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 import string, os, ThesisBase
 from SchemeView import SchemeView
+import ConfigDialog
 
 REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error)"""
 
@@ -111,6 +112,10 @@ class MainWidget(QtGui.QWidget):
                                     self.lvThesis.currentItem().text())
                 
         self.curItemText = self.lvThesis.currentItem().text()
+
+    def config(self):
+        cfgDialog = ConfigDialog.cfgDialog(self)
+        cfgDialog.show()
 
     def SearchName(self, name):
         n = QtCore.QString(name)
