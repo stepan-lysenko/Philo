@@ -88,6 +88,7 @@ class Thesis(QListWidgetItem):
             for line in file.readlines():
                 desc += unicode(line, 'UTF8')
             file.close()
+            self.desc = desc
             return desc
         return self.desc
             
