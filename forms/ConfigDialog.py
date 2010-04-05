@@ -12,7 +12,7 @@ class cfgDialog(QtGui.QDialog):
         self.tabs = QtGui.QTabWidget(self)
 
         base = self.makeBase()
-        self.tabs.addTab(base, u'Приложени')
+        self.tabs.addTab(base, u'Приложение')
         instruments = self.makeInstruments()
         self.tabs.addTab(instruments, u'Инструменты')
 

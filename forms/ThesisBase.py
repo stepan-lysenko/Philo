@@ -82,6 +82,7 @@ class Thesis(QListWidgetItem):
 
     def getDesc(self, path):
         if self.DescChanged == 0:
+            self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             file = open(path + '/' + self.hash[:2] + '/' + self.hash[2:] +
                                                         '/desc.txt', 'r')
             desc = ''
@@ -97,6 +98,7 @@ class Thesis(QListWidgetItem):
 
     def saveDesc(self, path, force=0):
         if (force == 1) | (self.DescChanged == 1):
+            self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             file = open(path + '/' + str(self.hash[:2]) + '/' +
                                 str(self.hash[2:]) + '/desc.txt', 'w')
             file.write(str(self.desc.toUtf8()))
@@ -105,6 +107,7 @@ class Thesis(QListWidgetItem):
 
     def saveLinks(self, path, force=0):
         if (force == 1) | (self.LinksChanged == 1):
+            self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             f = open(path + '/' + str(self.hash[:2]) + '/' +
                                 str(self.hash[2:]) + '/links.txt', 'w')
             for l in self.links:
@@ -115,6 +118,7 @@ class Thesis(QListWidgetItem):
     def saveThesis(self, path, force=0):
         if (force == 0) & (self.DescChanged == 0):
             return
+        self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
         if not os.path.exists(path + '/' + str(self.hash[:2])):
             os.makedirs(path + '/' + str(self.hash[:2]))
         if not os.path.exists(path + '/' + str(self.hash[:2]) + '/' +
