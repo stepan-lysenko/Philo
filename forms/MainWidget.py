@@ -47,6 +47,7 @@ class MainWidget(QtGui.QWidget):
                                                         self.SelectionChanged)
         self.connect(self.lvThesis, QtCore.SIGNAL(
                 'itemChanged(QListWidgetItem *)'), self.ItemChanged)
+        self.lvThesis.contextMenuEvent = self.listMenu
 
         spacer1 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
                                                 QtGui.QSizePolicy.Maximum)
@@ -66,6 +67,24 @@ class MainWidget(QtGui.QWidget):
         Box.addWidget(self.teThesisView)
         Box.addSpacerItem(spacer2)
         Box.addWidget(self.Scheme)
+
+    def listMenu(self, event):
+        menu = QtGui.QMenu(self)
+        aSort1 = QtGui.QAction(QtGui.QIcon(
+                'icons/sort_by_ascending_order.png'),
+                        u'Сортировать по убыванию', self)
+        
+        aSort2 = QtGui.QAction(QtGui.QIcon(
+                'icons/sort_by_descending_order.png'),
+                        u'Сортировать по возрастанию', self)
+        self.connect(aSort1, QtCore.SIGNAL('triggered()'),
+                                            self.sortByAscendingOrder)
+        self.connect(aSort2, QtCore.SIGNAL('triggered()'),
+                                            self.sortByDescendingOrder)
+
+        menu.addAction(aSort1)
+        menu.addAction(aSort2)
+        menu.exec_(event.globalPos())
 
     def sortByAscendingOrder(self):
         self.lvThesis.sortItems(QtCore.Qt.AscendingOrder)
