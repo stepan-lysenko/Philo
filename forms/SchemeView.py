@@ -16,13 +16,42 @@ class SchemeView(QtGui.QGraphicsView):
 
         self.arrows = Arrows(self.itemsOnScheme)
         self.scene.addItem(self.arrows)
-        self.setCursor(QtCore.Qt.OpenHandCursor)
+        self.setInstr()
 
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
     setLink = 0
 
-    def mousePressEvent(self, event):
+    def rmView(self, view):
+        thesis = self.searchByView(self.cur)
+        if len(self.itemsOnScheme[thesis]) <= 1:
+            self.itemsOnScheme.pop(thesis)
+        else:
+            self.itemsOnScheme[thesis].remove(self.cur)
+        self.scene.removeItem(self.cur)
+        self.arrows.update()
+        self.update()
+
+    def rmViewEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+        for key in self.itemsOnScheme.keys():
+            for item in self.itemsOnScheme[key]:
+                item.setZValue(0)
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
+            return
+
+        self.cur = items[1]
+        self.cur.setZValue(1)
+        self.rmView(self.cur)
+
+    def moveViewPress(self, event):
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() != 
                                                     QtCore.Qt.RightButton):
             event.ignore()
@@ -37,27 +66,54 @@ class SchemeView(QtGui.QGraphicsView):
         items = self.items(event.pos())
         if len(items) < 2:
             self.setLink = 0
-            self.setCursor(QtCore.Qt.ArrowCursor)
+            return
+
+        self.cur = items[1]
+        self.cur.setZValue(1)
+        self.move = 1
+        self.setCursor(QtCore.Qt.ClosedHandCursor)
+
+    def moveView(self, event):
+        if self.move == 1:
+            dp = event.pos() - self.sp
+            self.sp = event.pos()
+
+            self.cur.moveBy(dp.x(), dp.y())
+            self.arrows.update()
+
+    def releaseView(self, event):
+        self.move = 0
+        self.setCursor(QtCore.Qt.OpenHandCursor)
+
+    def setInstr(self):
+        self.mouseMoveEvent = self.moveView
+        self.mouseReleaseEvent = self.releaseView
+        self.mousePressEvent = self.moveViewPress
+        self.setCursor(QtCore.Qt.OpenHandCursor)
+
+    def ttt(self, event):
+        if (event.button() != QtCore.Qt.LeftButton) & (event.button() != 
+                                                    QtCore.Qt.RightButton):
+            event.ignore()
+            return
+
+
+        for key in self.itemsOnScheme.keys():
+            for item in self.itemsOnScheme[key]:
+                item.setZValue(0)
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
             return
 
         self.cur = items[1]
         self.cur.setZValue(1)
 
-        if (event.button() == QtCore.Qt.RightButton):
-            thesis = self.searchByView(self.cur)
-            if len(self.itemsOnScheme[thesis]) <= 1:
-                self.itemsOnScheme.pop(thesis)
-            else:
-                self.itemsOnScheme[thesis].remove(self.cur)
-            self.scene.removeItem(self.cur)
-            self.arrows.update()
-            self.update()
-            return
-
         if self.setLink == 1:
             self.setLink = 0
             link = self.searchByView(self.cur)
-            self.setCursor(QtCore.Qt.ArrowCursor)
             if link == self.curItem:
                 return
             flag = 0
@@ -75,7 +131,6 @@ class SchemeView(QtGui.QGraphicsView):
                         self.curItem.links.append(link.text())
                     
         else:
-           self.setCursor(QtCore.Qt.ClosedHandCursor)
            self.move = 1
         self.update()
         self.arrows.update()
@@ -99,30 +154,14 @@ class SchemeView(QtGui.QGraphicsView):
             if self.searchCircle(item, link, root.text()):
                 return 1
             
-        
-    def mouseReleaseEvent(self, event):
-        if self.move == 1:
-            self.setCursor(QtCore.Qt.OpenHandCursor)
-            self.move = 0
-
-    def mouseMoveEvent(self, event):
-        if self.move == 1:
-            dp = event.pos() - self.sp
-            self.sp = event.pos()
-
-            self.cur.moveBy(dp.x(), dp.y())
-            self.arrows.update()
-
     def mouseDoubleClickEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
-            self.setCursor(QtCore.Qt.ArrowCursor)
             return
         cur = items[1]
         if self.setLink == 0:
             self.setLink = 1
             self.curItem = self.searchByView(cur)
-            self.setCursor(QtCore.Qt.CrossCursor)
         self.update()
         self.arrows.update()
 
@@ -146,7 +185,6 @@ class SchemeView(QtGui.QGraphicsView):
             self.scene.update()
             self.itemsOnScheme.pop(thesis)
         self.setLink = 0
-        self.setCursor(QtCore.Qt.OpenHandCursor)
 
     def clear(self):
         self.scene.clear()
@@ -154,7 +192,6 @@ class SchemeView(QtGui.QGraphicsView):
         self.arrows = Arrows(self.itemsOnScheme)
         self.scene.addItem(self.arrows)
         self.setLink = 0
-        self.setCursor(QtCore.Qt.OpenHandCursor)
 
     def setColorOfThesis(self, thesis, color = QtCore.Qt.white):
         if self.itemsOnScheme.has_key(thesis):
@@ -175,7 +212,6 @@ class SchemeView(QtGui.QGraphicsView):
         self.scene.addItem(item)
         self.arrows.updateDic(self.itemsOnScheme)
         self.setLink = 0
-        self.setCursor(QtCore.Qt.OpenHandCursor)
         
 
 class Arrows(QtGui.QGraphicsItem):
