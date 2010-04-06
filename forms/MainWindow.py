@@ -70,7 +70,7 @@ class MainWindow(QtGui.QMainWindow):
                                         widget.addToScheme)
 
         aDelFromScheme = QtGui.QAction(QtGui.QIcon(
-                'icons/del_from_scheme.png'), u'Удалить со схемы', self)
+                'icons/del_all_from_scheme.png'), u'Удалить со схемы', self)
         aDelFromScheme.setStatusTip(u'Удалить понятие со схемы')
         self.connect(aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         widget.delFromScheme)
