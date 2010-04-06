@@ -96,6 +96,13 @@ class MainWindow(QtGui.QMainWindow):
         reg = lambda : widget.Scheme.setInstr(Instruments.createLink)
         self.connect(aInstrLink, QtCore.SIGNAL('triggered()'), reg)
 
+        aInstrRmLink = QtGui.QAction(QtGui.QIcon(
+                'icons/rm_link.png'), u'Удалить связь', self)
+        aInstrRmLink.setStatusTip(
+                            u'Инструмент для удаления связей')
+        reg = lambda : widget.Scheme.setInstr(Instruments.rmLink)
+        self.connect(aInstrRmLink, QtCore.SIGNAL('triggered()'), reg)
+
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')
         mbFile.addAction(aNewWorkspace)
@@ -127,6 +134,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbInstruments.addAction(aInstrMove)
         self.tbInstruments.addAction(aInstrRm)
         self.tbInstruments.addAction(aInstrLink)
+        self.tbInstruments.addAction(aInstrRmLink)
 
 #       self.statusBar()
 
