@@ -66,7 +66,7 @@ class rmView:
         return
 
 class createLink:
-    cursor = QtCore.Qt.OpenHandCursor
+    cursor = QtCore.Qt.UpArrowCursor
     def mousePressEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
