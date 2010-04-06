@@ -79,6 +79,7 @@ class MainWindow(QtGui.QMainWindow):
                 'icons/move.png'), u'Передвинуть экземпляр', self)
         aInstrMove.setStatusTip(
                             u'Инструмент для перемещения экземпляров')
+        aInstrMove.setShortcut('Ctrl+M')
         reg = lambda : widget.Scheme.setInstr(Instruments.moveView)
         self.connect(aInstrMove, QtCore.SIGNAL('triggered()'), reg)
 
@@ -86,6 +87,7 @@ class MainWindow(QtGui.QMainWindow):
                 'icons/del_from_scheme.png'), u'Удалить экземпляр', self)
         aInstrMove.setStatusTip(
                             u'Инструмент для удаления экземпляров')
+        aInstrMove.setShortcut('Ctrl+D')
         reg = lambda : widget.Scheme.setInstr(Instruments.rmView)
         self.connect(aInstrRm, QtCore.SIGNAL('triggered()'), reg)
 
@@ -93,6 +95,7 @@ class MainWindow(QtGui.QMainWindow):
                 'icons/link.png'), u'Добавить связь', self)
         aInstrLink.setStatusTip(
                             u'Инструмент для создания связей')
+        aInstrLink.setShortCut('Ctrl+L')
         reg = lambda : widget.Scheme.setInstr(Instruments.createLink)
         self.connect(aInstrLink, QtCore.SIGNAL('triggered()'), reg)
 
