@@ -2,6 +2,7 @@
 
 from PyQt4 import QtGui, QtCore
 import MainWidget
+import Instruments
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -74,6 +75,27 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         widget.delFromScheme)
 
+        aInstrMove = QtGui.QAction(QtGui.QIcon(
+                'icons/move.png'), u'Передвинуть экземпляр', self)
+        aInstrMove.setStatusTip(
+                            u'Инструмент для перемещения экземпляров')
+        reg = lambda : widget.Scheme.setInstr(Instruments.moveView)
+        self.connect(aInstrMove, QtCore.SIGNAL('triggered()'), reg)
+
+        aInstrRm = QtGui.QAction(QtGui.QIcon(
+                'icons/del_from_scheme.png'), u'Удалить экземпляр', self)
+        aInstrMove.setStatusTip(
+                            u'Инструмент для удаления экземпляров')
+        reg = lambda : widget.Scheme.setInstr(Instruments.rmView)
+        self.connect(aInstrRm, QtCore.SIGNAL('triggered()'), reg)
+
+        aInstrLink = QtGui.QAction(QtGui.QIcon(
+                'icons/link.png'), u'Добавить связь', self)
+        aInstrLink.setStatusTip(
+                            u'Инструмент для создания связей')
+        reg = lambda : widget.Scheme.setInstr(Instruments.createLink)
+        self.connect(aInstrLink, QtCore.SIGNAL('triggered()'), reg)
+
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')
         mbFile.addAction(aNewWorkspace)
@@ -100,6 +122,11 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis.addAction(aDelThesis)
         self.tbThesis.addAction(aAddToScheme)
         self.tbThesis.addAction(aDelFromScheme)
+
+        self.tbInstruments = self.addToolBar(u'Инструменты')
+        self.tbInstruments.addAction(aInstrMove)
+        self.tbInstruments.addAction(aInstrRm)
+        self.tbInstruments.addAction(aInstrLink)
 
 #       self.statusBar()
 
