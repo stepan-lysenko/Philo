@@ -85,9 +85,9 @@ class MainWindow(QtGui.QMainWindow):
 
         aInstrRm = QtGui.QAction(QtGui.QIcon(
                 'icons/del_from_scheme.png'), u'Удалить экземпляр', self)
-        aInstrMove.setStatusTip(
+        aInstrRm.setStatusTip(
                             u'Инструмент для удаления экземпляров')
-        aInstrMove.setShortcut('Ctrl+D')
+        aInstrRm.setShortcut('Ctrl+D')
         reg = lambda : widget.Scheme.setInstr(Instruments.rmView)
         self.connect(aInstrRm, QtCore.SIGNAL('triggered()'), reg)
 
