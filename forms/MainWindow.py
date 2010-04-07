@@ -134,7 +134,18 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis.addAction(aDelFromScheme)
 
         self.tbInstruments = self.addToolBar(u'Инструменты')
+        grInstr = QtGui.QActionGroup(self.tbInstruments)
+        aInstrMove.setActionGroup(grInstr)
+        aInstrRm.setActionGroup(grInstr)
+        aInstrLink.setActionGroup(grInstr)
+        aInstrRmLink.setActionGroup(grInstr)
+
+        for instr in grInstr.actions():
+            instr.setCheckable(1)
+        grInstr.setExclusive(1)
+
         self.tbInstruments.addAction(aInstrMove)
+        aInstrMove.setChecked(1)
         self.tbInstruments.addAction(aInstrRm)
         self.tbInstruments.addAction(aInstrLink)
         self.tbInstruments.addAction(aInstrRmLink)

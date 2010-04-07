@@ -17,25 +17,32 @@ class moveView:
 
         self.sp = event.pos()
         items = self.items(event.pos())
+        self.setCursor(QtCore.Qt.ClosedHandCursor)
         if len(items) < 2:
-            self.setLink = 0
+            self.scroll = 1
             return
-
+        self.scroll = 0
         self.cur = items[1]
         self.cur.setZValue(1)
         self.move = 1
-        self.setCursor(QtCore.Qt.ClosedHandCursor)
 
     def mouseMoveEvent(self, event):
         if self.move == 1:
             dp = event.pos() - self.sp
             self.sp = event.pos()
-    
             self.cur.moveBy(dp.x(), dp.y())
             self.arrows.update()
+        if self.scroll == 1:
+            dp = event.pos() - self.sp
+            self.sp = event.pos()
+            x = self.horizontalScrollBar().value() - dp.x()
+            y = self.verticalScrollBar().value() - dp.y()
+            self.horizontalScrollBar().setSliderPosition(x)
+            self.verticalScrollBar().setSliderPosition(y)
 
     def mouseReleaseEvent(self, event):
         self.move = 0
+        self.scroll = 0
         self.setCursor(QtCore.Qt.OpenHandCursor)
 
 class rmView:
