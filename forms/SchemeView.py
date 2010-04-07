@@ -109,6 +109,7 @@ class SchemeView(QtGui.QGraphicsView):
         self.scene.addItem(item)
         self.arrows.updateDic(self.itemsOnScheme)
         self.setLink = 0
+        self.centerOn(item)
         
 
 class Arrows(QtGui.QGraphicsItem):
