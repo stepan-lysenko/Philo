@@ -80,7 +80,7 @@ class MainWindow(QtGui.QMainWindow):
         aInstrMove.setStatusTip(
                             u'Инструмент для перемещения экземпляров')
         aInstrMove.setShortcut('Ctrl+M')
-        reg = lambda : widget.Scheme.setInstr(Instruments.moveView)
+        reg = lambda : widget.setInstr(Instruments.moveView)
         self.connect(aInstrMove, QtCore.SIGNAL('triggered()'), reg)
 
         aInstrRm = QtGui.QAction(QtGui.QIcon(
@@ -88,7 +88,7 @@ class MainWindow(QtGui.QMainWindow):
         aInstrRm.setStatusTip(
                             u'Инструмент для удаления экземпляров')
         aInstrRm.setShortcut('Ctrl+D')
-        reg = lambda : widget.Scheme.setInstr(Instruments.rmView)
+        reg = lambda : widget.setInstr(Instruments.rmView)
         self.connect(aInstrRm, QtCore.SIGNAL('triggered()'), reg)
 
         aInstrLink = QtGui.QAction(QtGui.QIcon(
@@ -96,14 +96,14 @@ class MainWindow(QtGui.QMainWindow):
         aInstrLink.setStatusTip(
                             u'Инструмент для создания связей')
         aInstrLink.setShortcut('Ctrl+L')
-        reg = lambda : widget.Scheme.setInstr(Instruments.createLink)
+        reg = lambda : widget.setInstr(Instruments.createLink)
         self.connect(aInstrLink, QtCore.SIGNAL('triggered()'), reg)
 
         aInstrRmLink = QtGui.QAction(QtGui.QIcon(
                 'icons/rm_link.png'), u'Удалить связь', self)
         aInstrRmLink.setStatusTip(
                             u'Инструмент для удаления связей')
-        reg = lambda : widget.Scheme.setInstr(Instruments.rmLink)
+        reg = lambda : widget.setInstr(Instruments.rmLink)
         self.connect(aInstrRmLink, QtCore.SIGNAL('triggered()'), reg)
 
         MenuBar = self.menuBar()

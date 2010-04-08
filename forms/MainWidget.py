@@ -4,7 +4,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 import string, os, ThesisBase
 from SchemeView import SchemeView
-import ConfigDialog
+import ConfigDialog, Instruments
 
 REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error)"""
 
@@ -47,7 +47,10 @@ class MainWidget(QtGui.QWidget):
         self.connect(self.lvThesis, QtCore.SIGNAL('itemSelectionChanged()'), 
                                                         self.SelectionChanged)
         self.connect(self.lvThesis, QtCore.SIGNAL(
-                'itemChanged(QListWidgetItem *)'), self.ItemChanged)
+                'itemChanged(QListWidgetItem *)'), self.itemChanged)
+        self.connect(self.lvThesis, QtCore.SIGNAL(
+                'itemClicked(QListWidgetItem *)'), self.itemClicked)
+
         self.lvThesis.contextMenuEvent = self.listMenu
 
         spacer1 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
@@ -68,6 +71,18 @@ class MainWidget(QtGui.QWidget):
         Box.addWidget(self.teThesisView)
         Box.addSpacerItem(spacer2)
         Box.addWidget(self.Scheme)
+
+    @staticmethod
+    def listItemClicked(self, item):
+        pass
+
+    def itemClicked(self, item):
+        self.listItemClicked(self, item)
+
+    def setInstr(self, instr):
+        self.listItemClicked = instr.listItemClicked
+        self.Scheme.setInstr(instr)
+        self.lvThesis.setCursor(instr.listCursor)
 
     def listMenu(self, event):
         menu = QtGui.QMenu(self)
@@ -93,7 +108,7 @@ class MainWidget(QtGui.QWidget):
     def sortByDescendingOrder(self):
         self.lvThesis.sortItems(QtCore.Qt.DescendingOrder)
 
-    def ItemChanged(self, item):
+    def itemChanged(self, item):
         for key in self.Scheme.itemsOnScheme.keys():
             for view in self.Scheme.itemsOnScheme[key]:
                 view.update()

@@ -1,9 +1,12 @@
 #-*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
+import ThesisBase
 
 class moveView:
     cursor = QtCore.Qt.OpenHandCursor
+    listCursor = QtCore.Qt.ArrowCursor
+
     def mousePressEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() != 
                                                     QtCore.Qt.RightButton):
@@ -45,8 +48,14 @@ class moveView:
         self.scroll = 0
         self.setCursor(QtCore.Qt.OpenHandCursor)
 
+    @staticmethod
+    def listItemClicked(self, item):
+        return
+
 class rmView:
     cursor = QtCore.Qt.CrossCursor
+    listCursor = QtCore.Qt.CrossCursor
+
     def mousePressEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
             event.ignore()
@@ -72,8 +81,14 @@ class rmView:
     def mouseReleaseEvent(self, event):
         return
 
+    @staticmethod
+    def listItemClicked(self, item):
+        self.Scheme.delThesis(item)
+
 class createLink:
     cursor = QtCore.Qt.UpArrowCursor
+    listCursor = QtCore.Qt.ArrowCursor
+
     def mousePressEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
@@ -128,8 +143,13 @@ class createLink:
         self.update()
         self.arrows.update()
 
+    @staticmethod
+    def listItemClicked(self, item):
+        return
+
 class rmLink:
     cursor = QtCore.Qt.UpArrowCursor
+    listCursor = QtCore.Qt.ArrowCursor
 
     def mousePressEvent(self, event):
         items = self.items(event.pos())
@@ -178,3 +198,7 @@ class rmLink:
                         self.curItem.links.remove(link.text())
         self.update()
         self.arrows.update()
+
+    @staticmethod
+    def listItemClicked(self, item):
+        return
