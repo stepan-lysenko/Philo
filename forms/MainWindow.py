@@ -63,17 +63,17 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(aNewWorkspace, QtCore.SIGNAL('triggered()'),
                                         widget.NewWorkspace)
 
-        aAddToScheme = QtGui.QAction(QtGui.QIcon('icons/add_to_scheme.png'),
-                                        u'Добавить на схему', self)
-        aAddToScheme.setStatusTip(u'Добавить понятие на схему')
-        self.connect(aAddToScheme, QtCore.SIGNAL('triggered()'),
-                                        widget.addToScheme)
-
         aDelFromScheme = QtGui.QAction(QtGui.QIcon(
                 'icons/del_all_from_scheme.png'), u'Удалить со схемы', self)
         aDelFromScheme.setStatusTip(u'Удалить понятие со схемы')
         self.connect(aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         widget.delFromScheme)
+
+        aInstrAddToScheme = QtGui.QAction(QtGui.QIcon(
+                    'icons/add_to_scheme.png'), u'Добавить на схему', self)
+        aInstrAddToScheme.setStatusTip(u'Добавить понятие на схему')
+        reg = lambda : widget.setInstr(Instruments.addToScheme)
+        self.connect(aInstrAddToScheme, QtCore.SIGNAL('triggered()'), reg)
 
         aInstrMove = QtGui.QAction(QtGui.QIcon(
                 'icons/move.png'), u'Передвинуть экземпляр', self)
@@ -117,7 +117,6 @@ class MainWindow(QtGui.QMainWindow):
         mbThesis = MenuBar.addMenu(u'&Понятия')
         mbThesis.addAction(aNewThesis)
         mbThesis.addAction(aDelThesis)
-        mbThesis.addAction(aAddToScheme)
         mbThesis.addAction(aDelFromScheme)
 	
         self.tbWorkspace = self.addToolBar(u'Файл')
@@ -130,7 +129,6 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis = self.addToolBar(u'Понятия')
         self.tbThesis.addAction(aNewThesis)
         self.tbThesis.addAction(aDelThesis)
-        self.tbThesis.addAction(aAddToScheme)
         self.tbThesis.addAction(aDelFromScheme)
 
         self.tbInstruments = self.addToolBar(u'Инструменты')
@@ -139,6 +137,7 @@ class MainWindow(QtGui.QMainWindow):
         aInstrRm.setActionGroup(grInstr)
         aInstrLink.setActionGroup(grInstr)
         aInstrRmLink.setActionGroup(grInstr)
+        aInstrAddToScheme.setActionGroup(grInstr)
 
         for instr in grInstr.actions():
             instr.setCheckable(1)
@@ -149,6 +148,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbInstruments.addAction(aInstrRm)
         self.tbInstruments.addAction(aInstrLink)
         self.tbInstruments.addAction(aInstrRmLink)
+        self.tbInstruments.addAction(aInstrAddToScheme)
 
 #       self.statusBar()
 

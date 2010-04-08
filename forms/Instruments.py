@@ -202,3 +202,26 @@ class rmLink:
     @staticmethod
     def listItemClicked(self, item):
         return
+
+class addToScheme:
+    cursor = QtCore.Qt.CrossCursor
+    listCursor = QtCore.Qt.CrossCursor
+
+    def mousePressEvent(self, event):
+        items = self.items(event.pos())
+        if len(items) < 2:
+            return
+        cur = items[1]
+        curItem = self.searchByView(cur)
+        self.addThesis(curItem, QtCore.Qt.green)
+        self.update()
+        self.arrows.update()
+
+    def mouseMoveEvent(self, event):
+        pass
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        self.Scheme.addThesis(item, QtCore.Qt.green)
