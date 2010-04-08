@@ -117,7 +117,6 @@ class MainWindow(QtGui.QMainWindow):
         mbThesis = MenuBar.addMenu(u'&Понятия')
         mbThesis.addAction(aNewThesis)
         mbThesis.addAction(aDelThesis)
-        mbThesis.addAction(aDelFromScheme)
 	
         self.tbWorkspace = self.addToolBar(u'Файл')
         self.tbWorkspace.addAction(aNewWorkspace)
@@ -129,7 +128,6 @@ class MainWindow(QtGui.QMainWindow):
         self.tbThesis = self.addToolBar(u'Понятия')
         self.tbThesis.addAction(aNewThesis)
         self.tbThesis.addAction(aDelThesis)
-        self.tbThesis.addAction(aDelFromScheme)
 
         self.tbInstruments = self.addToolBar(u'Инструменты')
         grInstr = QtGui.QActionGroup(self.tbInstruments)
