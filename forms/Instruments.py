@@ -14,10 +14,6 @@ class moveView:
             return
 
 
-        for key in self.itemsOnScheme.keys():
-            for item in self.itemsOnScheme[key]:
-                item.setZValue(0)
-
         self.sp = event.pos()
         items = self.items(event.pos())
         self.setCursor(QtCore.Qt.ClosedHandCursor)
@@ -26,8 +22,9 @@ class moveView:
             return
         self.scroll = 0
         self.cur = items[1]
-        self.cur.setZValue(1)
+        self.cur.setZValue(100000)
         self.move = 1
+        self.resort()
 
     def mouseMoveEvent(self, event):
         if self.move == 1:
@@ -46,6 +43,7 @@ class moveView:
     def mouseReleaseEvent(self, event):
         self.move = 0
         self.scroll = 0
+        self.resort()
         self.setCursor(QtCore.Qt.OpenHandCursor)
 
     @staticmethod
@@ -61,10 +59,7 @@ class rmView:
             event.ignore()
             return
         
-        for key in self.itemsOnScheme.keys():
-            for item in self.itemsOnScheme[key]:
-                item.setZValue(0)
-    
+        self.resort() 
         self.sp = event.pos()
         items = self.items(event.pos())
         if len(items) < 2:
@@ -72,8 +67,8 @@ class rmView:
             return
         
         self.cur = items[1]
-        self.cur.setZValue(1)
         self.rmView(self.cur)
+        self.resort()
 
     def mouseMoveEvent(self, event):
         return
@@ -84,6 +79,7 @@ class rmView:
     @staticmethod
     def listItemClicked(self, item):
         self.Scheme.delThesis(item)
+        self.Scheme.resort()
 
 class createLink:
     cursor = QtCore.Qt.UpArrowCursor
@@ -97,17 +93,21 @@ class createLink:
         if self.setLink == 0:
             self.setLink = 1
             self.curItem = self.searchByView(cur)
-        cur.setZValue(11)
+        cur.setZValue(10001)
+        self.pen = QtGui.QPen(QtCore.Qt.gray, 2)
         self.sp = cur.pos()
         self.evPos = event.pos()
         self.curArrow = QtGui.QGraphicsLineItem(0, 0, 0, 0)
-        self.curArrow.setZValue(10)
+        self.curArrow.setPen(self.pen)
+        self.curArrow.setZValue(10000)
         self.start = self.mapToScene(self.evPos)
         self.curArrow.moveBy(self.start.x(), self.start.y())
         self.scene.addItem(self.curArrow)
 
         self.lArr = QtGui.QGraphicsLineItem(0, 0, 0, 0)
+        self.lArr.setPen(self.pen)
         self.rArr = QtGui.QGraphicsLineItem(0, 0, 0, 0)
+        self.rArr.setPen(self.pen)
         self.scene.addItem(self.lArr)
         self.scene.addItem(self.rArr)
 
@@ -133,14 +133,16 @@ class createLink:
 
             tmp = QtCore.QPointF(c*n.x() - s*n.y(), s*n.x() + c*n.y())
             self.lArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
+            self.lArr.setPen(self.pen)
             self.scene.addItem(self.lArr)
-            self.lArr.setZValue(10)
+            self.lArr.setZValue(10000)
             self.lArr.moveBy(end.x(), end.y())
 
             tmp = QtCore.QPointF(c*n.x() + s*n.y(), -s*n.x() + c*n.y())
             self.rArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
+            self.rArr.setPen(self.pen)
             self.scene.addItem(self.rArr)
-            self.rArr.setZValue(10)
+            self.rArr.setZValue(10000)
             self.rArr.moveBy(end.x(), end.y())
 
 
@@ -152,10 +154,7 @@ class createLink:
 
 
         self.setCursor(QtCore.Qt.UpArrowCursor)
-
-        for key in self.itemsOnScheme.keys():
-            for item in self.itemsOnScheme[key]:
-                item.setZValue(0)
+        self.resort()
         if self.setLink == 1:
             self.scene.removeItem(self.curArrow)
             self.scene.removeItem(self.rArr)
@@ -168,7 +167,6 @@ class createLink:
             return
 
         self.cur = items[1]
-        self.cur.setZValue(1)
 
         if self.setLink == 1:
             self.setLink = 0
@@ -208,14 +206,14 @@ class rmLink:
             self.setLink = 1
             self.curItem = self.searchByView(cur)
 
-        self.pen = QtGui.QPen(QtCore.Qt.red, 1)
+        self.pen = QtGui.QPen(QtCore.Qt.red, 2)
 
-        cur.setZValue(11)
+        cur.setZValue(10001)
         self.sp = cur.pos()
         self.evPos = event.pos()
         self.curArrow = QtGui.QGraphicsLineItem(0, 0, 0, 0)
         self.curArrow.setPen(self.pen)
-        self.curArrow.setZValue(10)
+        self.curArrow.setZValue(10000)
         self.start = self.mapToScene(self.evPos)
         self.curArrow.moveBy(self.start.x(), self.start.y())
         self.scene.addItem(self.curArrow)
@@ -255,14 +253,14 @@ class rmLink:
             self.lArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
             self.lArr.setPen(self.pen)
             self.scene.addItem(self.lArr)
-            self.lArr.setZValue(10)
+            self.lArr.setZValue(10000)
             self.lArr.moveBy(end.x(), end.y())
 
             tmp = QtCore.QPointF(c*n.x() + s*n.y(), -s*n.x() + c*n.y())
             self.rArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
             self.rArr.setPen(self.pen)
             self.scene.addItem(self.rArr)
-            self.rArr.setZValue(10)
+            self.rArr.setZValue(10000)
             self.rArr.moveBy(end.x(), end.y())
 
     def mouseReleaseEvent(self, event):
@@ -271,11 +269,7 @@ class rmLink:
             event.ignore()
             return
 
-
-        for key in self.itemsOnScheme.keys():
-            for item in self.itemsOnScheme[key]:
-                item.setZValue(0)
-
+        self.resort()
         self.setCursor(QtCore.Qt.UpArrowCursor)
 
         if self.setLink == 1:
@@ -290,7 +284,8 @@ class rmLink:
             return
 
         self.cur = items[1]
-        self.cur.setZValue(1)
+        self.cur.setZValue(10001)
+        self.resort()
 
         if self.setLink == 1:
             self.setLink = 0
@@ -343,9 +338,6 @@ class addDer:
             event.ignore()
             return
 
-        for key in self.itemsOnScheme.keys():
-            for item in self.itemsOnScheme[key]:
-                item.setZValue(0)
 
         self.sp = event.pos()
         items = self.items(event.pos())
@@ -354,7 +346,8 @@ class addDer:
             return
 
         self.cur = items[1]
-        self.cur.setZValue(1)
+        self.cur.setZValue(10000)
+        self.resort()
         item = self.searchByView(self.cur)
         for link in item.links:
             for key in self.itemsOnScheme.keys():
@@ -393,10 +386,6 @@ class addAntider:
             event.ignore()
             return
 
-        for key in self.itemsOnScheme.keys():
-            for item in self.itemsOnScheme[key]:
-                item.setZValue(0)
-
         self.sp = event.pos()
         items = self.items(event.pos())
         if len(items) < 2:
@@ -404,7 +393,8 @@ class addAntider:
             return
 
         self.cur = items[1]
-        self.cur.setZValue(1)
+        self.cur.setZValue(10000)
+        self.resort()
         item = self.searchByView(self.cur)
         text = item.text()
 

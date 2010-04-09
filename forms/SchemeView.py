@@ -26,7 +26,19 @@ class SchemeView(QtGui.QGraphicsView):
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
     setLink = 0
-
+    
+    def resort(self):
+        views = {}
+        for key in self.itemsOnScheme.keys():
+            for view in self.itemsOnScheme[key]:
+                views[view.zValue()] = view
+        keys = views.keys()
+        keys.sort()
+        nz = 0
+        for z in keys:
+            views[z].setZValue(nz)
+            nz += 1
+            
     def rmView(self, view):
         thesis = self.searchByView(view)
         if len(self.itemsOnScheme[thesis]) < 1:
@@ -105,19 +117,20 @@ class SchemeView(QtGui.QGraphicsView):
         else:
             pos = QtCore.QPointF(x, y)
         item = ThesisView(thesis, color)
+        item.setZValue(10000)
         item.setPos(pos)
         self.itemsOnScheme[thesis].append(item)
         self.scene.addItem(item)
         self.arrows.updateDic(self.itemsOnScheme)
         self.setLink = 0
         self.centerOn(item)
-        
+        self.resort()
 
 class Arrows(QtGui.QGraphicsItem):
     def __init__(self, dic):
         QtGui.QGraphicsItem.__init__(self)
         self.dic = dic
-        self.setZValue(100)
+        self.setZValue(10000000)
 
     def updateDic(self, dic):
         self.update()
@@ -215,7 +228,7 @@ class ThesisView(QtGui.QGraphicsItem):
         QtGui.QGraphicsItem.__init__(self)
         self.color = color
         self.item = item
-        self.setZValue(0)
+        self.setZValue(100000)
 
     def setColor(self, color):
         self.color = color
