@@ -97,11 +97,18 @@ class createLink:
         if self.setLink == 0:
             self.setLink = 1
             self.curItem = self.searchByView(cur)
+        self.sp = cur.pos()
+        self.evPos = event.pos()
+        self.curArrow = QtGui.QGraphicsLineItem(0, 0, 0, 0)
+        self.curArrow.moveBy(self.sp.x(), self.sp.y())
+        self.scene.addItem(self.curArrow)
         self.update()
         self.arrows.update()
 
     def mouseMoveEvent(self, event):
-        return
+        if self.setLink == 1:
+            self.curArrow.setLine(0, 0, event.pos().x() - self.evPos.x(),
+                                        event.pos().y() - self.evPos.y())
     def mouseReleaseEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() !=
                                                     QtCore.Qt.RightButton):
@@ -112,6 +119,8 @@ class createLink:
         for key in self.itemsOnScheme.keys():
             for item in self.itemsOnScheme[key]:
                 item.setZValue(0)
+        if self.setLink == 1:
+            self.scene.removeItem(self.curArrow)
 
         self.sp = event.pos()
         items = self.items(event.pos())
