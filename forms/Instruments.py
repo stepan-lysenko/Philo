@@ -432,5 +432,22 @@ class addAntider:
 
     @staticmethod
     def listItemClicked(self, item):
-        pass
+        for key in self.Scheme.itemsOnScheme.keys():
+            if key == item:
+                if len(self.Scheme.itemsOnScheme[key]) == 0:
+                    self.Scheme.addThesis(item, QtCore.Qt.green)
+                    break
+
+        antiders = []
+        text = item.text()
+        for key in self.Scheme.itemsOnScheme.keys():
+            for link in key.links:
+                if link == text:
+                    antiders.append(key.text())
+                    break
+
+        for ader in antiders:
+            cand = self.Scheme.searchThesis(ader)
+            if len(self.Scheme.itemsOnScheme[cand]) == 0:
+                self.Scheme.addThesis(cand)
 
