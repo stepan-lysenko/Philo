@@ -107,14 +107,14 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(aInstrRmLink, QtCore.SIGNAL('triggered()'), reg)
 
         aInstrAddDer = QtGui.QAction(QtGui.QIcon(
-                'icons/rm_link.png'), u'Добавить производные', self)
+                'icons/add_der.png'), u'Добавить производные', self)
         aInstrAddDer.setStatusTip(
                             u'Инструмент для добавления производных')
         reg = lambda : widget.setInstr(Instruments.addDer)
         self.connect(aInstrAddDer, QtCore.SIGNAL('triggered()'), reg)
 
         aInstrAddADer = QtGui.QAction(QtGui.QIcon(
-                'icons/rm_link.png'), u'Добавить первообразные', self)
+                'icons/add_antider.png'), u'Добавить первообразные', self)
         aInstrAddADer.setStatusTip(
                             u'Инструмент для добавления первообразных')
         reg = lambda : widget.setInstr(Instruments.addAntider)
