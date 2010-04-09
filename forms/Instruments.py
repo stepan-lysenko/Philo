@@ -213,7 +213,8 @@ class addToScheme:
             return
         cur = items[1]
         curItem = self.searchByView(cur)
-        self.addThesis(curItem, QtCore.Qt.green)
+        color = cur.color
+        self.addThesis(curItem, color)
         self.update()
         self.arrows.update()
 
