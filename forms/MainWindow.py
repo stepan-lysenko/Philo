@@ -138,7 +138,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbWorkspace.addAction(aOpen)
         self.tbWorkspace.addAction(aSave)
         self.tbWorkspace.addAction(aSaveAs)
-        self.tbWorkspace.addAction(aConfig)
+#        self.tbWorkspace.addAction(aConfig)
 
         self.tbThesis = self.addToolBar(u'Понятия')
         self.tbThesis.addAction(aNewThesis)
