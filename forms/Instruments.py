@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-import ThesisBase
+import ThesisBase, math
 
 class moveView:
     cursor = QtCore.Qt.OpenHandCursor
@@ -97,11 +97,21 @@ class createLink:
         if self.setLink == 0:
             self.setLink = 1
             self.curItem = self.searchByView(cur)
+        cur.setZValue(11)
         self.sp = cur.pos()
         self.evPos = event.pos()
         self.curArrow = QtGui.QGraphicsLineItem(0, 0, 0, 0)
-        self.curArrow.moveBy(self.sp.x(), self.sp.y())
+        self.curArrow.setZValue(10)
+        self.start = self.mapToScene(self.evPos)
+        self.curArrow.moveBy(self.start.x(), self.start.y())
         self.scene.addItem(self.curArrow)
+
+        self.lArr = QtGui.QGraphicsLineItem(0, 0, 0, 0)
+        self.rArr = QtGui.QGraphicsLineItem(0, 0, 0, 0)
+        self.scene.addItem(self.lArr)
+        self.scene.addItem(self.rArr)
+
+        self.setCursor(QtCore.Qt.BlankCursor)
         self.update()
         self.arrows.update()
 
@@ -109,6 +119,31 @@ class createLink:
         if self.setLink == 1:
             self.curArrow.setLine(0, 0, event.pos().x() - self.evPos.x(),
                                         event.pos().y() - self.evPos.y())
+
+            end = self.mapToScene(event.pos())
+
+            n = QtCore.QPointF(event.pos() - self.evPos)
+            n = n / (0.05 * math.sqrt(n.x() * n.x() + n.y() * n.y()))
+
+            s = math.sin(math.pi / 9.)
+            c = math.cos(math.pi / 9.)
+
+            self.scene.removeItem(self.lArr)
+            self.scene.removeItem(self.rArr)
+
+            tmp = QtCore.QPointF(c*n.x() - s*n.y(), s*n.x() + c*n.y())
+            self.lArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
+            self.scene.addItem(self.lArr)
+            self.lArr.setZValue(10)
+            self.lArr.moveBy(end.x(), end.y())
+
+            tmp = QtCore.QPointF(c*n.x() + s*n.y(), -s*n.x() + c*n.y())
+            self.rArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
+            self.scene.addItem(self.rArr)
+            self.rArr.setZValue(10)
+            self.rArr.moveBy(end.x(), end.y())
+
+
     def mouseReleaseEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() !=
                                                     QtCore.Qt.RightButton):
@@ -116,11 +151,15 @@ class createLink:
             return
 
 
+        self.setCursor(QtCore.Qt.UpArrowCursor)
+
         for key in self.itemsOnScheme.keys():
             for item in self.itemsOnScheme[key]:
                 item.setZValue(0)
         if self.setLink == 1:
             self.scene.removeItem(self.curArrow)
+            self.scene.removeItem(self.rArr)
+            self.scene.removeItem(self.lArr)
 
         self.sp = event.pos()
         items = self.items(event.pos())
