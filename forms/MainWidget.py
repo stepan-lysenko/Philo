@@ -225,6 +225,10 @@ class MainWidget(QtGui.QWidget):
         if i < 0:
             return
         self.Scheme.delThesis(self.lvThesis.item(i))
+        for thesis in self.lvThesis.findItems('', QtCore.Qt.MatchContains):
+            for link in thesis.links:
+                if link == self.lvThesis.item(i).text():
+                    thesis.links.pop(thesis.links.index(link))
         self.lvThesis.takeItem(i)
         
 
