@@ -113,6 +113,14 @@ class MainWindow(QtGui.QMainWindow):
         reg = lambda : widget.setInstr(Instruments.addDer)
         self.connect(aInstrAddDer, QtCore.SIGNAL('triggered()'), reg)
 
+        aInstrAddADer = QtGui.QAction(QtGui.QIcon(
+                'icons/rm_link.png'), u'Добавить первообразные', self)
+        aInstrAddADer.setStatusTip(
+                            u'Инструмент для добавления первообразных')
+        reg = lambda : widget.setInstr(Instruments.addAntider)
+        self.connect(aInstrAddADer, QtCore.SIGNAL('triggered()'), reg)
+
+
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')
         mbFile.addAction(aNewWorkspace)
@@ -144,6 +152,7 @@ class MainWindow(QtGui.QMainWindow):
         aInstrLink.setActionGroup(grInstr)
         aInstrRmLink.setActionGroup(grInstr)
         aInstrAddToScheme.setActionGroup(grInstr)
+        aInstrAddADer.setActionGroup(grInstr)
 
         for instr in grInstr.actions():
             instr.setCheckable(1)
@@ -156,6 +165,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbInstruments.addAction(aInstrRmLink)
         self.tbInstruments.addAction(aInstrAddToScheme)
         self.tbInstruments.addAction(aInstrAddDer)
+        self.tbInstruments.addAction(aInstrAddADer)
 
 #       self.statusBar()
 

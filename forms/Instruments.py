@@ -354,7 +354,6 @@ class addDer:
             return
 
         self.cur = items[1]
-        color = self.cur.color
         self.cur.setZValue(1)
         item = self.searchByView(self.cur)
         for link in item.links:
@@ -364,7 +363,7 @@ class addDer:
                     break
             for key in self.itemsOnScheme.keys():
                 if key == cand and len(self.itemsOnScheme[key]) == 0:
-                    self.addThesis(key, color)
+                    self.addThesis(key)
 
     def mouseMoveEvent(self, event):
         pass
@@ -397,6 +396,24 @@ class addAntider:
 
         self.cur = items[1]
         self.cur.setZValue(1)
+        item = self.searchByView(self.cur)
+        text = item.text()
+
+        antiders = []
+        for key in self.itemsOnScheme.keys():
+            for link in key.links:
+                if link == text:
+                    antiders.append(key.text())
+                    break
+
+        for ader in antiders:
+            for key in self.itemsOnScheme.keys():
+                if key.text() == ader:
+                    cand = key
+                    break
+            for key in self.itemsOnScheme.keys():
+                if key == cand and len(self.itemsOnScheme[key]) == 0:
+                    self.addThesis(key)
 
     def mouseMoveEvent(self, event):
         pass
