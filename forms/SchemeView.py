@@ -29,8 +29,9 @@ class SchemeView(QtGui.QGraphicsView):
 
     def rmView(self, view):
         thesis = self.searchByView(view)
-        if len(self.itemsOnScheme[thesis]) <= 1:
-            self.itemsOnScheme.pop(thesis)
+        if len(self.itemsOnScheme[thesis]) < 1:
+#            self.itemsOnScheme.pop(thesis)
+            pass
         else:
             self.itemsOnScheme[thesis].remove(view)
         self.scene.removeItem(view)

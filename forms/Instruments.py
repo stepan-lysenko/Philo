@@ -333,3 +333,78 @@ class addToScheme:
     @staticmethod
     def listItemClicked(self, item):
         self.Scheme.addThesis(item, QtCore.Qt.green)
+
+class addDer:
+    cursor = QtCore.Qt.ArrowCursor
+    listCursor = QtCore.Qt.ArrowCursor
+
+    def mousePressEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+        for key in self.itemsOnScheme.keys():
+            for item in self.itemsOnScheme[key]:
+                item.setZValue(0)
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
+            return
+
+        self.cur = items[1]
+        color = self.cur.color
+        self.cur.setZValue(1)
+        item = self.searchByView(self.cur)
+        for link in item.links:
+            for key in self.itemsOnScheme.keys():
+                if key.text() == link:
+                    cand = key
+                    break
+            for key in self.itemsOnScheme.keys():
+                if key == cand and len(self.itemsOnScheme[key]) == 0:
+                    self.addThesis(key, color)
+
+    def mouseMoveEvent(self, event):
+        pass
+
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        pass
+
+class addAntider:
+    cursor = QtCore.Qt.ArrowCursor
+    listCursor = QtCore.Qt.ArrowCursor
+
+    def mousePressEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+        for key in self.itemsOnScheme.keys():
+            for item in self.itemsOnScheme[key]:
+                item.setZValue(0)
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
+            return
+
+        self.cur = items[1]
+        self.cur.setZValue(1)
+
+    def mouseMoveEvent(self, event):
+        pass
+
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        pass
+

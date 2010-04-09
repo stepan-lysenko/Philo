@@ -106,6 +106,13 @@ class MainWindow(QtGui.QMainWindow):
         reg = lambda : widget.setInstr(Instruments.rmLink)
         self.connect(aInstrRmLink, QtCore.SIGNAL('triggered()'), reg)
 
+        aInstrAddDer = QtGui.QAction(QtGui.QIcon(
+                'icons/rm_link.png'), u'Добавить производные', self)
+        aInstrAddDer.setStatusTip(
+                            u'Инструмент для добавления производных')
+        reg = lambda : widget.setInstr(Instruments.addDer)
+        self.connect(aInstrAddDer, QtCore.SIGNAL('triggered()'), reg)
+
         MenuBar = self.menuBar()
         mbFile = MenuBar.addMenu(u'&Файл')
         mbFile.addAction(aNewWorkspace)
@@ -131,6 +138,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.tbInstruments = self.addToolBar(u'Инструменты')
         grInstr = QtGui.QActionGroup(self.tbInstruments)
+        aInstrAddDer.setActionGroup(grInstr)
         aInstrMove.setActionGroup(grInstr)
         aInstrRm.setActionGroup(grInstr)
         aInstrLink.setActionGroup(grInstr)
@@ -147,6 +155,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbInstruments.addAction(aInstrLink)
         self.tbInstruments.addAction(aInstrRmLink)
         self.tbInstruments.addAction(aInstrAddToScheme)
+        self.tbInstruments.addAction(aInstrAddDer)
 
 #       self.statusBar()
 
