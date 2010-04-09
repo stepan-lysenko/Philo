@@ -373,7 +373,16 @@ class addDer:
 
     @staticmethod
     def listItemClicked(self, item):
-        pass
+        for key in self.Scheme.itemsOnScheme.keys():
+            if key == item:
+                if len(self.Scheme.itemsOnScheme[key]) == 0:
+                    self.Scheme.addThesis(item, QtCore.Qt.green)
+                    break
+        for link in item.links:
+            cand = self.Scheme.searchThesis(link)
+            if len(self.Scheme.itemsOnScheme[cand]) == 0:
+                self.Scheme.addThesis(cand)
+
 
 class addAntider:
     cursor = QtCore.Qt.ArrowCursor
