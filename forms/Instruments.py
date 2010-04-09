@@ -50,7 +50,7 @@ class moveView:
 
     @staticmethod
     def listItemClicked(self, item):
-        return
+        pass
 
 class rmView:
     cursor = QtCore.Qt.CrossCursor

@@ -30,6 +30,11 @@ def loadScheme(path, list, scheme):
         item = SearchInList(list, QString(unicode(name, 'UTF8')))
         if item != 0:
             scheme.addThesis(item, x = x, y = y)
+
+    l = list.findItems('', Qt.MatchContains)
+    for i in l:
+        if not scheme.itemsOnScheme.has_key(i):
+            scheme.itemsOnScheme[i] = []
             
     
    
