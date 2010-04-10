@@ -92,7 +92,7 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(aInstrRm, QtCore.SIGNAL('triggered()'), reg)
 
         aInstrLink = QtGui.QAction(QtGui.QIcon(
-                'icons/link.png'), u'Добавить связь', self)
+                'icons/link.png'), u'Установить связь', self)
         aInstrLink.setStatusTip(
                             u'Инструмент для создания связей')
         aInstrLink.setShortcut('Ctrl+L')
