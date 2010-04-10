@@ -329,7 +329,7 @@ class addToScheme:
     def listItemClicked(self, item):
         self.Scheme.addThesis(item, QtCore.Qt.green)
 
-class addDer:
+class addAntider:
     cursor = QtCore.Qt.ArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
 
@@ -377,7 +377,7 @@ class addDer:
                 self.Scheme.addThesis(cand)
 
 
-class addAntider:
+class addDer:
     cursor = QtCore.Qt.ArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
 

@@ -106,19 +106,19 @@ class MainWindow(QtGui.QMainWindow):
         reg = lambda : widget.setInstr(Instruments.rmLink)
         self.connect(aInstrRmLink, QtCore.SIGNAL('triggered()'), reg)
 
-        aInstrAddADer = QtGui.QAction(QtGui.QIcon(
+        aInstrAddDer = QtGui.QAction(QtGui.QIcon(
                 'icons/add_der.png'), u'Проявить производные', self)
-        aInstrAddADer.setStatusTip(
+        aInstrAddDer.setStatusTip(
                             u'Инструмент для проявления производных')
         reg = lambda : widget.setInstr(Instruments.addDer)
-        self.connect(aInstrAddADer, QtCore.SIGNAL('triggered()'), reg)
+        self.connect(aInstrAddDer, QtCore.SIGNAL('triggered()'), reg)
 
-        aInstrAddDer = QtGui.QAction(QtGui.QIcon(
+        aInstrAddADer = QtGui.QAction(QtGui.QIcon(
                 'icons/add_antider.png'), u'Проявить первообразные', self)
-        aInstrAddDer.setStatusTip(
+        aInstrAddADer.setStatusTip(
                             u'Инструмент для проявления первообразных')
         reg = lambda : widget.setInstr(Instruments.addAntider)
-        self.connect(aInstrAddDer, QtCore.SIGNAL('triggered()'), reg)
+        self.connect(aInstrAddADer, QtCore.SIGNAL('triggered()'), reg)
 
 
         MenuBar = self.menuBar()
