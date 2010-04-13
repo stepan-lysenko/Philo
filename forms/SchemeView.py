@@ -50,23 +50,20 @@ class SchemeView(QtGui.QGraphicsView):
         self.arrows.update()
         self.update()
 
-    def setInstr(self, instr):
-        self.mouseMoveEvent = instr.mouseMoveEvent
-        self.mouseReleaseEvent = instr.mouseReleaseEvent
-        self.mousePressEvent = instr.mousePressEvent
-        self.setCursor(instr.cursor)
-
-    @staticmethod
     def mouseMoveEvent(self, event):
-        pass
+        self.MouseMoveEvent(self, event)
 
-    @staticmethod
-    def mouseReleaseEvent(self, event):
-        pass
-
-    @staticmethod
     def mousePressEvent(self, event):
-        pass
+        self.MousePressEvent(self, event)
+
+    def mouseReleaseEvent(self, event):
+        self.MouseReleaseEvent(self, event)
+
+    def setInstr(self, instr):
+        self.MouseMoveEvent = instr.mouseMoveEvent
+        self.MouseReleaseEvent = instr.mouseReleaseEvent
+        self.MousePressEvent = instr.mousePressEvent
+        self.setCursor(instr.cursor)
 
     def searchCircle(self, root, link, parent = QtCore.QString()):
         cand = []
