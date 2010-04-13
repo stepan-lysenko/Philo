@@ -241,8 +241,15 @@ class ThesisView(QtGui.QGraphicsItem):
         font = painter.font()
         font.setPixelSize(13)
         painter.setFont(font)
-        painter.drawText(self.form,
-                            QtCore.Qt.AlignCenter, self.item.text())
+        text = self.item.text()
+        len = text.length()
+        if len < 15:
+            painter.drawText(self.form,
+                            QtCore.Qt.AlignCenter, text)
+        else:
+            painter.drawText(self.form, QtCore.Qt.AlignCenter,
+                text.remove(12, len - 12) + QtCore.QString(u'...'))
+        self.setToolTip(text)
 
     def boundingRect(self):
         x, y, w, h = self.form.getRect()
