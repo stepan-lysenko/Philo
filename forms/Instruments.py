@@ -7,6 +7,7 @@ class moveView:
     cursor = QtCore.Qt.OpenHandCursor
     listCursor = QtCore.Qt.ArrowCursor
 
+    @staticmethod
     def mousePressEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() != 
                                                     QtCore.Qt.RightButton):
@@ -26,6 +27,7 @@ class moveView:
         self.move = 1
         self.resort()
 
+    @staticmethod
     def mouseMoveEvent(self, event):
         if self.move == 1:
             dp = event.pos() - self.sp
@@ -40,6 +42,7 @@ class moveView:
             self.horizontalScrollBar().setSliderPosition(x)
             self.verticalScrollBar().setSliderPosition(y)
 
+    @staticmethod
     def mouseReleaseEvent(self, event):
         self.move = 0
         self.scroll = 0
@@ -54,6 +57,7 @@ class rmView:
     cursor = QtCore.Qt.CrossCursor
     listCursor = QtCore.Qt.CrossCursor
 
+    @staticmethod
     def mousePressEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
             event.ignore()
@@ -70,9 +74,11 @@ class rmView:
         self.rmView(self.cur)
         self.resort()
 
+    @staticmethod
     def mouseMoveEvent(self, event):
         return
 
+    @staticmethod
     def mouseReleaseEvent(self, event):
         return
 
@@ -85,6 +91,7 @@ class createLink:
     cursor = QtCore.Qt.UpArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
 
+    @staticmethod
     def mousePressEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
@@ -115,6 +122,7 @@ class createLink:
         self.update()
         self.arrows.update()
 
+    @staticmethod
     def mouseMoveEvent(self, event):
         if self.setLink == 1:
             self.curArrow.setLine(0, 0, event.pos().x() - self.evPos.x(),
@@ -145,7 +153,7 @@ class createLink:
             self.rArr.setZValue(10000)
             self.rArr.moveBy(end.x(), end.y())
 
-
+    @staticmethod
     def mouseReleaseEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() !=
                                                     QtCore.Qt.RightButton):
@@ -197,6 +205,7 @@ class rmLink:
     cursor = QtCore.Qt.UpArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
 
+    @staticmethod
     def mousePressEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
@@ -233,6 +242,7 @@ class rmLink:
         self.update()
         self.arrows.update()
 
+    @staticmethod
     def mouseMoveEvent(self, event):
         if self.setLink == 1:
             self.curArrow.setLine(0, 0, event.pos().x() - self.evPos.x(),
@@ -263,6 +273,7 @@ class rmLink:
             self.rArr.setZValue(10000)
             self.rArr.moveBy(end.x(), end.y())
 
+    @staticmethod
     def mouseReleaseEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() !=
                                                     QtCore.Qt.RightButton):
@@ -309,6 +320,7 @@ class addToScheme:
     cursor = QtCore.Qt.CrossCursor
     listCursor = QtCore.Qt.CrossCursor
 
+    @staticmethod
     def mousePressEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
@@ -320,8 +332,11 @@ class addToScheme:
         self.update()
         self.arrows.update()
 
+    @staticmethod
     def mouseMoveEvent(self, event):
         pass
+
+    @staticmethod
     def mouseReleaseEvent(self, event):
         pass
 
@@ -333,6 +348,7 @@ class addAntider:
     cursor = QtCore.Qt.ArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
 
+    @staticmethod
     def mousePressEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
             event.ignore()
@@ -358,9 +374,11 @@ class addAntider:
                 if key == cand and len(self.itemsOnScheme[key]) == 0:
                     self.addThesis(key)
 
+    @staticmethod
     def mouseMoveEvent(self, event):
         pass
 
+    @staticmethod
     def mouseReleaseEvent(self, event):
         pass
 
@@ -381,6 +399,7 @@ class addDer:
     cursor = QtCore.Qt.ArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
 
+    @staticmethod
     def mousePressEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
             event.ignore()
@@ -414,9 +433,11 @@ class addDer:
                 if key == cand and len(self.itemsOnScheme[key]) == 0:
                     self.addThesis(key)
 
+    @staticmethod
     def mouseMoveEvent(self, event):
         pass
 
+    @staticmethod
     def mouseReleaseEvent(self, event):
         pass
 
