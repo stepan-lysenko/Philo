@@ -9,6 +9,7 @@ class moveView:
 
     @staticmethod
     def mousePressEvent(self, event):
+        print 'mousePressEvent: moveView'
         if (event.button() != QtCore.Qt.LeftButton) & (event.button() != 
                                                     QtCore.Qt.RightButton):
             event.ignore()
@@ -29,6 +30,7 @@ class moveView:
 
     @staticmethod
     def mouseMoveEvent(self, event):
+        print 'mouseMoveEvent: moveView'
         if self.move == 1:
             dp = event.pos() - self.sp
             self.sp = event.pos()
@@ -44,6 +46,7 @@ class moveView:
 
     @staticmethod
     def mouseReleaseEvent(self, event):
+        print 'mouseReleaseEvent: moveView'
         self.move = 0
         self.scroll = 0
         self.resort()

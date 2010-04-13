@@ -56,6 +56,18 @@ class SchemeView(QtGui.QGraphicsView):
         self.mousePressEvent = instr.mousePressEvent
         self.setCursor(instr.cursor)
 
+    @staticmethod
+    def mouseMoveEvent(self, event):
+        pass
+
+    @staticmethod
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def mousePressEvent(self, event):
+        pass
+
     def searchCircle(self, root, link, parent = QtCore.QString()):
         cand = []
         for i in root.links:
