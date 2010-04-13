@@ -11,7 +11,7 @@ class MainWindow(QtGui.QMainWindow):
         self.setGeometry(100, 150, 850, 550)
 
         widget = MainWidget.MainWidget()
-        self.setWindowTitle(u"Редактор когнитивных схем")
+        self.setWindowTitle(u"Редактор когнитивных схем v0.4")
 
         aExit = QtGui.QAction(QtGui.QIcon('icons/exit.png'),
                                                 u'Выход', self)
