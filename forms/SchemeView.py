@@ -120,6 +120,8 @@ class SchemeView(QtGui.QGraphicsView):
     def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None):
         if not self.itemsOnScheme.has_key(thesis):
             self.itemsOnScheme[thesis] = []
+        if len(self.itemsOnScheme[thesis]) == 1:
+            return
         if (x == None) | (y == None):
             pos = self.curPos
             self.curPos += QtCore.QPointF(10, 10)
