@@ -44,6 +44,9 @@ class MainWidget(QtGui.QWidget):
         self.lvThesis.setMaximumWidth(150)
         self.lvThesis.setMinimumWidth(150)
         self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
+        self.lvThesis.setSelectionMode(
+                        QtGui.QAbstractItemView.ExtendedSelection)
+
         self.connect(self.lvThesis, QtCore.SIGNAL('itemSelectionChanged()'), 
                                                         self.SelectionChanged)
         self.connect(self.lvThesis, QtCore.SIGNAL(
@@ -240,13 +243,31 @@ class MainWidget(QtGui.QWidget):
         sel = self.lvThesis.selectedItems()
         if len(sel) <= 0:
             return
-        self.currentItem.setDesc(self.teThesisView.toPlainText())
-        self.Scheme.setColorOfThesis(self.currentItem)
-        self.currentItem = sel.pop()
-        self.Scheme.setColorOfThesis(self.currentItem, QtCore.Qt.green)
-        self.teThesisView.setText(self.currentItem.getDesc(self.path))
-        tmp = self.lvThesis.selectedItems().pop()
-        self.curItemText = tmp.text()
+        for item in self.Scheme.itemsOnScheme.keys():
+            self.Scheme.setColorOfThesis(item)
+        if len(sel) == 1:
+            if not self.teThesisView.isReadOnly():
+                self.currentItem.setDesc(self.teThesisView.toPlainText())
+            self.teThesisView.setTextColor(QtCore.Qt.black)
+            self.Scheme.setColorOfThesis(self.currentItem)
+            self.currentItem = sel.pop()
+            self.Scheme.setColorOfThesis(self.currentItem, QtCore.Qt.green)
+            self.teThesisView.setText(self.currentItem.getDesc(self.path))
+            tmp = self.lvThesis.selectedItems().pop()
+            self.curItemText = tmp.text()
+            self.teThesisView.setReadOnly(0)
+            return
+        self.teThesisView.setTextColor(QtCore.Qt.gray)
+        self.teThesisView.setReadOnly(1)
+        text = QtCore.QString('')
+        sel.sort()
+        for item in sel:
+            text += item.text() + ':\n'
+            text += item.desc + '\n'
+            self.Scheme.setColorOfThesis(item, QtCore.Qt.green)
+
+        self.teThesisView.setText(text)
+        
 
 #        text = QtCore.QString()
 #        for link in tmp.links:
@@ -256,6 +277,7 @@ class MainWidget(QtGui.QWidget):
 
 
     def AddNewThesis(self):
+        self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         i = 0
         name = u'Новое Понятие'
         tmp = u''
@@ -278,3 +300,4 @@ class MainWidget(QtGui.QWidget):
         self.curItemText = self.lvThesis.currentItem().text()
         self.teThesisView.clear()
         self.Scheme.itemsOnScheme[tmp] = []
+        self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)

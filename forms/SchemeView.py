@@ -116,6 +116,7 @@ class SchemeView(QtGui.QGraphicsView):
         if self.itemsOnScheme.has_key(thesis):
             for item in self.itemsOnScheme[thesis]:
                 item.setColor(color)
+        self.update()
 
     def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None):
         if not self.itemsOnScheme.has_key(thesis):
