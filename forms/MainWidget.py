@@ -66,6 +66,8 @@ class MainWidget(QtGui.QWidget):
         self.Scheme = SchemeView()
         self.Scheme.setMinimumWidth(250)
         self.Scheme.setMaximumWidth(2000)
+        self.connect(self.Scheme, QtCore.SIGNAL('selectOne(Thesis *)'),
+                                                    self.selectOne)
 
         Box = QtGui.QHBoxLayout(self)
 
@@ -78,6 +80,11 @@ class MainWidget(QtGui.QWidget):
     @staticmethod
     def listItemClicked(self, item):
         pass
+
+    def selectOne(self, thesis):
+        self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        thesis.setSelected(1)
+        self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
 
     def itemClicked(self, item):
         self.listItemClicked(self, item)

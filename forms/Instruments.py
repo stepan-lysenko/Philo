@@ -9,11 +9,9 @@ class moveView:
 
     @staticmethod
     def mousePressEvent(self, event):
-        if (event.button() != QtCore.Qt.LeftButton) & (event.button() != 
-                                                    QtCore.Qt.RightButton):
+        if (event.button() != QtCore.Qt.LeftButton):
             event.ignore()
             return
-
 
         self.sp = event.pos()
         items = self.items(event.pos())
@@ -21,8 +19,14 @@ class moveView:
         if len(items) < 2:
             self.scroll = 1
             return
+
         self.scroll = 0
         self.cur = items[1]
+        thesis = self.searchByView(self.cur)
+        if event.modifiers() == QtCore.Qt.ControlModifier:
+            thesis.setSelected(1)
+        else:
+            self.emit(QtCore.SIGNAL('selectOne(Thesis *)'), thesis)
         self.cur.setZValue(100000)
         self.move = 1
         self.resort()
@@ -156,8 +160,7 @@ class createLink:
 
     @staticmethod
     def mouseReleaseEvent(self, event):
-        if (event.button() != QtCore.Qt.LeftButton) & (event.button() !=
-                                                    QtCore.Qt.RightButton):
+        if (event.button() != QtCore.Qt.LeftButton):
             event.ignore()
             return
 
@@ -276,8 +279,7 @@ class rmLink:
 
     @staticmethod
     def mouseReleaseEvent(self, event):
-        if (event.button() != QtCore.Qt.LeftButton) & (event.button() !=
-                                                    QtCore.Qt.RightButton):
+        if (event.button() != QtCore.Qt.LeftButton):
             event.ignore()
             return
 
