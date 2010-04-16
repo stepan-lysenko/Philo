@@ -68,6 +68,10 @@ class MainWidget(QtGui.QWidget):
         self.Scheme.setMaximumWidth(2000)
         self.connect(self.Scheme, QtCore.SIGNAL('selectOne(Thesis *)'),
                                                     self.selectOne)
+        self.connect(self.Scheme, QtCore.SIGNAL(
+                'createNewThesis(Thesis *, QPointF *)'), self.newToScheme)
+        self.connect(self.Scheme, QtCore.SIGNAL('editThesisName(Thesis *)'),
+                                                    self.editThesisName)
 
         Box = QtGui.QHBoxLayout(self)
 
@@ -80,6 +84,16 @@ class MainWidget(QtGui.QWidget):
     @staticmethod
     def listItemClicked(self, item):
         pass
+
+    def editThesisName(self, thesis):
+        self.lvThesis.editItem(thesis)
+
+    def newToScheme(self, thesis, point):
+        if len(thesis.links) >= 3:
+            return
+        tmp = self.AddNewThesis()
+        thesis.links.append(tmp.text())
+        self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
 
     def selectOne(self, thesis):
         self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
@@ -315,3 +329,4 @@ class MainWidget(QtGui.QWidget):
         self.teThesisView.clear()
         self.Scheme.itemsOnScheme[tmp] = []
         self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
+        return tmp

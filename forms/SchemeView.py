@@ -27,6 +27,23 @@ class SchemeView(QtGui.QGraphicsView):
     itemsOnScheme = {}
     setLink = 0
 
+    def mouseDoubleClickEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+           event.ignore()
+           return
+        self.sp = event.pos()
+        items = self.items(self.sp)
+        self.setCursor(QtCore.Qt.ClosedHandCursor)
+        if len(items) < 2:
+            self.scroll = 1
+            return
+        
+        self.cur = items[1]
+        thesis = self.searchByView(self.cur)
+        self.emit(QtCore.SIGNAL('editThesisName(Thesis *)'), thesis)
+        
+        
+
     def updateSelection(self):
         for thesis in self.itemsOnScheme.keys():
             if thesis.isSelected():
@@ -125,7 +142,7 @@ class SchemeView(QtGui.QGraphicsView):
                 item.setColor(color)
         self.update()
 
-    def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None):
+    def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None, setCenter = 1):
         if not self.itemsOnScheme.has_key(thesis):
             self.itemsOnScheme[thesis] = []
         if len(self.itemsOnScheme[thesis]) == 1:
@@ -142,7 +159,8 @@ class SchemeView(QtGui.QGraphicsView):
         self.scene.addItem(item)
         self.arrows.updateDic(self.itemsOnScheme)
         self.setLink = 0
-        self.centerOn(item)
+        if setCenter:
+            self.centerOn(item)
         self.resort()
 
 class Arrows(QtGui.QGraphicsItem):
@@ -262,12 +280,12 @@ class ThesisView(QtGui.QGraphicsItem):
         painter.setFont(font)
         text = self.item.text()
         len = text.length()
-        if len < 15:
+        if len < 16:
             painter.drawText(self.form,
                             QtCore.Qt.AlignCenter, text)
         else:
             painter.drawText(self.form, QtCore.Qt.AlignCenter,
-                text.remove(12, len - 12) + QtCore.QString(u'...'))
+                text.remove(13, len - 13) + QtCore.QString(u'...'))
         self.setToolTip(self.item.text())
 
     def boundingRect(self):

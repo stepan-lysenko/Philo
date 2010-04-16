@@ -48,7 +48,6 @@ class moveView:
 
     @staticmethod
     def mouseReleaseEvent(self, event):
-        
         self.move = 0
         self.scroll = 0
         self.resort()
@@ -176,6 +175,12 @@ class createLink:
         items = self.items(event.pos())
         if len(items) < 2:
             self.setLink = 0
+            self.emit(QtCore.SIGNAL(
+                    'createNewThesis(Thesis *, QPointF *)'),
+                                    self.curItem, self.mapToScene(self.sp))
+            self.updateSelection()
+            self.update()
+            self.arrows.update()
             return
 
         self.cur = items[1]
