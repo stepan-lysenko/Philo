@@ -42,7 +42,7 @@ class MainWidget(QtGui.QWidget):
 
         self.lvThesis = QtGui.QListWidget()
         self.lvThesis.setMaximumWidth(300)
-        self.lvThesis.setMinimumWidth(50)
+        self.lvThesis.setMinimumWidth(100)
         self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
         self.lvThesis.setSelectionMode(
                         QtGui.QAbstractItemView.ExtendedSelection)
