@@ -275,6 +275,7 @@ class MainWidget(QtGui.QWidget):
         text = QtCore.QString('')
         sel.sort()
         for item in sel:
+            item.getDesc(self.path)
             text += item.text() + ':\n'
             text += item.desc + '\n'
             self.Scheme.setColorOfThesis(item, QtCore.Qt.green)
