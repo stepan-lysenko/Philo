@@ -330,9 +330,18 @@ class addToScheme:
 
     @staticmethod
     def mousePressEvent(self, event):
+        self.sp = event.pos()
         items = self.items(event.pos())
         if len(items) < 2:
+            self.setLink = 0
+            self.emit(QtCore.SIGNAL(
+                    'createNewThesis(Thesis *, QPointF *)'),
+                                    None, self.mapToScene(self.sp))
+            self.updateSelection()
+            self.update()
+            self.arrows.update()
             return
+
         cur = items[1]
         curItem = self.searchByView(cur)
         color = cur.color

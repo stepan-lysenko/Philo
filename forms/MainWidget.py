@@ -89,6 +89,10 @@ class MainWidget(QtGui.QWidget):
         self.lvThesis.editItem(thesis)
 
     def newToScheme(self, thesis, point):
+        if thesis == None:
+            tmp = self.AddNewThesis()
+            self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
+            return
         if len(thesis.links) >= 3:
             return
         tmp = self.AddNewThesis()
