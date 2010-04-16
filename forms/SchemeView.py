@@ -26,7 +26,14 @@ class SchemeView(QtGui.QGraphicsView):
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
     setLink = 0
-    
+
+    def updateSelection(self):
+        for thesis in self.itemsOnScheme.keys():
+            if thesis.isSelected():
+                self.setColorOfThesis(thesis, QtCore.Qt.green)
+            else:
+                self.setColorOfThesis(thesis)
+                
     def resort(self):
         views = {}
         for key in self.itemsOnScheme.keys():

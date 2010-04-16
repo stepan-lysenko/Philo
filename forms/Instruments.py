@@ -376,6 +376,7 @@ class addAntider:
             for key in self.itemsOnScheme.keys():
                 if key == cand and len(self.itemsOnScheme[key]) == 0:
                     self.addThesis(key)
+        self.updateSelection()
 
     @staticmethod
     def mouseMoveEvent(self, event):
@@ -435,6 +436,7 @@ class addDer:
             for key in self.itemsOnScheme.keys():
                 if key == cand and len(self.itemsOnScheme[key]) == 0:
                     self.addThesis(key)
+        self.updateSelection()
 
     @staticmethod
     def mouseMoveEvent(self, event):
