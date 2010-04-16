@@ -41,8 +41,8 @@ class MainWidget(QtGui.QWidget):
         QtGui.QWidget.__init__(self, parent)
 
         self.lvThesis = QtGui.QListWidget()
-        self.lvThesis.setMaximumWidth(150)
-        self.lvThesis.setMinimumWidth(150)
+        self.lvThesis.setMaximumWidth(300)
+        self.lvThesis.setMinimumWidth(50)
         self.lvThesis.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked)
         self.lvThesis.setSelectionMode(
                         QtGui.QAbstractItemView.ExtendedSelection)
@@ -56,24 +56,24 @@ class MainWidget(QtGui.QWidget):
 
         self.lvThesis.contextMenuEvent = self.listMenu
 
-        spacer1 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
-                                                QtGui.QSizePolicy.Maximum)
+        splitter = QtGui.QSplitter()
+        splitter.setOpaqueResize(1)
 
         self.teThesisView = QtGui.QTextEdit()
-        self.teThesisView.setMaximumWidth(200)
+        self.teThesisView.setMaximumWidth(500)
         self.teThesisView.setMinimumWidth(150)
 
-        spacer2 = QtGui.QSpacerItem(5, 0, QtGui.QSizePolicy.Minimum,
-                                                QtGui.QSizePolicy.Maximum)
-
         self.Scheme = SchemeView()
+        self.Scheme.setMinimumWidth(250)
+        self.Scheme.setMaximumWidth(2000)
 
         Box = QtGui.QHBoxLayout(self)
-        Box.addWidget(self.lvThesis)
-        Box.addSpacerItem(spacer1)
-        Box.addWidget(self.teThesisView)
-        Box.addSpacerItem(spacer2)
-        Box.addWidget(self.Scheme)
+
+        splitter.addWidget(self.lvThesis)
+        splitter.addWidget(self.teThesisView)
+        splitter.addWidget(self.Scheme)
+        splitter.setSizes([130, 150, 500])
+        Box.addWidget(splitter)
 
     @staticmethod
     def listItemClicked(self, item):
