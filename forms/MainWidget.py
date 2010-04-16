@@ -247,11 +247,17 @@ class MainWidget(QtGui.QWidget):
             self.teThesisView.setText('')
             self.currentItem = ThesisBase.Thesis()
             return
-        sel = self.lvThesis.selectedItems()
-        if len(sel) <= 0:
-            return
         for item in self.Scheme.itemsOnScheme.keys():
             self.Scheme.setColorOfThesis(item)
+        sel = self.lvThesis.selectedItems()
+        if len(sel) <= 0:
+            if not self.teThesisView.isReadOnly():
+                self.currentItem.setDesc(self.teThesisView.toPlainText())
+            self.curItemText = ''
+            self.curItem = ThesisBase.Thesis()
+            self.teThesisView.setText('')
+            self.teThesisView.setReadOnly(1)
+            return
         if len(sel) == 1:
             if not self.teThesisView.isReadOnly():
                 self.currentItem.setDesc(self.teThesisView.toPlainText())

@@ -24,7 +24,7 @@ class moveView:
         self.cur = items[1]
         thesis = self.searchByView(self.cur)
         if event.modifiers() == QtCore.Qt.ControlModifier:
-            thesis.setSelected(1)
+            thesis.setSelected(not thesis.isSelected())
         else:
             self.emit(QtCore.SIGNAL('selectOne(Thesis *)'), thesis)
         self.cur.setZValue(100000)
