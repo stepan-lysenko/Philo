@@ -89,35 +89,25 @@ class SchemeView(QtGui.QGraphicsView):
         self.MousePressEvent = instr.mousePressEvent
         self.setCursor(instr.cursor)
 
-    def searchLink(self, link, list):
-        for item in list:
-            if item == link:
-                return 1
-        return 0
-    def getChain(self, root, dir):
-        chain = []
-        if dir == 0:
-            for link in root.links:
-                chain.append(link)
-                the = self.searchThesis(link)
-                for lnk in self.getChain(the, 0):
-                    chain.append(lnk)
-        else:
-            for key in self.itemsOnScheme.keys():
-                for i in key.links:
+    def searchCircle(self, root, link, parent = QtCore.QString()):
+        cand = []
+        for i in root.links:
+            if i != parent:
+                cand.append(i)
+        for key in self.itemsOnScheme.keys():
+            for i in key.links:
+                if key.text() != parent:
                     if i == root.text():
-                        chain.append(key.text())
-                        for t in self.getChain(key, 1):
-                            chain.append(t)
+                            cand.append(key.text())
+        if len(cand) == 0:
+            return 0
+        for i in cand:
+            if i == link:
+                return 1
+            item = self.searchThesis(i)
+            if self.searchCircle(item, link, root.text()):
+                return 1
             
-        return chain
-        
-
-    def searchCircle(self, root, link):
-        if self.searchLink(link, self.getChain(root, 0)) or self.searchLink(link, self.getChain(root, 1)):
-            return 1
-        return 0
-
     def searchThesis(self, name):
         for key in self.itemsOnScheme.keys():
             if key.text() == name:
