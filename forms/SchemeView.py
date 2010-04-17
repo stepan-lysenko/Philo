@@ -89,12 +89,44 @@ class SchemeView(QtGui.QGraphicsView):
         self.MousePressEvent = instr.mousePressEvent
         self.setCursor(instr.cursor)
 
-    def searchCircle(self, root, link, parent = QtCore.QString()):
+
+    def getChain(self, root, dir):
+        chain = []
+        if dir == 0:
+            for link in root.links:
+                the = self.searchThesis(link)
+                chain.append(the)
+                for lnk in self.getChain(the, 0):
+                    chain.append(lnk)
+        else:
+            for key in self.itemsOnScheme.keys():
+                for i in key.links:
+                    if i == root.text():
+                        chain.append(key)
+                        for t in self.getChain(key, 1):
+                            chain.append(t)
+            
+        return chain
+
+    def getListOfCand(self, root):
+        list = []
+        for i in self.getChain(root, 0):
+            list.append(i)
+        for i in self.getChain(root, 1):
+            list.append(i)
+        return list
+
+    def searchCircle(self, root, link, list, parent = QtCore.QString()):
         cand = []
+        flag = 0
         for i in root.links:
-            if i != parent:
-                cand.append(i)
-        for key in self.itemsOnScheme.keys():
+            for l in list:
+                if l.text() == i:
+                    flag = 1
+            if flag: 
+                if i != parent:
+                    cand.append(i)
+        for key in list:
             for i in key.links:
                 if key.text() != parent:
                     if i == root.text():
@@ -105,7 +137,7 @@ class SchemeView(QtGui.QGraphicsView):
             if i == link:
                 return 1
             item = self.searchThesis(i)
-            if self.searchCircle(item, link, root.text()):
+            if self.searchCircle(item, link, list, root.text()):
                 return 1
             
     def searchThesis(self, name):
