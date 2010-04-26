@@ -89,15 +89,51 @@ class SchemeView(QtGui.QGraphicsView):
         self.MousePressEvent = instr.mousePressEvent
         self.setCursor(instr.cursor)
 
-    def searchCircle(self, root, link, parent = QtCore.QString()):
+    def getSubGraph(self, root, sub = []):
+        list = []
+        for i in self.getChain(root, 0):
+            list.append(i)
+        for i in self.getChain(root, 1):
+            list.append(i)
+        return list
+
+    def getChain(self, root, dir):
+        chain = []
+        if dir == 0:
+            for link in root.links:
+                the = self.searchThesis(link)
+                chain.append(the)
+                for lnk in self.getChain(the, 0):
+                    chain.append(lnk)
+        else:
+            for key in self.itemsOnScheme.keys():
+                for i in key.links:
+                    if i == root.text():
+                        chain.append(key)
+                        for t in self.getChain(key, 1):
+                            chain.append(t)
+            
+        return chain
+
+    def searchCircle(self, root, link):
+        graph = self.getSubGraph(root)
+        lnk = self.searchThesis(link)
+        graph.append(lnk)
+        graph += self.getChain(lnk, 0)
+        return self.searchCircleInGraph(root, link, graph)
+
+    def searchCircleInGraph(self, root, link, graph, parent = QtCore.QString()):
         cand = []
         for i in root.links:
             if i != parent:
-                cand.append(i)
+                it = self.searchThesis(i)
+                if it in graph:
+                    cand.append(i)
         for key in self.itemsOnScheme.keys():
             for i in key.links:
                 if key.text() != parent:
                     if i == root.text():
+                        if key in graph:
                             cand.append(key.text())
         if len(cand) == 0:
             return 0
@@ -105,7 +141,7 @@ class SchemeView(QtGui.QGraphicsView):
             if i == link:
                 return 1
             item = self.searchThesis(i)
-            if self.searchCircle(item, link, root.text()):
+            if self.searchCircleInGraph(item, link, graph, root.text()):
                 return 1
             
     def searchThesis(self, name):

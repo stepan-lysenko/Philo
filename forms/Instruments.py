@@ -197,7 +197,7 @@ class createLink:
                     if (len(self.curItem.links) > 0):
                         return
             if flag == 0:
-                if self.searchCircle(link, self.curItem.text()):
+                if self.searchCircle(self.curItem, link.text()):
                     QtGui.QMessageBox.warning(self, u'Цикл',
                         u'Добавление данной связи приведёт к возникновению цикла') 
                 else:
