@@ -197,14 +197,11 @@ class createLink:
                     if (len(self.curItem.links) > 0):
                         return
             if flag == 0:
-                if (link != self.curItem) & (len(self.curItem.links) < 3):
-                    self.curItem.links.append(link.text())                
-                    list = self.getListOfCand(self.curItem)
-                    self.curItem.links.remove(link.text())
-                    if self.searchCircle(self.curItem, link.text(), list):
-                        QtGui.QMessageBox.warning(self, u'Цикл',
-                            u'Добавление данной связи приведёт к возникновению цикла') 
-                    else:
+                if self.searchCircle(link, self.curItem.text()):
+                    QtGui.QMessageBox.warning(self, u'Цикл',
+                        u'Добавление данной связи приведёт к возникновению цикла') 
+                else:
+                    if (link != self.curItem) & (len(self.curItem.links) < 3):
                         self.curItem.links.append(link.text())
         self.update()
         self.arrows.update()
