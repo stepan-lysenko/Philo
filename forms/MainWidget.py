@@ -116,11 +116,11 @@ class MainWidget(QtGui.QWidget):
         menu = QtGui.QMenu(self)
         aSort1 = QtGui.QAction(QtGui.QIcon(
                 'icons/sort_by_ascending_order.png'),
-                        u'Сортировать по убыванию', self)
+                        self.tr('Sort by ascending order'), self)
         
         aSort2 = QtGui.QAction(QtGui.QIcon(
                 'icons/sort_by_descending_order.png'),
-                        u'Сортировать по возрастанию', self)
+                        self.tr('Sort by descending order'), self)
         self.connect(aSort1, QtCore.SIGNAL('triggered()'),
                                             self.sortByAscendingOrder)
         self.connect(aSort2, QtCore.SIGNAL('triggered()'),
@@ -143,8 +143,8 @@ class MainWidget(QtGui.QWidget):
         for i in xrange(self.lvThesis.count()):
             if (item.text() == self.lvThesis.item(i).text()) & (
                                 self.lvThesis.item(i) != self.currentItem):
-                QtGui.QMessageBox.warning(self, u'Ошибка',
-                    u'Понятие с данным именем уже присутствует в списке')
+                QtGui.QMessageBox.warning(self, self.tr('Error'),
+                    self.tr('Thesis with that name olready is the list'))
                 item.setText(self.curItemText)
                 return
         for i in xrange(self.lvThesis.count()):
@@ -169,12 +169,12 @@ class MainWidget(QtGui.QWidget):
 
     def SaveList(self):
         if self.lvThesis.count() <= 0:
-            QtGui.QMessageBox.warning(self, u'Сохрание',
-					u'Список понятий пуст.')
+            QtGui.QMessageBox.warning(self, self.tr('Save'),
+					self.tr('List empty.'))
             return
         if self.path == '':
             path = str(QtGui.QFileDialog.getExistingDirectory(self,
-                                    u"Выбор папки для сохранения", './',
+                                    self.tr('Select directory'), './',
                                 QtGui.QFileDialog.ShowDirsOnly).toUtf8())
             if path == '':
                 return
@@ -182,8 +182,8 @@ class MainWidget(QtGui.QWidget):
                 break
             for dir in SubDirs:
                 if len(dir) != 2:
-                    QtGui.QMessageBox.warning(self, u'Сохранение',
-                            u'Данная папка не является хранилищем тезисов')
+                    QtGui.QMessageBox.warning(self, self.tr('Save'),
+                            self.tr('That directory is not valid'))
                     return
             self.path = path
         for Bill, SubDirs, Bob in os.walk(self.path):
@@ -197,8 +197,8 @@ class MainWidget(QtGui.QWidget):
 
     def SaveListAs(self):
         if self.lvThesis.count() <= 0:
-            QtGui.QMessageBox.warning(self, u'Сохранение',
-					u'Список понятий пуст')
+            QtGui.QMessageBox.warning(self, self.tr('Save'),
+					self.tr('Empty list'))
             return
         path = str(QtGui.QFileDialog.getExistingDirectory(self,
 			            			u"Сохранить Как", './',
@@ -311,7 +311,7 @@ class MainWidget(QtGui.QWidget):
     def AddNewThesis(self):
         self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         i = 0
-        name = u'Новое Понятие'
+        name = self.tr('New Thesis')
         tmp = u''
         while self.SearchName(name + tmp) == 1:
             i += 1

@@ -8,13 +8,13 @@ class cfgDialog(QtGui.QDialog):
         QtGui.QDialog.__init__(self, parent)
         self.setGeometry(100, 150, 300, 200)
         self.setWindowModality(QtCore.Qt.ApplicationModal)
-        self.setWindowTitle(u'Настройка')
+        self.setWindowTitle(self.tr('Configuration'))
         self.tabs = QtGui.QTabWidget(self)
 
         base = self.makeBase()
-        self.tabs.addTab(base, u'Приложение')
+        self.tabs.addTab(base, self.tr('Main'))
         instruments = self.makeInstruments()
-        self.tabs.addTab(instruments, u'Инструменты')
+        self.tabs.addTab(instruments, self.tr('Instruments'))
 
         vBox = QtGui.QVBoxLayout(self)
         vBox.addWidget(self.tabs)
@@ -52,7 +52,7 @@ class cfgDialog(QtGui.QDialog):
         vBox = QtGui.QVBoxLayout(w)
 
         vlInstr1 = QtGui.QHBoxLayout()
-        vlInstr1.addWidget(QtGui.QLabel(u'Расслоение'))
+        vlInstr1.addWidget(QtGui.QLabel(self.tr('Lamination')))
         self.derLevel = QtGui.QLineEdit('2')
         self.derLevel.setMaximumWidth(50)
         vlInstr1.addWidget(self.derLevel)
