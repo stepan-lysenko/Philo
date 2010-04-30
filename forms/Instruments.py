@@ -99,6 +99,7 @@ class createLink:
     def mousePressEvent(self, event):
         items = self.items(event.pos())
         if len(items) < 2:
+            self.curItem = None
             return
         cur = items[1]
         if self.setLink == 0:
@@ -163,6 +164,8 @@ class createLink:
             event.ignore()
             return
 
+        if self.curItem == None:
+            return
 
         self.setCursor(QtCore.Qt.UpArrowCursor)
         self.resort()
