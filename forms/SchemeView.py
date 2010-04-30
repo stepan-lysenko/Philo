@@ -120,7 +120,11 @@ class SchemeView(QtGui.QGraphicsView):
         lnk = self.searchThesis(link)
         graph.append(lnk)
         graph += self.getChain(lnk, 0)
-        return self.searchCircleInGraph(root, link, graph)
+        if self.searchCircleInGraph(root, link, graph):
+            QtGui.QMessageBox.warning(self, self.tr('Cycle'),
+                self.tr('Adding this link will lead to a cycle'))
+            return 1
+        return 0
 
     def searchCircleInGraph(self, root, link, graph, parent = QtCore.QString()):
         cand = []

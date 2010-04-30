@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<!DOCTYPE TS><TS version="1.1" language="ru_RU">
 <context>
     <name>MainWidget</name>
     <message>
@@ -243,6 +242,19 @@
     </message>
 </context>
 <context>
+    <name>SchemeView</name>
+    <message>
+        <location filename="SchemeView.py" line="124"/>
+        <source>Cycle</source>
+        <translation type="unfinished">Цикл</translation>
+    </message>
+    <message>
+        <location filename="SchemeView.py" line="124"/>
+        <source>Adding this link will lead to a cycle</source>
+        <translation type="unfinished">Добавление данной связи приведёт к возникновению цикла</translation>
+    </message>
+</context>
+<context>
     <name>cfgDialog</name>
     <message>
         <location filename="ConfigDialog.py" line="11"/>
@@ -270,12 +282,12 @@
     <message>
         <location filename="Instruments.py" line="201"/>
         <source>Cycle</source>
-        <translation type="unfinished">Цикл</translation>
+        <translation type="obsolete">Цикл</translation>
     </message>
     <message>
         <location filename="Instruments.py" line="201"/>
         <source>Adding this link will lead to a cycle</source>
-        <translation type="unfinished">Добавление данной связи приведёт к возникновению цикла</translation>
+        <translation type="obsolete">Добавление данной связи приведёт к возникновению цикла</translation>
     </message>
 </context>
 </TS>
