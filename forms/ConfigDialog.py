@@ -11,10 +11,10 @@ class cfgDialog(QtGui.QDialog):
         self.setWindowTitle(self.tr('Configuration'))
         self.tabs = QtGui.QTabWidget(self)
 
-        base = self.makeBase()
-        self.tabs.addTab(base, self.tr('Main'))
-        instruments = self.makeInstruments()
-        self.tabs.addTab(instruments, self.tr('Instruments'))
+        self.base = self.makeBase()
+        self.tabs.addTab(self.base, self.tr('Main'))
+        self.instruments = self.makeInstruments()
+        self.tabs.addTab(self.instruments, self.tr('Instruments'))
 
         vBox = QtGui.QVBoxLayout(self)
         vBox.addWidget(self.tabs)
@@ -26,8 +26,15 @@ class cfgDialog(QtGui.QDialog):
 
         vBox.addWidget(self.buttonBox)
 
-        self.connect(self.buttonBox, QtCore.SIGNAL("clicked(QAbstractButton*)"),
-                                                    self.abstractClicked) 
+        self.connect(self.buttonBox, QtCore.SIGNAL(
+                        "clicked(QAbstractButton*)"), self.abstractClicked) 
+
+    def retranslateUI(self):
+        self.setWindowTitle(self.tr('Configuration'))
+        self.tabs.setTabText(self.tabs.indexOf(self.base), self.tr('Main'))
+        self.tabs.setTabText(self.tabs.indexOf(self.instuments),
+                                                self.tr('Instrumments'))
+        self.lLam.setText(self.tr('Lamination'))
 
     def abstractClicked(self, button):
         b = self.buttonBox.standardButton(button)
@@ -52,7 +59,8 @@ class cfgDialog(QtGui.QDialog):
         vBox = QtGui.QVBoxLayout(w)
 
         vlInstr1 = QtGui.QHBoxLayout()
-        vlInstr1.addWidget(QtGui.QLabel(self.tr('Lamination')))
+        self.lLam = QtGui.QLabel(self.tr('Lamination'))
+        vlInstr1.addWidget(self.lLam)
         self.derLevel = QtGui.QLineEdit('2')
         self.derLevel.setMaximumWidth(50)
         vlInstr1.addWidget(self.derLevel)

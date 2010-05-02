@@ -40,6 +40,8 @@ class MainWidget(QtGui.QWidget):
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
 
+        self.basename = self.tr('New Thesis')
+
         self.lvThesis = QtGui.QListWidget()
         self.lvThesis.setMaximumWidth(300)
         self.lvThesis.setMinimumWidth(100)
@@ -112,18 +114,23 @@ class MainWidget(QtGui.QWidget):
         self.Scheme.setInstr(instr)
         self.lvThesis.setCursor(instr.listCursor)
 
+    def retranslateUi(self):
+        self.aSort1.setText(self.tr('Sort by ascending order'))
+        self.aSort2.setText(self.tr('Sort by descending order'))
+        self.basename = self.tr('New Thesis')
+
     def listMenu(self, event):
         menu = QtGui.QMenu(self)
-        aSort1 = QtGui.QAction(QtGui.QIcon(
+        self.aSort1 = QtGui.QAction(QtGui.QIcon(
                 'icons/sort_by_ascending_order.png'),
                         self.tr('Sort by ascending order'), self)
         
-        aSort2 = QtGui.QAction(QtGui.QIcon(
+        self.aSort2 = QtGui.QAction(QtGui.QIcon(
                 'icons/sort_by_descending_order.png'),
                         self.tr('Sort by descending order'), self)
-        self.connect(aSort1, QtCore.SIGNAL('triggered()'),
+        self.connect(self.aSort1, QtCore.SIGNAL('triggered()'),
                                             self.sortByAscendingOrder)
-        self.connect(aSort2, QtCore.SIGNAL('triggered()'),
+        self.connect(self.aSort2, QtCore.SIGNAL('triggered()'),
                                             self.sortByDescendingOrder)
 
         menu.addAction(aSort1)
@@ -311,7 +318,7 @@ class MainWidget(QtGui.QWidget):
     def AddNewThesis(self):
         self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         i = 0
-        name = self.tr('New Thesis')
+        name = QtCore.QString(self.basename)
         tmp = u''
         while self.SearchName(name + tmp) == 1:
             i += 1
