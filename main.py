@@ -7,10 +7,9 @@ from forms import MainWindow
 
 def main():
     app = QtGui.QApplication(sys.argv)
-    translator = QtCore.QTranslator()
-    translator.load(QtCore.QLocale.system().name(), './tr')
-    app.installTranslator(translator)
     window = MainWindow.MainWindow()
+    app.installTranslator(window.translator)
+    window.retranslateUi()
     window.show()
     sys.exit(app.exec_())
 	

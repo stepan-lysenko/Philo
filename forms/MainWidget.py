@@ -4,7 +4,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 import string, os, ThesisBase
 from SchemeView import SchemeView
-import ConfigDialog, Instruments
+import Instruments
 
 REMOVE_ERROR = u"""Ошибка удаления: %(path), %(error)"""
 
@@ -83,6 +83,24 @@ class MainWidget(QtGui.QWidget):
         splitter.setSizes([130, 150, 500])
         Box.addWidget(splitter)
 
+        self.conMenu = QtGui.QMenu(self)
+        self.aSort1 = QtGui.QAction(QtGui.QIcon(
+                'icons/sort_by_ascending_order.png'),
+                        self.tr('Sort by ascending order'), self)
+        
+        self.aSort2 = QtGui.QAction(QtGui.QIcon(
+                'icons/sort_by_descending_order.png'),
+                        self.tr('Sort by descending order'), self)
+
+        self.connect(self.aSort1, QtCore.SIGNAL('triggered()'),
+                                            self.sortByAscendingOrder)
+        self.connect(self.aSort2, QtCore.SIGNAL('triggered()'),
+                                            self.sortByDescendingOrder)
+
+        self.conMenu.addAction(self.aSort1)
+        self.conMenu.addAction(self.aSort2)
+
+
     @staticmethod
     def listItemClicked(self, item):
         pass
@@ -120,22 +138,7 @@ class MainWidget(QtGui.QWidget):
         self.basename = self.tr('New Thesis')
 
     def listMenu(self, event):
-        menu = QtGui.QMenu(self)
-        self.aSort1 = QtGui.QAction(QtGui.QIcon(
-                'icons/sort_by_ascending_order.png'),
-                        self.tr('Sort by ascending order'), self)
-        
-        self.aSort2 = QtGui.QAction(QtGui.QIcon(
-                'icons/sort_by_descending_order.png'),
-                        self.tr('Sort by descending order'), self)
-        self.connect(self.aSort1, QtCore.SIGNAL('triggered()'),
-                                            self.sortByAscendingOrder)
-        self.connect(self.aSort2, QtCore.SIGNAL('triggered()'),
-                                            self.sortByDescendingOrder)
-
-        menu.addAction(aSort1)
-        menu.addAction(aSort2)
-        menu.exec_(event.globalPos())
+        self.conMenu.exec_(event.globalPos())
 
     def sortByAscendingOrder(self):
         self.lvThesis.sortItems(QtCore.Qt.AscendingOrder)
@@ -162,10 +165,6 @@ class MainWidget(QtGui.QWidget):
                                     self.lvThesis.currentItem().text())
                 
         self.curItemText = self.lvThesis.currentItem().text()
-
-    def config(self):
-        cfgDialog = ConfigDialog.cfgDialog(self)
-        cfgDialog.show()
 
     def SearchName(self, name):
         n = QtCore.QString(name)
@@ -232,12 +231,12 @@ class MainWidget(QtGui.QWidget):
 
     def OpenList(self):
         if self.lvThesis.count() > 0:
-            reply = QtGui.QMessageBox.question(self, u"Открыть?",
-              u"Если вы продолжите, все изменения будут потеряны",
+            reply = QtGui.QMessageBox.question(self, self.tr("Open"),
+              self.tr("All changes will be lost. Continue?"),
                                 QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
             if reply == QtGui.QMessageBox.No:
                 return
-        path = str(QtGui.QFileDialog.getExistingDirectory(self, u"Открытие",
+        path = str(QtGui.QFileDialog.getExistingDirectory(self, self.tr("Open"),
                             './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return

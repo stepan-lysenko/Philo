@@ -29,11 +29,11 @@ class cfgDialog(QtGui.QDialog):
         self.connect(self.buttonBox, QtCore.SIGNAL(
                         "clicked(QAbstractButton*)"), self.abstractClicked) 
 
-    def retranslateUI(self):
+    def retranslateUi(self):
         self.setWindowTitle(self.tr('Configuration'))
         self.tabs.setTabText(self.tabs.indexOf(self.base), self.tr('Main'))
-        self.tabs.setTabText(self.tabs.indexOf(self.instuments),
-                                                self.tr('Instrumments'))
+        self.tabs.setTabText(self.tabs.indexOf(self.instruments),
+                                                self.tr('Instruments'))
         self.lLam.setText(self.tr('Lamination'))
 
     def abstractClicked(self, button):
@@ -44,13 +44,33 @@ class cfgDialog(QtGui.QDialog):
             self.applyClicked()
 
     def applyClicked(self):
-        print 'apply'
+        self.emit(QtCore.SIGNAL('ChangeLanguage(QString *)'),
+                                        self.cLang.currentText())
 
     def okClicked(self):
-        print 'ok'
+        self.applyClicked()
+        self.close()
 
     def makeBase(self):
         w = QtGui.QWidget()
+
+        self.lLang = QtGui.QLabel(self.tr('Language'))
+
+        self.cLang = QtGui.QComboBox()
+        for Files, Bill, Bob in os.walk('./tr/'):
+            break    
+        self.cLang.addItem('English')    
+        for f in Bob:
+            if len(f) > 3:
+                if f[len(f) - 3:] == '.qm':
+                    self.cLang.addItem(f[:len(f) - 3])
+
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(self.lLang)
+        hbox.addWidget(self.cLang)
+        
+        Box = QtGui.QVBoxLayout(w)
+        Box.addLayout(hbox)
         return w
 
     def makeInstruments(self):
