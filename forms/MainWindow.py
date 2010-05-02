@@ -10,7 +10,9 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
 
         self.translator = QtCore.QTranslator()   
-        self.translator.load(QtCore.QLocale.system().name(), './tr')
+        lang = QtCore.QLocale.languageToString(
+                    QtCore.QLocale.system().language())
+        self.translator.load(lang, './tr')
 
         self.setGeometry(100, 150, 850, 550)
 
