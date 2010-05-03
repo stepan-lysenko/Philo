@@ -200,7 +200,7 @@ class createLink:
                     if (len(self.curItem.links) > 0):
                         return
             if flag == 0:
-                if not self.searchCircle(self.curItem, link.text()):
+#                if not self.searchCircle(self.curItem, link.text()):
                     if (link != self.curItem) & (len(self.curItem.links) < 3):
                         self.curItem.links.append(link.text())
         self.update()
