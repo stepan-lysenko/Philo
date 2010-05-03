@@ -70,6 +70,13 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(self.aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         self.widget.delFromScheme)
 
+        self.aInstrConvolution = QtGui.QAction(QtGui.QIcon(
+                    'icons/convolution.png'), self.tr('Convolution'), self)
+        self.aInstrConvolution.setStatusTip(self.tr(
+                            'Instrument to convolution thesises'))
+        reg = lambda : self.widget.setInstr(Instruments.convolution)
+        self.connect(self.aInstrConvolution, QtCore.SIGNAL('triggered()'), reg)
+
         self.aInstrAddToScheme = QtGui.QAction(QtGui.QIcon(
                     'icons/add_to_scheme.png'), self.tr('Add to scheme'), self)
         self.aInstrAddToScheme.setStatusTip(self.tr('Add thesis to scheme'))
@@ -153,6 +160,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrRmLink.setActionGroup(grInstr)
         self.aInstrAddADer.setActionGroup(grInstr)
         self.aInstrAddDer.setActionGroup(grInstr)
+        self.aInstrConvolution.setActionGroup(grInstr)
 
         self.tbInstruments.addAction(self.aNewThesis)
         for instr in grInstr.actions():
@@ -191,6 +199,10 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aInstrDelThesis.setText(self.tr('Remove thesis')) 
         self.aInstrDelThesis.setStatusTip(self.tr('Remove current thesis'))
+
+        self.aInstrConvolution.setText(self.tr('Convolution'))
+        self.aInstrConvolution.setStatusTip(self.tr(
+                            'Instrument to convolution thesises'))
 
         self.aNewWorkspace.setText(self.tr('Remove all')) 
         self.aNewWorkspace.setStatusTip(self.tr('Remove all'))

@@ -487,7 +487,35 @@ class convolution:
 
     @staticmethod
     def mousePressEvent(self, event):
-        pass
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
+            return
+
+        self.cur = items[1]
+        self.cur.setZValue(10000)
+        self.resort()
+        item = self.searchByView(self.cur)
+        if item in self.selItems:
+            self.selItems.pop(self.selItems.index(item))
+            if item.isSelected():
+                self.setColorOfThesis(item, QtCore.Qt.green)
+            else:
+                self.setColorOfThesis(item)
+        else:
+            self.setColorOfThesis(item, QtCore.Qt.yellow)
+            self.selItems.append(item)
+
+        if len(self.selItems) == 3:
+            self.convolution() 
+            self.selItems = []
+            self.updateSelection()
 
     @staticmethod
     def mouseMoveEvent(self, event):

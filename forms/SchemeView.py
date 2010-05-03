@@ -33,7 +33,6 @@ class SchemeView(QtGui.QGraphicsView):
            return
         self.sp = event.pos()
         items = self.items(self.sp)
-        self.setCursor(QtCore.Qt.ClosedHandCursor)
         if len(items) < 2:
             self.scroll = 1
             return
@@ -42,8 +41,8 @@ class SchemeView(QtGui.QGraphicsView):
         thesis = self.searchByView(self.cur)
         self.emit(QtCore.SIGNAL('editThesisName(Thesis *)'), thesis)
         
+    def convolution(self):
         
-
     def updateSelection(self):
         for thesis in self.itemsOnScheme.keys():
             if thesis.isSelected():
@@ -84,6 +83,8 @@ class SchemeView(QtGui.QGraphicsView):
         self.MouseReleaseEvent(self, event)
 
     def setInstr(self, instr):
+        self.selItems = []
+        self.updateSelection()
         self.MouseMoveEvent = instr.mouseMoveEvent
         self.MouseReleaseEvent = instr.mouseReleaseEvent
         self.MousePressEvent = instr.mousePressEvent
