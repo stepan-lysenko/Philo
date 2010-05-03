@@ -74,6 +74,8 @@ class MainWidget(QtGui.QWidget):
                 'createNewThesis(Thesis *, QPointF *)'), self.newToScheme)
         self.connect(self.Scheme, QtCore.SIGNAL('editThesisName(Thesis *)'),
                                                     self.editThesisName)
+        self.connect(self.Scheme, QtCore.SIGNAL('delThesis(Thesis *)'),
+                                                    self.itemClicked)
 
         Box = QtGui.QHBoxLayout(self)
 

@@ -481,3 +481,63 @@ class addDer:
             if len(self.Scheme.itemsOnScheme[cand]) == 0:
                 self.Scheme.addThesis(cand)
 
+class convolution:
+    cursor = QtCore.Qt.ArrowCursor
+    listCursor = QtCore.Qt.ArrowCursor
+
+    @staticmethod
+    def mousePressEvent(self, event):
+        pass
+
+    @staticmethod
+    def mouseMoveEvent(self, event):
+        pass
+
+    @staticmethod
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        pass
+
+class delThesis:
+    cursor = QtCore.Qt.CrossCursor
+    listCursor = QtCore.Qt.CrossCursor
+
+    @staticmethod
+    def mousePressEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
+            return
+
+        self.cur = items[1]
+        self.cur.setZValue(10000)
+        self.resort()
+        item = self.searchByView(self.cur)
+        self.emit(QtCore.SIGNAL('delThesis(Thesis *)'), item)
+
+    @staticmethod
+    def mouseMoveEvent(self, event):
+        pass
+
+    @staticmethod
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        self.Scheme.delThesis(item)
+        for thesis in self.lvThesis.findItems('', QtCore.Qt.MatchContains):
+            for link in thesis.links:
+                if link == item.text():
+                    thesis.links.pop(thesis.links.index(link))
+        self.lvThesis.takeItem(self.lvThesis.row(item))
+

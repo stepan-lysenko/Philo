@@ -57,12 +57,6 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(self.aNewThesis, QtCore.SIGNAL('triggered()'),
                                             self.widget.AddNewThesis)
 
-        self.aDelThesis = QtGui.QAction(QtGui.QIcon('icons/del_thesis.png'),
-                                                self.tr('Remove thesis'), self)
-        self.aDelThesis.setStatusTip(self.tr('Remove current thesis'))
-        self.connect(self.aDelThesis, QtCore.SIGNAL('triggered()'),
-                                        self.widget.DelCurrentThesis)
-
         self.aNewWorkspace = QtGui.QAction(QtGui.QIcon('icons/new.png'),
                                                     self.tr('Remove all'), self)
         self.aNewWorkspace.setStatusTip(self.tr('Remove all'))
@@ -89,6 +83,12 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrMove.setShortcut('Ctrl+M')
         reg = lambda : self.widget.setInstr(Instruments.moveView)
         self.connect(self.aInstrMove, QtCore.SIGNAL('triggered()'), reg)
+
+        self.aInstrDelThesis = QtGui.QAction(QtGui.QIcon('icons/del_thesis.png'),
+                                                self.tr('Remove thesis'), self) 
+        self.aInstrDelThesis.setStatusTip(self.tr('Instrument for remove thesis'))
+        reg = lambda : self.widget.setInstr(Instruments.delThesis)
+        self.connect(self.aInstrDelThesis, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrRm = QtGui.QAction(QtGui.QIcon(
                 'icons/del_from_scheme.png'), self.tr('Remove'), self)
@@ -136,10 +136,6 @@ class MainWindow(QtGui.QMainWindow):
         self.mbFile.addAction(self.aSaveAs)
         self.mbFile.addAction(self.aExit)
 
-        self.mbThesis = MenuBar.addMenu(self.tr('&Thesises'))
-        self.mbThesis.addAction(self.aNewThesis)
-        self.mbThesis.addAction(self.aDelThesis)
-	
         self.tbWorkspace = self.addToolBar(self.tr('File'))
         self.tbWorkspace.addAction(self.aNewWorkspace)
         self.tbWorkspace.addAction(self.aOpen)
@@ -147,32 +143,23 @@ class MainWindow(QtGui.QMainWindow):
         self.tbWorkspace.addAction(self.aSaveAs)
         self.tbWorkspace.addAction(self.aConfig)
 
-        self.tbThesis = self.addToolBar(self.tr('Thesises'))
-        self.tbThesis.addAction(self.aNewThesis)
-        self.tbThesis.addAction(self.aDelThesis)
-
         self.tbInstruments = self.addToolBar(self.tr('Instruments'))
         grInstr = QtGui.QActionGroup(self.tbInstruments)
-        self.aInstrAddDer.setActionGroup(grInstr)
+        self.aInstrAddToScheme.setActionGroup(grInstr)
         self.aInstrMove.setActionGroup(grInstr)
+        self.aInstrDelThesis.setActionGroup(grInstr)
         self.aInstrRm.setActionGroup(grInstr)
         self.aInstrLink.setActionGroup(grInstr)
         self.aInstrRmLink.setActionGroup(grInstr)
-        self.aInstrAddToScheme.setActionGroup(grInstr)
         self.aInstrAddADer.setActionGroup(grInstr)
+        self.aInstrAddDer.setActionGroup(grInstr)
 
+        self.tbInstruments.addAction(self.aNewThesis)
         for instr in grInstr.actions():
             instr.setCheckable(1)
+            self.tbInstruments.addAction(instr)
         grInstr.setExclusive(1)
-
-        self.tbInstruments.addAction(self.aInstrMove)
         self.aInstrMove.setChecked(1)
-        self.tbInstruments.addAction(self.aInstrRm)
-        self.tbInstruments.addAction(self.aInstrLink)
-        self.tbInstruments.addAction(self.aInstrRmLink)
-        self.tbInstruments.addAction(self.aInstrAddToScheme)
-        self.tbInstruments.addAction(self.aInstrAddDer)
-        self.tbInstruments.addAction(self.aInstrAddADer)
 
 #       self.statusBar()
 
@@ -202,8 +189,8 @@ class MainWindow(QtGui.QMainWindow):
         self.aNewThesis.setText(self.tr('New thesis'))
         self.aNewThesis.setStatusTip(self.tr('Add new thesis'))
 
-        self.aDelThesis.setText(self.tr('Remove thesis')) 
-        self.aDelThesis.setStatusTip(self.tr('Remove current thesis'))
+        self.aInstrDelThesis.setText(self.tr('Remove thesis')) 
+        self.aInstrDelThesis.setStatusTip(self.tr('Remove current thesis'))
 
         self.aNewWorkspace.setText(self.tr('Remove all')) 
         self.aNewWorkspace.setStatusTip(self.tr('Remove all'))
@@ -239,10 +226,8 @@ class MainWindow(QtGui.QMainWindow):
                             self.tr('Instrument for show antiderivatives'))
 
         self.mbFile.setTitle(self.tr('&File'))
-        self.mbThesis.setTitle(self.tr('&Thesises'))
 
         self.tbWorkspace.setWindowTitle(self.tr('File'))
-        self.tbThesis.setWindowTitle(self.tr('Thesises'))
         self.tbInstruments.setWindowTitle(self.tr('Instruments'))
 
         self.widget.retranslateUi()
