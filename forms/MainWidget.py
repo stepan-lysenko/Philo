@@ -76,6 +76,8 @@ class MainWidget(QtGui.QWidget):
                                                     self.editThesisName)
         self.connect(self.Scheme, QtCore.SIGNAL('delThesis(Thesis *)'),
                                                     self.itemClicked)
+        self.connect(self.Scheme, QtCore.SIGNAL('convolution(list)'),
+                                                    self.convolution)
 
         Box = QtGui.QHBoxLayout(self)
 
@@ -102,6 +104,11 @@ class MainWidget(QtGui.QWidget):
         self.conMenu.addAction(self.aSort1)
         self.conMenu.addAction(self.aSort2)
 
+    def convolution(self, list):
+        tmp = self.AddNewThesis()
+        self.Scheme.addThesis(tmp, setCenter=0)
+        for item in list:
+            tmp.links.append(item.text())
 
     @staticmethod
     def listItemClicked(self, item):

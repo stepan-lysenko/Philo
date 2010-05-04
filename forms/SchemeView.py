@@ -42,7 +42,38 @@ class SchemeView(QtGui.QGraphicsView):
         self.emit(QtCore.SIGNAL('editThesisName(Thesis *)'), thesis)
         
     def convolution(self):
-        
+        cand = []
+        for thesis in self.itemsOnScheme.keys():
+            for link in thesis.links:
+                for item in self.selItems:
+                    if item.text() == link:
+                        cand.append(thesis)
+        cand = list(set(cand))
+        if len(cand) > 1:
+            QtGui.QMessageBox.warning(self, self.tr('Convolution'),
+                            self.tr('This set of items have many parents'))
+            return
+        if len(cand) == 0:
+            self.emit(QtCore.SIGNAL('convolution(list)'), self.selItems)
+            return
+        cand = cand[0]
+        items = [i.text() for i in self.selItems]
+        links = [i for i in cand.links]
+        for i in items:
+            if i in links:
+                links.pop(links.index(i))
+        if len(links) != 0:
+            QtGui.QMessageBox.warning(self, self.tr('Convolution'),
+                            self.tr('Item have many links now'))
+            return
+        for item in items:
+            if item not in cand.links:
+                cand.links.append(item)
+        self.addThesis(cand)
+        self.arrows.update()
+        self.update()
+            
+ 
     def updateSelection(self):
         for thesis in self.itemsOnScheme.keys():
             if thesis.isSelected():
