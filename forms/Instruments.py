@@ -527,7 +527,23 @@ class convolution:
 
     @staticmethod
     def listItemClicked(self, item):
-        pass
+        self.Scheme.addThesis(item, QtCore.Qt.green)
+        if item in self.Scheme.selItems:
+            self.Scheme.selItems.pop(self.Scheme.selItems.index(item))
+            if item.isSelected():
+                self.Scheme.setColorOfThesis(item, QtCore.Qt.green)
+            else:
+                self.Scheme.setColorOfThesis(item)
+        else:
+            self.Scheme.setColorOfThesis(item, QtCore.Qt.yellow)
+            self.Scheme.selItems.append(item)
+        for i in self.Scheme.selItems:
+            self.Scheme.setColorOfThesis(i, QtCore.Qt.yellow)
+
+        if len(self.Scheme.selItems) == 3:
+            self.Scheme.convolution()
+            self.Scheme.selItems = []
+            self.Scheme.updateSelection()
 
 class delThesis:
     cursor = QtCore.Qt.CrossCursor
