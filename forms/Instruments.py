@@ -216,109 +216,23 @@ class rmLink:
 
     @staticmethod
     def mousePressEvent(self, event):
-        items = self.items(event.pos())
-        if len(items) < 2:
-            return
-        cur = items[1]
-        if self.setLink == 0:
-            self.setLink = 1
-            self.curItem = self.searchByView(cur)
-
-        self.pen = QtGui.QPen(QtCore.Qt.red, 2)
-
-        cur.setZValue(10001)
-        self.sp = cur.pos()
-        self.evPos = event.pos()
-        self.curArrow = QtGui.QGraphicsLineItem(0, 0, 0, 0)
-        self.curArrow.setPen(self.pen)
-        self.curArrow.setZValue(10000)
-        self.start = self.mapToScene(self.evPos)
-        self.curArrow.moveBy(self.start.x(), self.start.y())
-        self.scene.addItem(self.curArrow)
-
-
-        self.lArr = QtGui.QGraphicsLineItem(0, 0, 0, 0)
-        self.lArr.setPen(self.pen)
-        self.rArr = QtGui.QGraphicsLineItem(0, 0, 0, 0)
-        self.lArr.setPen(self.pen)
-        self.scene.addItem(self.lArr)
-        self.scene.addItem(self.rArr)
-
-        self.setCursor(QtCore.Qt.BlankCursor)
-        self.update()
-        self.arrows.update()
-
-        self.update()
-        self.arrows.update()
+        linkToDel = self.arrows.linkToDel
+        if len(linkToDel) > 0:
+            linkToDel[0].links.pop(linkToDel[0].links.index(
+                                            linkToDel[1].text()))
+            self.arrows.update()
+            self.update()
 
     @staticmethod
     def mouseMoveEvent(self, event):
-        if self.setLink == 1:
-            self.curArrow.setLine(0, 0, event.pos().x() - self.evPos.x(),
-                                        event.pos().y() - self.evPos.y())
-
-            end = self.mapToScene(event.pos())
-
-            n = QtCore.QPointF(event.pos() - self.evPos)
-            n = n / (0.05 * math.sqrt(n.x() * n.x() + n.y() * n.y()))
-
-            s = math.sin(math.pi / 9.)
-            c = math.cos(math.pi / 9.)
-
-            self.scene.removeItem(self.lArr)
-            self.scene.removeItem(self.rArr)
-
-            tmp = QtCore.QPointF(c*n.x() - s*n.y(), s*n.x() + c*n.y())
-            self.lArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
-            self.lArr.setPen(self.pen)
-            self.scene.addItem(self.lArr)
-            self.lArr.setZValue(10000)
-            self.lArr.moveBy(end.x(), end.y())
-
-            tmp = QtCore.QPointF(c*n.x() + s*n.y(), -s*n.x() + c*n.y())
-            self.rArr = QtGui.QGraphicsLineItem(0, 0, -tmp.x(), -tmp.y())
-            self.rArr.setPen(self.pen)
-            self.scene.addItem(self.rArr)
-            self.rArr.setZValue(10000)
-            self.rArr.moveBy(end.x(), end.y())
+        self.arrows.rmOn = 1
+        self.arrows.pos = self.mapToScene(event.pos())
+        self.arrows.update()
+        self.update()
 
     @staticmethod
     def mouseReleaseEvent(self, event):
-        if (event.button() != QtCore.Qt.LeftButton):
-            event.ignore()
-            return
-
-        self.resort()
-        self.setCursor(QtCore.Qt.UpArrowCursor)
-
-        if self.setLink == 1:
-            self.scene.removeItem(self.curArrow)
-            self.scene.removeItem(self.rArr)
-            self.scene.removeItem(self.lArr)
-
-        self.sp = event.pos()
-        items = self.items(event.pos())
-        if len(items) < 2:
-            self.setLink = 0
-            return
-
-        self.cur = items[1]
-        self.cur.setZValue(10001)
-        self.resort()
-
-        if self.setLink == 1:
-            self.setLink = 0
-            link = self.searchByView(self.cur)
-            if link == self.curItem:
-                return
-            flag = 0
-            for i in self.curItem.links:
-                if i == link.text():
-                    flag = 1
-                    if (len(self.curItem.links) > 0):
-                        self.curItem.links.remove(link.text())
-        self.update()
-        self.arrows.update()
+        pass
 
     @staticmethod
     def listItemClicked(self, item):

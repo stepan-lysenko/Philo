@@ -115,6 +115,7 @@ class SchemeView(QtGui.QGraphicsView):
 
     def setInstr(self, instr):
         self.selItems = []
+        self.arrows.rmOn = 0
         self.updateSelection()
         self.MouseMoveEvent = instr.mouseMoveEvent
         self.MouseReleaseEvent = instr.mouseReleaseEvent
@@ -236,6 +237,12 @@ class SchemeView(QtGui.QGraphicsView):
         self.resort()
 
 class Arrows(QtGui.QGraphicsItem):
+    rmOn = 0
+    linkToDel = []
+    sp = QtCore.QPointF(-99999, -99999)
+    ep = QtCore.QPointF(-9999, -9999)
+    pos = QtCore.QPointF(-99999, -99999)
+    flag = 0
     def __init__(self, dic):
         QtGui.QGraphicsItem.__init__(self)
         self.dic = dic
@@ -252,7 +259,16 @@ class Arrows(QtGui.QGraphicsItem):
         return 0
 
     def paint(self, painter, option, widget):
-        painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
+        det0 = (self.pos.y() - self.sp.y() + 20) / (self.ep.y() - self.sp.y() + 0.0000001)  
+        det0 -= (self.pos.x() - self.sp.x() + 20) / (self.ep.x() - self.sp.x() + 0.0000001)  
+        det1 = (self.pos.y() - self.sp.y() - 20) / (self.ep.y() - self.sp.y() + 0.0000001)  
+        det1 -= (self.pos.x() - self.sp.x() - 20) / (self.ep.x() - self.sp.x() + 0.0000001)  
+        det2 = self.pos.y() - self.sp.y() - self.pos.x() + self.sp.x() 
+        det3 = self.pos.y() - self.sp.y() - self.pos.x() + self.ep.x() 
+        if not ((det0 * det1 < 0) and (det2 * det3 < 0)):
+            self.linkToDel = []
+            self.flag = 0
+
         for key in self.dic.keys():
             for link in key.links:
                 thesis = self.searchThesis(link)
@@ -260,6 +276,26 @@ class Arrows(QtGui.QGraphicsItem):
                     for start in self.dic[key]:
                         StartPoint = QtCore.QPointF(start.x(), start.y())
                         for end in self.dic[thesis]:
+                            painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
+                            if self.rmOn and (not self.flag) and (start.x() != end.x()) and (start.y() != end.y()):
+                                det0 = (self.pos.y() - start.y() + 20) / (end.y() - start.y())
+                                det0 -= (self.pos.x() - start.x() + 20) / (end.x() - start.x())
+                                det1 = (self.pos.y() - start.y() - 20) / (end.y() - start.y())
+                                det1 -= (self.pos.x() - start.x() - 20) / (end.x() - start.x())
+                                det2 = self.pos.y() - start.y() - self.pos.x() + start.x()
+                                det3 = self.pos.y() - end.y() - self.pos.x() + end.x()
+
+                                if (det0 * det1 < 0) and (det2 * det3 < 0):
+                                    painter.setPen(QtGui.QPen(
+                                                    QtCore.Qt.red, 2))
+                                    self.linkToDel.append(key)
+                                    self.linkToDel.append(thesis)
+                                    self.sp = start.pos()
+                                    self.ep = end.pos()
+                                    self.flag = 1
+                            if len(self.linkToDel) > 0:
+                                if (key == self.linkToDel[0]) and (thesis == self.linkToDel[1]):
+                                    painter.setPen(QtGui.QPen(QtCore.Qt.red, 2))
                             EndPoint = QtCore.QPointF(end.x(), end.y())
                             n = EndPoint - StartPoint
                             n = n / (0.05 * math.sqrt(n.x() * n.x() +
