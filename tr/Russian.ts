@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<!DOCTYPE TS><TS version="1.1" language="ru_RU">
 <context>
     <name>MainWidget</name>
     <message>
@@ -69,7 +68,7 @@
     <message>
         <location filename="MainWindow.py" line="180"/>
         <source>Cognitive assistent v0.3</source>
-        <translation type="unfinished">Когнитивный Ассистент v0.3</translation>
+        <translation type="obsolete">Когнитивный Ассистент v0.3</translation>
     </message>
     <message>
         <location filename="MainWindow.py" line="183"/>
@@ -266,16 +265,21 @@
         <source>Instrument to convolution thesises</source>
         <translation type="unfinished">Инструмент для свёртки понятий</translation>
     </message>
+    <message>
+        <location filename="MainWindow.py" line="180"/>
+        <source>Cognitive assistent v0.4</source>
+        <translation type="unfinished">Когнитивный Ассистент v0.4</translation>
+    </message>
 </context>
 <context>
     <name>SchemeView</name>
     <message>
-        <location filename="SchemeView.py" line="156"/>
+        <location filename="SchemeView.py" line="157"/>
         <source>Cycle</source>
         <translation type="unfinished">Цикл</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="156"/>
+        <location filename="SchemeView.py" line="157"/>
         <source>Adding this link will lead to a cycle</source>
         <translation type="unfinished">Добавление данной связи приведёт к возникновению цикла</translation>
     </message>
