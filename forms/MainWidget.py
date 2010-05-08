@@ -115,6 +115,7 @@ class MainWidget(QtGui.QWidget):
         pass
 
     def editThesisName(self, thesis):
+        self.lvThesis.setCurrentItem(thesis)
         self.lvThesis.editItem(thesis)
 
     def newToScheme(self, thesis, point):
