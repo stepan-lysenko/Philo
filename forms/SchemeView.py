@@ -49,27 +49,17 @@ class SchemeView(QtGui.QGraphicsView):
                     if item.text() == link:
                         cand.append(thesis)
         cand = list(set(cand))
-        if len(cand) > 1:
-            QtGui.QMessageBox.warning(self, self.tr('Convolution'),
-                            self.tr('This set of items have many parents'))
-            return
-        if len(cand) == 0:
-            self.emit(QtCore.SIGNAL('convolution(list)'), self.selItems)
-            return
-        cand = cand[0]
-        items = [i.text() for i in self.selItems]
-        links = [i for i in cand.links]
-        for i in items:
-            if i in links:
-                links.pop(links.index(i))
-        if len(links) != 0:
-            QtGui.QMessageBox.warning(self, self.tr('Convolution'),
-                            self.tr('Item have many links now'))
-            return
-        for item in items:
-            if item not in cand.links:
-                cand.links.append(item)
-        self.addThesis(cand)
+        for item in cand:
+            selTexts = [a.text() for a in self.selItems]
+            f = lambda a: a in item.links
+            if len(filter(f, selTexts)) == 3:
+                self.addThesis(item)
+                self.updateSelection()
+                self.arrows.update()
+                self.update()
+                return
+
+        self.emit(QtCore.SIGNAL('convolution(list)'), self.selItems)
         self.arrows.update()
         self.update()
             
