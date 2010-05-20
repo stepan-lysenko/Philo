@@ -224,6 +224,10 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrMove.setStatusTip(
                             self.tr('This is a hand, you can move thesis on scheme with this')) 
 
+        self.aInstrGlue.setText(self.tr('Glue'))
+        self.aInstrGlue.setStatusTip(self.tr('Glue has made links'))
+
+
         self.aInstrRm.setText(self.tr('Remove'))
         self.aInstrRm.setStatusTip(
                             self.tr('Instrument for remove thesis from scheme')) 
