@@ -83,6 +83,12 @@ class MainWindow(QtGui.QMainWindow):
         reg = lambda: self.widget.setInstr(Instruments.Glue)
         self.connect(self.aInstrGlue, QtCore.SIGNAL('triggered()'), reg)
 
+        self.aInstrLamination = QtGui.QAction(QtGui.QIcon(
+                    'icons/lamination.png'), self.tr('Lamination'), self)
+        self.aInstrLamination.setStatusTip(self.tr('Lamination'))
+        reg = lambda: self.widget.setInstr(Instruments.Lamination)
+        self.connect(self.aInstrLamination, QtCore.SIGNAL('triggered()'), reg)
+
         self.aInstrAddToScheme = QtGui.QAction(QtGui.QIcon(
                     'icons/add_to_scheme.png'), self.tr('Add to scheme'), self)
         self.aInstrAddToScheme.setStatusTip(self.tr('Add thesis to scheme'))
@@ -168,6 +174,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrAddDer.setActionGroup(grInstr)
         self.aInstrConvolution.setActionGroup(grInstr)
         self.aInstrGlue.setActionGroup(grInstr)
+        self.aInstrLamination.setActionGroup(grInstr)
 
         self.tbInstruments.addAction(self.aNewThesis)
         for instr in grInstr.actions():

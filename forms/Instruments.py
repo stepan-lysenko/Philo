@@ -612,3 +612,79 @@ class Glue:
         self.resort()
         self.updateSelection()
 
+class Lamination:
+    cursor = QtCore.Qt.CrossCursor
+    listCursor = QtCore.Qt.CrossCursor
+
+    @staticmethod
+    def mousePressEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
+            return
+
+        self.cur = items[1]
+        self.cur.setZValue(10000)
+        self.resort()
+        item = self.searchByView(self.cur)
+        if item in self.selItems:
+            self.selItems.pop(self.selItems.index(item))
+            if item.isSelected():
+                self.setColorOfThesis(item, QtCore.Qt.green)
+            else:
+                self.setColorOfThesis(item)
+            return
+        self.selItems.append(item)
+        if QtCore.Qt.ControlModifier != event.modifiers():
+            self.lamination()
+            self.updateSelection()
+            self.selItems = []
+        else:
+            self.setColorOfThesis(item, QtCore.Qt.yellow)
+            if len(self.selItems) >= 3:
+                self.lamination()
+                self.selItems = []
+                self.updateSelection()
+
+
+    @staticmethod
+    def mouseMoveEvent(self, event):
+        pass
+
+    @staticmethod
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        self.Scheme.addThesis(item, QtCore.Qt.green)
+        if item in self.Scheme.selItems:
+            self.Scheme.selItems.pop(self.Scheme.selItems.index(item))
+            if item.isSelected():
+                self.Scheme.setColorOfThesis(item, QtCore.Qt.green)
+            else:
+                self.Scheme.setColorOfThesis(item)
+        else:
+            self.Scheme.setColorOfThesis(item, QtCore.Qt.yellow)
+            self.Scheme.selItems.append(item)
+        for i in self.Scheme.selItems:
+            self.Scheme.setColorOfThesis(i, QtCore.Qt.yellow)
+
+        if len(self.Scheme.selItems) >= 3:
+            self.Scheme.lamination()
+            self.Scheme.selItems = []
+            self.Scheme.updateSelection()
+
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        self.lamination()
+        self.selItems = []
+        self.resort()
+        self.updateSelection()
+

@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-import sys, string, math, Instruments
+import sys, string, math, Instruments, LamWidget, ThesisBase
 from PyQt4 import QtCore, QtGui
 
 class SchemeView(QtGui.QGraphicsView):
@@ -26,6 +26,19 @@ class SchemeView(QtGui.QGraphicsView):
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
     setLink = 0
+
+    def lamination(self):
+        if len(self.selItems) == 0:
+            return
+        lam = LamWidget.lamDialog(self, self.selItems)
+        elemsToView = self.searchAntiDers(self.selItems[0])
+        for item in self.selItems:
+            elemsToView = list(set(elemsToView) &
+                            set(self.searchAntiDers(item)))
+        for elem in elemsToView:
+            tmp = ThesisBase.Thesis(elem.text())
+            lam.addThesis(tmp)
+        lam.show()
 
     def glue(self):
         if len(self.selItems) == 0:
