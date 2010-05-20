@@ -78,6 +78,8 @@ class MainWidget(QtGui.QWidget):
                                                     self.itemClicked)
         self.connect(self.Scheme, QtCore.SIGNAL('convolution(list)'),
                                                     self.convolution)
+        self.connect(self.Scheme, QtCore.SIGNAL('glue(list)'),
+                                                    self.glue)
 
         Box = QtGui.QHBoxLayout(self)
 
@@ -103,6 +105,19 @@ class MainWidget(QtGui.QWidget):
 
         self.conMenu.addAction(self.aSort1)
         self.conMenu.addAction(self.aSort2)
+
+    def glue(self, list):
+        for item in list:                 #
+            if len(item.links) >= 3:      #
+                return                    #
+
+        tmp = self.AddNewThesis()
+        for item in list:                 #
+            item.links.append(tmp.text()) #
+#        for item in list:
+#            tmp.links.append(item.text())
+        self.Scheme.addThesis(tmp, setCenter=0)
+
 
     def convolution(self, list):
         tmp = self.AddNewThesis()

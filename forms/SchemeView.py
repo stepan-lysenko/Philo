@@ -30,12 +30,17 @@ class SchemeView(QtGui.QGraphicsView):
     def glue(self):
         if len(self.selItems) == 0:
             return
-        elemsToView = self.searchAntiDers(self.selItems[0])
+#        elemsToView = self.searchAntiDers(self.selItems[0])
+        elemsToView = self.selItems[0].links                            #
         for item in self.selItems:
-            elemsToView = list(set(elemsToView) &
-                            set(self.searchAntiDers(item)))
+#            elemsToView = list(set(elemsToView) &
+#                            set(self.searchAntiDers(item)))
+            elemsToView = list(set(item.links) & set(elemsToView))      #
+        elemsToView = [self.searchThesis(elem) for elem in elemsToView] #
         for elems in elemsToView:
             self.addThesis(elems)
+        if len(elemsToView) == 0:
+            self.emit(QtCore.SIGNAL('glue(list)'), self.selItems)
 
     def searchAntiDers(self, thesis):
         res = []
