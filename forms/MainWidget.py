@@ -80,6 +80,10 @@ class MainWidget(QtGui.QWidget):
                                                     self.convolution)
         self.connect(self.Scheme, QtCore.SIGNAL('glue(list)'),
                                                     self.glue)
+        self.connect(self.Scheme, QtCore.SIGNAL('itemOnLamClicked(Thesis *)'),
+                                                    self.itemOnLamClicked)
+#        self.connect(self.Scheme, QtCore.SIGNAL('renameOnScheme(QString *, QListWidgetItem *)'),
+#                                                    self.rename)
 
         Box = QtGui.QHBoxLayout(self)
 
@@ -105,6 +109,14 @@ class MainWidget(QtGui.QWidget):
 
         self.conMenu.addAction(self.aSort1)
         self.conMenu.addAction(self.aSort2)
+
+    def itemOnLamClicked(self, it):
+        item = self.lvThesis.findItems(it.text(), QtCore.Qt.MatchExactly)
+        if (len(item) == 0):
+            return
+        item = item[0]
+        self.itemClicked(item)
+        
 
     def glue(self, list):
         for item in list:                 #
@@ -156,6 +168,8 @@ class MainWidget(QtGui.QWidget):
         self.listItemClicked = instr.listItemClicked
         self.Scheme.setInstr(instr)
         self.lvThesis.setCursor(instr.listCursor)
+        for lam in self.Scheme.lams:
+            lam.lvThesis.setCursor(instr.listCursor)
 
     def retranslateUi(self):
         self.aSort1.setText(self.tr('Sort by ascending order'))
@@ -171,7 +185,7 @@ class MainWidget(QtGui.QWidget):
     def sortByDescendingOrder(self):
         self.lvThesis.sortItems(QtCore.Qt.DescendingOrder)
 
-    def itemChanged(self, item):
+    def rename(self, oldname, item):
         for key in self.Scheme.itemsOnScheme.keys():
             for view in self.Scheme.itemsOnScheme[key]:
                 view.update()
@@ -180,16 +194,28 @@ class MainWidget(QtGui.QWidget):
                                 self.lvThesis.item(i) != self.currentItem):
                 QtGui.QMessageBox.warning(self, self.tr('Error'),
                     self.tr('Thesis with that name olready is the list'))
-                item.setText(self.curItemText)
-                return
+                item.setText(oldname)
+                return 0
         for i in xrange(self.lvThesis.count()):
             for link in self.lvThesis.item(i).links:
-                if link == self.curItemText:
+                if link == oldname:
                     self.lvThesis.item(i).links.remove(link)
                     self.lvThesis.item(i).links.append(
                                     self.lvThesis.currentItem().text())
-                
+        for lam in self.Scheme.lams:
+            for lb in lam.labels:
+                if lb.text() == self.curItemText:
+                    lb.setText(item.text())
+            for i in xrange(lam.lvThesis.count()):
+                tmp = lam.lvThesis.item(i)
+                if (tmp.text() == self.curItemText):
+                    tmp.setText(item.text())
         self.curItemText = self.lvThesis.currentItem().text()
+        return 1
+
+
+    def itemChanged(self, item):
+        self.rename(self.curItemText, item)
 
     def SearchName(self, name):
         n = QtCore.QString(name)
@@ -296,6 +322,14 @@ class MainWidget(QtGui.QWidget):
             self.teThesisView.setText('')
             self.currentItem = ThesisBase.Thesis()
             return
+        
+#        for lam in self.Scheme.lams:
+#            for thesis in lam.lvThesis.findItems('', QtCore.Qt.MatchContains):
+#                if thesis.text() in [it.text() for it in self.lvThesis.selectedItems()]:
+#                    thesis.setSelected(1)
+#                else:
+#                    thesis.setSelected(0)
+
         for item in self.Scheme.itemsOnScheme.keys():
             self.Scheme.setColorOfThesis(item)
         sel = self.lvThesis.selectedItems()

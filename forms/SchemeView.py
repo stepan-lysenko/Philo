@@ -26,19 +26,43 @@ class SchemeView(QtGui.QGraphicsView):
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
     setLink = 0
+    lams = []
 
     def lamination(self):
-        if len(self.selItems) == 0:
+        if (len(self.selItems) == 0) or (len(self.lams) >= 3):
             return
         lam = LamWidget.lamDialog(self, self.selItems)
+        self.connect(lam, QtCore.SIGNAL('closeLam(QDialog *)'),
+                                                    self.delDialog)
+        self.connect(lam, QtCore.SIGNAL('itemOnLamClicked(Thesis *)'),
+                                                self.itemOnLamClicked)
         elemsToView = self.searchAntiDers(self.selItems[0])
         for item in self.selItems:
             elemsToView = list(set(elemsToView) &
                             set(self.searchAntiDers(item)))
         for elem in elemsToView:
-            tmp = ThesisBase.Thesis(elem.text())
+            tmp = elem.clone()
+            tmp.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+#            if elem.isSelected():
+#                tmp.setSelected(1)
             lam.addThesis(tmp)
+#        self.emit(QtCore.SIGNAL('newLam(QDialog *)'), lam)             
         lam.show()
+        self.lams.append(lam)
+        lam.allThesises = self.itemsOnScheme
+
+    def itemOnLamClicked(self, item):
+        self.emit(QtCore.SIGNAL('itemOnLamClicked(Thesis *)'), item)
+
+    def lamSelectionChanged(self, list):
+        for item in list:
+            for t in self.itemsOnScheme.keys():
+                if t.text() == item.text():
+                    t.setSelected(item.isSelected())   
+
+
+    def delDialog(self, dialog):
+        self.lams.pop(self.lams.index(dialog))
 
     def glue(self):
         if len(self.selItems) == 0:
@@ -133,7 +157,6 @@ class SchemeView(QtGui.QGraphicsView):
     def mouseMoveEvent(self, event):
         self.MouseMoveEvent(self, event)
 
-        
     def keyReleaseEvent(self, event):
         self.KeyReleaseEvent(self, event)
 
@@ -316,7 +339,7 @@ class Arrows(QtGui.QGraphicsItem):
                                 det2 = self.pos.y() - start.y() - self.pos.x() + start.x()
                                 det3 = self.pos.y() - end.y() - self.pos.x() + end.x()
 
-                                if (det0 * det1 < 0) and (det2 * det3 < 0):
+                                if ((det0 * det1 < 0) and (det2 * det3 < 0)):
                                     painter.setPen(QtGui.QPen(
                                                     QtCore.Qt.red, 2))
                                     self.linkToDel.append(key)
@@ -324,8 +347,8 @@ class Arrows(QtGui.QGraphicsItem):
                                     self.sp = start.pos()
                                     self.ep = end.pos()
                                     self.flag = 1
-                            if len(self.linkToDel) > 0:
-                                if (key == self.linkToDel[0]) and (thesis == self.linkToDel[1]):
+                            if (len(self.linkToDel) > 0):
+                                if ((key == self.linkToDel[0]) and (thesis == self.linkToDel[1])):
                                     painter.setPen(QtGui.QPen(QtCore.Qt.red, 2))
                             EndPoint = QtCore.QPointF(end.x(), end.y())
                             n = EndPoint - StartPoint

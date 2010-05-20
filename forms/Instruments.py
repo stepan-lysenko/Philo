@@ -229,14 +229,20 @@ class rmLink:
     @staticmethod
     def mousePressEvent(self, event):
         linkToDel = self.arrows.linkToDel
-        if len(linkToDel) > 0:
-            linkToDel[0].links.pop(linkToDel[0].links.index(
-                                            linkToDel[1].text()))
+        if len(linkToDel) > 1:
+            for lam in self.lams:
+                if linkToDel[1].text() in [i.text() for i in lam.labels]:
+                    for i in xrange(lam.lvThesis.count()):
+                        if (lam.lvThesis.item(i).text() == linkToDel[0].text()):
+                            lam.lvThesis.takeItem(i)
+                            break
+            linkToDel[0].links.pop(linkToDel[0].links.index(linkToDel[1].text()))
             self.arrows.update()
             self.update()
 
     @staticmethod
     def mouseMoveEvent(self, event):
+        print 11
         self.arrows.rmOn = 1
         self.arrows.pos = self.mapToScene(event.pos())
         self.arrows.update()
@@ -530,6 +536,13 @@ class delThesis:
                 if link == item.text():
                     thesis.links.pop(thesis.links.index(link))
         self.lvThesis.takeItem(self.lvThesis.row(item))
+        for lam in self.Scheme.lams:
+            if item.text() in [i.text() for i in lam.labels]:
+                lam.close()
+            for i in xrange(lam.lvThesis.count()):
+                if (lam.lvThesis.item(i).text() == item.text()):
+                    lam.lvThesis.takeItem(i)
+            
 
     @staticmethod
     def keyReleaseEvent(self, event):
