@@ -74,13 +74,19 @@ class MainWindow(QtGui.QMainWindow):
                     'icons/convolution.png'), self.tr('Convolution'), self)
         self.aInstrConvolution.setStatusTip(self.tr(
                             'Instrument to convolution thesises'))
-        reg = lambda : self.widget.setInstr(Instruments.convolution)
+        reg = lambda: self.widget.setInstr(Instruments.convolution)
         self.connect(self.aInstrConvolution, QtCore.SIGNAL('triggered()'), reg)
+
+        self.aInstrGlue = QtGui.QAction(QtGui.QIcon(
+                    'icons/glue.png'), self.tr('Glue'), self)
+        self.aInstrGlue.setStatusTip(self.tr('Glue has made links'))
+        reg = lambda: self.widget.setInstr(Instruments.Glue)
+        self.connect(self.aInstrGlue, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrAddToScheme = QtGui.QAction(QtGui.QIcon(
                     'icons/add_to_scheme.png'), self.tr('Add to scheme'), self)
         self.aInstrAddToScheme.setStatusTip(self.tr('Add thesis to scheme'))
-        reg = lambda : self.widget.setInstr(Instruments.addToScheme)
+        reg = lambda: self.widget.setInstr(Instruments.addToScheme)
         self.connect(self.aInstrAddToScheme, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrMove = QtGui.QAction(QtGui.QIcon(
@@ -88,13 +94,13 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrMove.setStatusTip(
                             self.tr('This is a hand, you can move thesis on scheme with this'))
         self.aInstrMove.setShortcut('Ctrl+M')
-        reg = lambda : self.widget.setInstr(Instruments.moveView)
+        reg = lambda: self.widget.setInstr(Instruments.moveView)
         self.connect(self.aInstrMove, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrDelThesis = QtGui.QAction(QtGui.QIcon('icons/del_thesis.png'),
                                                 self.tr('Remove thesis'), self) 
         self.aInstrDelThesis.setStatusTip(self.tr('Instrument for remove thesis'))
-        reg = lambda : self.widget.setInstr(Instruments.delThesis)
+        reg = lambda: self.widget.setInstr(Instruments.delThesis)
         self.connect(self.aInstrDelThesis, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrRm = QtGui.QAction(QtGui.QIcon(
@@ -102,7 +108,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrRm.setStatusTip(
                             self.tr('Instrument for remove thesis from scheme'))
         self.aInstrRm.setShortcut('Ctrl+D')
-        reg = lambda : self.widget.setInstr(Instruments.rmView)
+        reg = lambda: self.widget.setInstr(Instruments.rmView)
         self.connect(self.aInstrRm, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrLink = QtGui.QAction(QtGui.QIcon(
@@ -110,28 +116,28 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrLink.setStatusTip(
                             self.tr('Instrument for adding links'))
         self.aInstrLink.setShortcut('Ctrl+L')
-        reg = lambda : self.widget.setInstr(Instruments.createLink)
+        reg = lambda: self.widget.setInstr(Instruments.createLink)
         self.connect(self.aInstrLink, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrRmLink = QtGui.QAction(QtGui.QIcon(
                 'icons/rm_link.png'), self.tr('Remove link'), self)
         self.aInstrRmLink.setStatusTip(
                             self.tr('Instrument for remove links'))
-        reg = lambda : self.widget.setInstr(Instruments.rmLink)
+        reg = lambda: self.widget.setInstr(Instruments.rmLink)
         self.connect(self.aInstrRmLink, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrAddDer = QtGui.QAction(QtGui.QIcon(
                 'icons/add_der.png'), self.tr('Derivatives show'), self)
         self.aInstrAddDer.setStatusTip(
                             self.tr('Instrument for show derivatives'))
-        reg = lambda : self.widget.setInstr(Instruments.addDer)
+        reg = lambda: self.widget.setInstr(Instruments.addDer)
         self.connect(self.aInstrAddDer, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrAddADer = QtGui.QAction(QtGui.QIcon(
                 'icons/add_antider.png'), self.tr('Antiderivatives show'), self)
         self.aInstrAddADer.setStatusTip(
                             self.tr('Instrument for show antiderivatives'))
-        reg = lambda : self.widget.setInstr(Instruments.addAntider)
+        reg = lambda: self.widget.setInstr(Instruments.addAntider)
         self.connect(self.aInstrAddADer, QtCore.SIGNAL('triggered()'), reg)
 
 
@@ -161,6 +167,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrAddADer.setActionGroup(grInstr)
         self.aInstrAddDer.setActionGroup(grInstr)
         self.aInstrConvolution.setActionGroup(grInstr)
+        self.aInstrGlue.setActionGroup(grInstr)
 
         self.tbInstruments.addAction(self.aNewThesis)
         for instr in grInstr.actions():

@@ -57,6 +57,10 @@ class moveView:
     def listItemClicked(self, item):
         pass
 
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
+
 class rmView:
     cursor = QtCore.Qt.CrossCursor
     listCursor = QtCore.Qt.CrossCursor
@@ -90,6 +94,10 @@ class rmView:
     def listItemClicked(self, item):
         self.Scheme.delThesis(item)
         self.Scheme.resort()
+
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
 
 class createLink:
     cursor = QtCore.Qt.UpArrowCursor
@@ -210,6 +218,10 @@ class createLink:
     def listItemClicked(self, item):
         return
 
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
+
 class rmLink:
     cursor = QtCore.Qt.UpArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
@@ -237,6 +249,10 @@ class rmLink:
     @staticmethod
     def listItemClicked(self, item):
         return
+
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
 
 class addToScheme:
     cursor = QtCore.Qt.CrossCursor
@@ -274,6 +290,10 @@ class addToScheme:
     @staticmethod
     def listItemClicked(self, item):
         self.Scheme.addThesis(item, QtCore.Qt.green)
+
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
 
 class addAntider:
     cursor = QtCore.Qt.ArrowCursor
@@ -326,6 +346,9 @@ class addAntider:
             if len(self.Scheme.itemsOnScheme[cand]) == 0:
                 self.Scheme.addThesis(cand)
 
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
 
 class addDer:
     cursor = QtCore.Qt.ArrowCursor
@@ -395,6 +418,10 @@ class addDer:
             if len(self.Scheme.itemsOnScheme[cand]) == 0:
                 self.Scheme.addThesis(cand)
 
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
+
 class convolution:
     cursor = QtCore.Qt.ArrowCursor
     listCursor = QtCore.Qt.ArrowCursor
@@ -459,6 +486,11 @@ class convolution:
             self.Scheme.selItems = []
             self.Scheme.updateSelection()
 
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
+
+
 class delThesis:
     cursor = QtCore.Qt.CrossCursor
     listCursor = QtCore.Qt.CrossCursor
@@ -498,4 +530,85 @@ class delThesis:
                 if link == item.text():
                     thesis.links.pop(thesis.links.index(link))
         self.lvThesis.takeItem(self.lvThesis.row(item))
+
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
+
+
+class Glue:
+    cursor = QtCore.Qt.CrossCursor
+    listCursor = QtCore.Qt.CrossCursor
+
+    @staticmethod
+    def mousePressEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.setLink = 0
+            return
+
+        self.cur = items[1]
+        self.cur.setZValue(10000)
+        self.resort()
+        item = self.searchByView(self.cur)
+        if item in self.selItems:
+            self.selItems.pop(self.selItems.index(item))
+            if item.isSelected():
+                self.setColorOfThesis(item, QtCore.Qt.green)
+            else:
+                self.setColorOfThesis(item)
+            return
+        self.selItems.append(item)
+        if QtCore.Qt.ControlModifier != event.modifiers():
+            self.glue()
+            self.updateSelection()
+            self.selItems = []
+        else:
+            self.setColorOfThesis(item, QtCore.Qt.yellow)
+            if len(self.selItems) >= 3:
+                self.glue()
+                self.selItems = []
+                self.updateSelection()
+
+
+    @staticmethod
+    def mouseMoveEvent(self, event):
+        pass
+
+    @staticmethod
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        self.Scheme.addThesis(item, QtCore.Qt.green)
+        if item in self.Scheme.selItems:
+            self.Scheme.selItems.pop(self.Scheme.selItems.index(item))
+            if item.isSelected():
+                self.Scheme.setColorOfThesis(item, QtCore.Qt.green)
+            else:
+                self.Scheme.setColorOfThesis(item)
+        else:
+            self.Scheme.setColorOfThesis(item, QtCore.Qt.yellow)
+            self.Scheme.selItems.append(item)
+        for i in self.Scheme.selItems:
+            self.Scheme.setColorOfThesis(i, QtCore.Qt.yellow)
+
+        if len(self.Scheme.selItems) >= 3:
+            self.Scheme.glue()
+            self.Scheme.selItems = []
+            self.Scheme.updateSelection()
+
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        self.glue()
+        self.selItems = []
+        self.resort()
+        self.updateSelection()
 

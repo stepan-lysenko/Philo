@@ -27,6 +27,24 @@ class SchemeView(QtGui.QGraphicsView):
     itemsOnScheme = {}
     setLink = 0
 
+    def glue(self):
+        if len(self.selItems) == 0:
+            return
+        elemsToView = self.searchAntiDers(self.selItems[0])
+        for item in self.selItems:
+            elemsToView = list(set(elemsToView) &
+                            set(self.searchAntiDers(item)))
+        for elems in elemsToView:
+            self.addThesis(elems)
+
+    def searchAntiDers(self, thesis):
+        res = []
+        for item in self.itemsOnScheme.keys():
+            if thesis.text() in item.links:
+                res.append(item)
+        return res
+        
+                
     def mouseDoubleClickEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
            event.ignore()
@@ -97,6 +115,10 @@ class SchemeView(QtGui.QGraphicsView):
     def mouseMoveEvent(self, event):
         self.MouseMoveEvent(self, event)
 
+        
+    def keyReleaseEvent(self, event):
+        self.KeyReleaseEvent(self, event)
+
     def mousePressEvent(self, event):
         self.MousePressEvent(self, event)
 
@@ -110,6 +132,7 @@ class SchemeView(QtGui.QGraphicsView):
         self.MouseMoveEvent = instr.mouseMoveEvent
         self.MouseReleaseEvent = instr.mouseReleaseEvent
         self.MousePressEvent = instr.mousePressEvent
+        self.KeyReleaseEvent = instr.keyReleaseEvent
         self.setCursor(instr.cursor)
 
     def getSubGraph(self, root, sub = []):
