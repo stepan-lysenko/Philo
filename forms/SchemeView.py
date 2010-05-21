@@ -25,8 +25,50 @@ class SchemeView(QtGui.QGraphicsView):
 
     curPos = QtCore.QPointF(0, 0)
     itemsOnScheme = {}
+    redItems = []
+    greenItems = []
+    yellowItems = []
+    curColor = QtCore.Qt.red
     setLink = 0
     lams = []
+
+    def viewNine(self, item):
+        coords_lnk = [[0, -70], [100, 50], [-100, 50]]
+        coords = []
+        coords.append([[0, -140], [-150, -70], [150, -70]])
+        coords.append([[250, 50], [250, 150], [100, 150]])
+        coords.append([[-250, 50], [-250, 150], [-100, 150]])
+        self.addThesis(item, x=0, y=0)
+        i = 0
+        for lnk in [self.searchThesis(it) for it in item.links]:
+            self.addThesis(lnk, x=coords_lnk[i][0],
+                        y=coords_lnk[i][1], setCenter=0)
+            j = 0
+            for link in [self.searchThesis(ite) for ite in lnk.links]:
+                self.addThesis(link, x=coords[i][j][0],
+                        y=coords[i][j][1], setCenter=0)
+                j += 1
+            i += 1
+            
+        
+
+    def setColor(self, color):
+        self.curColor = color
+
+    def isFull(self, item):
+        if (len(item.links) < 3):
+            QtGui.QMessageBox.warning(self, self.tr('Mutation'),
+                        self.tr('This elem can not be mutate'))
+            return 0
+        links = []
+        for lnk in [self.searchThesis(it) for it in item.links]:
+            links += lnk.links
+        links = set(links)
+        if (len(links) < 9):
+            QtGui.QMessageBox.warning(self, self.tr('Mutation'),
+                           self.tr('This elem can not be mutate'))
+            return 0
+        return 1
 
     def lamination(self):
         if (len(self.selItems) == 0) or (len(self.lams) >= 3):
@@ -169,6 +211,7 @@ class SchemeView(QtGui.QGraphicsView):
     def setInstr(self, instr):
         self.selItems = []
         self.arrows.rmOn = 0
+        self.setLink = 0
         self.updateSelection()
         self.MouseMoveEvent = instr.mouseMoveEvent
         self.MouseReleaseEvent = instr.mouseReleaseEvent
@@ -251,9 +294,8 @@ class SchemeView(QtGui.QGraphicsView):
     def delThesis(self, thesis):
         if self.itemsOnScheme.has_key(thesis):
             for item in self.itemsOnScheme[thesis]:
-                self.scene.removeItem(item)
+                self.rmView(item)
             self.scene.update()
-            self.itemsOnScheme.pop(thesis)
         self.setLink = 0
 
     def clear(self):

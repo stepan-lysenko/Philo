@@ -17,6 +17,9 @@ class MainWindow(QtGui.QMainWindow):
         self.setGeometry(100, 150, 850, 550)
 
         self.widget = MainWidget.MainWidget()
+        self.connect(self.widget.Scheme, QtCore.SIGNAL('addColorsBar()'),
+                                                self.addColorsBar)
+
         self.setWindowTitle(self.tr('Cognitive assistent v0.4'))
 
         self.aExit = QtGui.QAction(QtGui.QIcon('icons/exit.png'),
@@ -74,25 +77,31 @@ class MainWindow(QtGui.QMainWindow):
                     'icons/convolution.png'), self.tr('Convolution'), self)
         self.aInstrConvolution.setStatusTip(self.tr(
                             'Instrument to convolution thesises'))
-        reg = lambda: self.widget.setInstr(Instruments.convolution)
+        reg = lambda: self.setInstr(Instruments.convolution)
         self.connect(self.aInstrConvolution, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrGlue = QtGui.QAction(QtGui.QIcon(
                     'icons/glue.png'), self.tr('Glue'), self)
         self.aInstrGlue.setStatusTip(self.tr('Glue has made links'))
-        reg = lambda: self.widget.setInstr(Instruments.Glue)
+        reg = lambda: self.setInstr(Instruments.Glue)
         self.connect(self.aInstrGlue, QtCore.SIGNAL('triggered()'), reg)
+
+        self.aInstrMutation = QtGui.QAction(QtGui.QIcon(
+                    'icons/mutation.png'), self.tr('Mutation'), self)
+        self.aInstrMutation.setStatusTip(self.tr('Mutation'))
+        reg = lambda: self.setMutation(Instruments.Mutation)
+        self.connect(self.aInstrMutation, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrLamination = QtGui.QAction(QtGui.QIcon(
                     'icons/lamination.png'), self.tr('Lamination'), self)
         self.aInstrLamination.setStatusTip(self.tr('Lamination'))
-        reg = lambda: self.widget.setInstr(Instruments.Lamination)
+        reg = lambda: self.setInstr(Instruments.Lamination)
         self.connect(self.aInstrLamination, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrAddToScheme = QtGui.QAction(QtGui.QIcon(
                     'icons/add_to_scheme.png'), self.tr('Add to scheme'), self)
         self.aInstrAddToScheme.setStatusTip(self.tr('Add thesis to scheme'))
-        reg = lambda: self.widget.setInstr(Instruments.addToScheme)
+        reg = lambda: self.setInstr(Instruments.addToScheme)
         self.connect(self.aInstrAddToScheme, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrMove = QtGui.QAction(QtGui.QIcon(
@@ -100,13 +109,13 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrMove.setStatusTip(
                             self.tr('This is a hand, you can move thesis on scheme with this'))
         self.aInstrMove.setShortcut('Ctrl+M')
-        reg = lambda: self.widget.setInstr(Instruments.moveView)
+        reg = lambda: self.setInstr(Instruments.moveView)
         self.connect(self.aInstrMove, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrDelThesis = QtGui.QAction(QtGui.QIcon('icons/del_thesis.png'),
                                                 self.tr('Remove thesis'), self) 
         self.aInstrDelThesis.setStatusTip(self.tr('Instrument for remove thesis'))
-        reg = lambda: self.widget.setInstr(Instruments.delThesis)
+        reg = lambda: self.setInstr(Instruments.delThesis)
         self.connect(self.aInstrDelThesis, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrRm = QtGui.QAction(QtGui.QIcon(
@@ -114,7 +123,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrRm.setStatusTip(
                             self.tr('Instrument for remove thesis from scheme'))
         self.aInstrRm.setShortcut('Ctrl+D')
-        reg = lambda: self.widget.setInstr(Instruments.rmView)
+        reg = lambda: self.setInstr(Instruments.rmView)
         self.connect(self.aInstrRm, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrLink = QtGui.QAction(QtGui.QIcon(
@@ -122,30 +131,47 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrLink.setStatusTip(
                             self.tr('Instrument for adding links'))
         self.aInstrLink.setShortcut('Ctrl+L')
-        reg = lambda: self.widget.setInstr(Instruments.createLink)
+        reg = lambda: self.setInstr(Instruments.createLink)
         self.connect(self.aInstrLink, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrRmLink = QtGui.QAction(QtGui.QIcon(
                 'icons/rm_link.png'), self.tr('Remove link'), self)
         self.aInstrRmLink.setStatusTip(
                             self.tr('Instrument for remove links'))
-        reg = lambda: self.widget.setInstr(Instruments.rmLink)
+        reg = lambda: self.setInstr(Instruments.rmLink)
         self.connect(self.aInstrRmLink, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrAddDer = QtGui.QAction(QtGui.QIcon(
                 'icons/add_der.png'), self.tr('Derivatives show'), self)
         self.aInstrAddDer.setStatusTip(
                             self.tr('Instrument for show derivatives'))
-        reg = lambda: self.widget.setInstr(Instruments.addDer)
+        reg = lambda: self.setInstr(Instruments.addDer)
         self.connect(self.aInstrAddDer, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrAddADer = QtGui.QAction(QtGui.QIcon(
                 'icons/add_antider.png'), self.tr('Antiderivatives show'), self)
         self.aInstrAddADer.setStatusTip(
                             self.tr('Instrument for show antiderivatives'))
-        reg = lambda: self.widget.setInstr(Instruments.addAntider)
+        reg = lambda: self.setInstr(Instruments.addAntider)
         self.connect(self.aInstrAddADer, QtCore.SIGNAL('triggered()'), reg)
 
+        self.aRedColor = QtGui.QAction(QtGui.QIcon(
+                'icons/red.png'), self.tr('Red color'), self)
+        self.aRedColor.setStatusTip(self.tr('Red color for mutation'))
+        reg = lambda: self.widget.Scheme.setColor(QtCore.Qt.red)
+        self.connect(self.aRedColor, QtCore.SIGNAL('triggered()'), reg)
+
+        self.aGreenColor = QtGui.QAction(QtGui.QIcon(
+                'icons/green.png'), self.tr('Green color'), self)
+        self.aGreenColor.setStatusTip(self.tr('Green color for mutation'))
+        reg = lambda: self.widget.Scheme.setColor(QtCore.Qt.green)
+        self.connect(self.aGreenColor, QtCore.SIGNAL('triggered()'), reg)
+
+        self.aYellowColor = QtGui.QAction(QtGui.QIcon(
+                'icons/yellow.png'), self.tr('Yellow color'), self)
+        self.aYellowColor.setStatusTip(self.tr('Yellow color for mutation'))
+        reg = lambda: self.widget.Scheme.setColor(QtCore.Qt.yellow)
+        self.connect(self.aYellowColor, QtCore.SIGNAL('triggered()'), reg)
 
         MenuBar = self.menuBar()
         self.mbFile = MenuBar.addMenu(self.tr('&File'))
@@ -175,6 +201,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrConvolution.setActionGroup(grInstr)
         self.aInstrGlue.setActionGroup(grInstr)
         self.aInstrLamination.setActionGroup(grInstr)
+        self.aInstrMutation.setActionGroup(grInstr)
 
         self.tbInstruments.addAction(self.aNewThesis)
         for instr in grInstr.actions():
@@ -182,13 +209,35 @@ class MainWindow(QtGui.QMainWindow):
             self.tbInstruments.addAction(instr)
         grInstr.setExclusive(1)
         self.aInstrMove.setChecked(1)
-
+        self.tbColors = None
 #       self.statusBar()
 
         self.cfgDialog = ConfigDialog.cfgDialog(self)
         self.connect(self.cfgDialog, QtCore.SIGNAL('ChangeLanguage(QString *)'), self.changLang) 
 
         self.setCentralWidget(self.widget)
+
+    def addColorsBar(self):
+        if (self.tbColors != None):
+            return
+        self.tbColors = self.addToolBar(self.tr('Colors'))
+        self.grColors = QtGui.QActionGroup(self.tbColors)
+        self.aRedColor.setActionGroup(self.grColors)
+        self.aGreenColor.setActionGroup(self.grColors)
+        self.aYellowColor.setActionGroup(self.grColors)
+        for col in self.grColors.actions():
+            col.setCheckable(1)
+            self.tbColors.addAction(col)
+        self.grColors.setExclusive(1)
+        self.aRedColor.setChecked(1)
+
+    def setMutation(self, instr):
+        self.widget.setInstr(instr)
+
+    def setInstr(self, instr):
+        self.removeToolBar(self.tbColors)
+        self.tbColors = None
+        self.widget.setInstr(instr)
 
     def retranslateUi(self):
         self.setWindowTitle(self.tr('Cognitive assistent v0.4'))

@@ -311,7 +311,7 @@ class addAntider:
             event.ignore()
             return
 
-
+        cand = ''
         self.sp = event.pos()
         items = self.items(event.pos())
         if len(items) < 2:
@@ -328,7 +328,7 @@ class addAntider:
                     cand = key
                     break
             for key in self.itemsOnScheme.keys():
-                if key == cand and len(self.itemsOnScheme[key]) == 0:
+                if (key == cand) and (len(self.itemsOnScheme[key]) == 0):
                     self.addThesis(key)
         self.updateSelection()
 
@@ -700,4 +700,59 @@ class Lamination:
         self.selItems = []
         self.resort()
         self.updateSelection()
+
+class Mutation:
+    cursor = QtCore.Qt.ArrowCursor
+    listCursor = QtCore.Qt.ArrowCursor
+
+    @staticmethod
+    def mousePressEvent(self, event):
+        if (event.button() != QtCore.Qt.LeftButton):
+            event.ignore()
+            return
+
+        self.sp = event.pos()
+        items = self.items(event.pos())
+        if len(items) < 2:
+            self.scroll = 1
+            return
+        self.scroll = 0
+        self.cur = items[1]
+        thesis = self.searchByView(self.cur)
+        if (self.setLink == 0):
+            if not self.isFull(thesis):
+                return
+            self.setLink = 1
+            for key in self.itemsOnScheme.keys():
+                self.delThesis(key)
+            self.emit(QtCore.SIGNAL('addColorsBar()'))
+            self.setColor(QtCore.Qt.red)
+            self.viewNine(thesis)
+            return
+
+    @staticmethod
+    def mouseMoveEvent(self, event):
+        pass
+
+    @staticmethod
+    def mouseReleaseEvent(self, event):
+        pass
+
+    @staticmethod
+    def listItemClicked(self, item):
+        if (self.Scheme.setLink == 0):
+            if not self.Scheme.isFull(item):
+                return
+            self.Scheme.setLink = 1
+            for key in self.Scheme.itemsOnScheme.keys():
+                self.Scheme.delThesis(key)
+            self.emit(QtCore.SIGNAL('addColorsBar()'))
+            self.setColor(QtCore.Qt.red)
+            self.viewNine(item)
+            return
+
+    @staticmethod
+    def keyReleaseEvent(self, event):
+        pass
+
 
