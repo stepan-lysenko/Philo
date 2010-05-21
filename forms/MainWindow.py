@@ -178,8 +178,8 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(self.aYellowColor, QtCore.SIGNAL('triggered()'), reg)
 
         self.aDoneMut = QtGui.QAction(QtGui.QIcon(
-                'icons/start_mutation.png'), self.tr('Mutation'), self)
-        self.aDoneMut.setStatusTip(self.tr('Mutation'))
+                'icons/start_mutation.png'), self.tr('Start mutation'), self)
+        self.aDoneMut.setStatusTip(self.tr('Start mutation'))
         self.connect(self.aDoneMut, QtCore.SIGNAL('triggered'),
                                     self.widget.Scheme.activateMutation)
         self.aDoneMut.setEnabled(0)
@@ -252,9 +252,13 @@ class MainWindow(QtGui.QMainWindow):
 
     def setMutation(self, instr):
         self.widget.setInstr(instr)
+        self.aDoneMut.setEnabled(0)
+        self.removeToolBar(self.tbColors)
+        self.tbColors = None
 
     def setInstr(self, instr):
         self.removeToolBar(self.tbColors)
+        self.aDoneMut.setEnabled(0)
         self.tbColors = None
         self.widget.setInstr(instr)
 
@@ -281,6 +285,9 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aYellowColor.setText(self.tr('Yellow color'))
         self.aYellowColor.setStatusTip(self.tr('Yellow color for mutation'))
+
+        self.aDoneMut.setText(self.tr('Start mutation'))
+        self.aDoneMut.setStatusTip(self.tr('Start mutation'))
 
         self.aSave.setText(self.tr('Save'))
         self.aSave.setStatusTip(self.tr('Save scheme'))

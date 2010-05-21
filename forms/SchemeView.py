@@ -287,6 +287,9 @@ class SchemeView(QtGui.QGraphicsView):
         self.arrows.rmOn = 0
         self.setLink = 0
         self.updateSelection()
+        self.redItems = []
+        self.greenItems = []
+        self.yellowItems = []
         self.MouseMoveEvent = instr.mouseMoveEvent
         self.MouseReleaseEvent = instr.mouseReleaseEvent
         self.MousePressEvent = instr.mousePressEvent
