@@ -19,6 +19,10 @@ class MainWindow(QtGui.QMainWindow):
         self.widget = MainWidget.MainWidget()
         self.connect(self.widget.Scheme, QtCore.SIGNAL('addColorsBar()'),
                                                 self.addColorsBar)
+        self.connect(self.widget.Scheme, QtCore.SIGNAL('activateMutation()'),
+                                                self.activateMutation)
+        self.connect(self.widget.Scheme, QtCore.SIGNAL('disactivateMutation()'),
+                                                self.disactivateMutation)
 
         self.setWindowTitle(self.tr('Cognitive assistent v0.4'))
 
@@ -173,6 +177,14 @@ class MainWindow(QtGui.QMainWindow):
         reg = lambda: self.widget.Scheme.setColor(QtCore.Qt.yellow)
         self.connect(self.aYellowColor, QtCore.SIGNAL('triggered()'), reg)
 
+        self.aDoneMut = QtGui.QAction(QtGui.QIcon(
+                'icons/mutation.png'), self.tr('Mutation'), self)
+        self.aDoneMut.setStatusTip(self.tr('Mutation'))
+        self.connect(self.aDoneMut, QtCore.SIGNAL('triggered'),
+                                    self.widget.Scheme.activateMutation)
+        self.aDoneMut.setEnabled(0)
+            
+
         MenuBar = self.menuBar()
         self.mbFile = MenuBar.addMenu(self.tr('&File'))
         self.mbFile.addAction(self.aNewWorkspace)
@@ -217,6 +229,12 @@ class MainWindow(QtGui.QMainWindow):
 
         self.setCentralWidget(self.widget)
 
+    def activateMutation(self):
+        self.aDoneMut.setEnabled(1)
+
+    def disactivateMutation(self):
+        self.aDoneMut.setEnabled(0)
+
     def addColorsBar(self):
         if (self.tbColors != None):
             return
@@ -230,6 +248,7 @@ class MainWindow(QtGui.QMainWindow):
             self.tbColors.addAction(col)
         self.grColors.setExclusive(1)
         self.aRedColor.setChecked(1)
+        self.tbColors.addAction(self.aDoneMut)
 
     def setMutation(self, instr):
         self.widget.setInstr(instr)

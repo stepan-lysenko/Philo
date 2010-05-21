@@ -196,6 +196,8 @@ class MainWidget(QtGui.QWidget):
     def rename(self, oldname, item):
         for key in self.Scheme.itemsOnScheme.keys():
             for view in self.Scheme.itemsOnScheme[key]:
+                if key == item:
+                    view.setText(item.text())
                 view.update()
         for i in xrange(self.lvThesis.count()):
             if (item.text() == self.lvThesis.item(i).text()) & (

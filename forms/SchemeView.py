@@ -31,6 +31,10 @@ class SchemeView(QtGui.QGraphicsView):
     curColor = QtCore.Qt.red
     setLink = 0
     lams = []
+    mutRoot = None
+
+    def activateMutation():
+        pass
 
     def viewNine(self, item):
         coords_lnk = [[0, -70], [100, 50], [-100, 50]]
@@ -69,6 +73,76 @@ class SchemeView(QtGui.QGraphicsView):
                            self.tr('This elem can not be mutate'))
             return 0
         return 1
+
+    def setColorToMutation(self, thesis):
+        if thesis in self.greenItems:
+            self.greenItems.pop(self.greenItems.index(thesis))
+            for view in self.itemsOnScheme[thesis]:
+                view.setColor(QtCore.Qt.white)
+            if self.curColor == QtCore.Qt.green:
+                return
+        if thesis in self.redItems:
+            self.redItems.pop(self.redItems.index(thesis))
+            for view in self.itemsOnScheme[thesis]:
+                view.setColor(QtCore.Qt.white)
+            if self.curColor == QtCore.Qt.red:
+                return
+        if thesis in self.yellowItems:
+            self.yellowItems.pop(self.yellowItems.index(thesis))
+            for view in self.itemsOnScheme[thesis]:
+                view.setColor(QtCore.Qt.white)
+            if self.curColor == QtCore.Qt.yellow:
+                return
+
+        if self.curColor == QtCore.Qt.green:
+            ls = self.greenItems
+        if self.curColor == QtCore.Qt.red:
+            ls = self.redItems
+        if self.curColor == QtCore.Qt.yellow:
+            ls = self.yellowItems
+        ln = len(ls)
+        if thesis in ls:
+            ls.pop(ls.index(thesis))
+            for view in self.itemsOnScheme[thesis]:
+                view.setColor(QtCore.Qt.white)
+            return
+        if ln >= 3:
+            for view in self.itemsOnScheme[ls[0]]:
+                view.setColor(QtCore.Qt.white)
+            ls.pop(0)
+        ln = len(ls)
+        lnks = self.mutRoot.links
+        if (thesis.text() in self.mutRoot.links) or (thesis == self.mutRoot):
+            return
+        if ln == 0:
+            ls.append(thesis)
+            for i in self.itemsOnScheme[thesis]:
+                i.setColor(self.curColor)
+            return
+        aders = [self.searchThesis(i) for i in self.mutRoot.links]
+        for ad in aders:
+            if (thesis.text() in ad.links):
+                if (ls[0].text() in ad.links):
+                    for view in self.itemsOnScheme[ls[0]]:
+                        view.setColor(QtCore.Qt.white)
+                    ls.pop(0)
+                    ls.append(thesis)
+                    for view in self.itemsOnScheme[thesis]:
+                        view.setColor(self.curColor)
+                    return
+                if ln > 1:
+                    if (ls[1].text() in ad.links):
+                        for view in self.itemsOnScheme[ls[1]]:
+                            view.setColor(QtCore.Qt.white)
+                        ls.pop(1)
+                        ls.append(thesis)
+                        for view in self.itemsOnScheme[thesis]:
+                            view.setColor(self.curColor)
+                        return
+
+        ls.append(thesis)
+        for view in self.itemsOnScheme[thesis]:
+            view.setColor(self.curColor)
 
     def lamination(self):
         if (len(self.selItems) == 0) or (len(self.lams) >= 3):
@@ -129,7 +203,7 @@ class SchemeView(QtGui.QGraphicsView):
         return res
         
                 
-    def mouseDoubleClickEvent(self, event):
+    def MmouseDoubleClickEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
            event.ignore()
            return
@@ -296,20 +370,51 @@ class SchemeView(QtGui.QGraphicsView):
             for item in self.itemsOnScheme[thesis]:
                 self.rmView(item)
             self.scene.update()
-        self.setLink = 0
 
     def clear(self):
         self.scene.clear()
         self.itemsOnScheme = {}
         self.arrows = Arrows(self.itemsOnScheme)
         self.scene.addItem(self.arrows)
-        self.setLink = 0
 
     def setColorOfThesis(self, thesis, color = QtCore.Qt.white):
         if self.itemsOnScheme.has_key(thesis):
             for item in self.itemsOnScheme[thesis]:
                 item.setColor(color)
         self.update()
+
+    def newGag(self, links, color = QtCore.Qt.white, x = None, y = None):
+        tmp = ThesisBase.Thesis()
+        self.itemsOnScheme[tmp] = []
+        tmp.links = links
+        item = ThesisView(tmp, color)
+        item.setText(QtCore.QString('???'))
+        item.setTextInteractionFlags(QtCore.Qt.TextEditable)
+        self.connect(item, QtCore.SIGNAL('contentsChanged()'), self.gagChanged)
+        self.itemsOnScheme[tmp].append(item)
+        item.setZValue(10000)
+        if (x == None) | (y == None):
+            pos = self.curPos
+            self.curPos += QtCore.QPointF(10, 10)
+        else:
+            pos = QtCore.QPointF(x, y)
+        item.setPos(pos)
+        self.scene.addItem(item)
+        self.arrows.updateDic(self.itemsOnScheme)
+        self.resort()
+
+    def gagChanged(self):
+        print 1234
+
+    def delAllGags(self):
+        for key in self.itemsOnScheme.keys():
+            for view in self.itemsOnScheme[key]:
+                if (view.textInteractionFlags() == QtCore.Qt.TextEditable):
+                    for v in self.itemsOnScheme[key]:
+                        self.rmView(v)
+                    self.itemsOnScheme.pop(key)
+                    break
+            
 
     def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None, setCenter = 1):
         if not self.itemsOnScheme.has_key(thesis):
@@ -327,7 +432,6 @@ class SchemeView(QtGui.QGraphicsView):
         self.itemsOnScheme[thesis].append(item)
         self.scene.addItem(item)
         self.arrows.updateDic(self.itemsOnScheme)
-        self.setLink = 0
         if setCenter:
             self.centerOn(item)
         self.resort()
@@ -370,7 +474,9 @@ class Arrows(QtGui.QGraphicsItem):
                 thesis = self.searchThesis(link)
                 if thesis != 0:
                     for start in self.dic[key]:
-                        StartPoint = QtCore.QPointF(start.x(), start.y())
+                        dltx = -50
+                        dlty = -13
+                        StartPoint = QtCore.QPointF(start.x() - dltx, start.y() - dlty)
                         for end in self.dic[thesis]:
                             painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
                             if self.rmOn and (not self.flag) and (start.x() != end.x()) and (start.y() != end.y()):
@@ -392,7 +498,7 @@ class Arrows(QtGui.QGraphicsItem):
                             if (len(self.linkToDel) > 0):
                                 if ((key == self.linkToDel[0]) and (thesis == self.linkToDel[1])):
                                     painter.setPen(QtGui.QPen(QtCore.Qt.red, 2))
-                            EndPoint = QtCore.QPointF(end.x(), end.y())
+                            EndPoint = QtCore.QPointF(end.x() - dltx, end.y() - dlty)
                             n = EndPoint - StartPoint
                             n = n / (0.05 * math.sqrt(n.x() * n.x() +
                                                             n.y() * n.y()))
@@ -460,16 +566,33 @@ class Arrows(QtGui.QGraphicsItem):
     def boundingRect(self):
         return QtCore.QRectF(-1000, -1000, 2000, 2000)
 
-class ThesisView(QtGui.QGraphicsItem):
+class ThesisView(QtGui.QGraphicsTextItem):
 
-    form = QtCore.QRectF(-65, -20, 130, 40)
+    form = QtCore.QRectF(-15, -7, 130, 40)
 
     def __init__(self, item = QtGui.QListWidgetItem(),
                                     color = QtCore.Qt.white):
-        QtGui.QGraphicsItem.__init__(self)
+        QtGui.QGraphicsTextItem.__init__(self)
+        self.setText(item.text())
         self.color = color
         self.item = item
+        self.font = QtGui.QFont()
+        self.font.setPixelSize(13)
+        self.setFont(self.font)
+        self.setDefaultTextColor(QtCore.Qt.black)
+        self.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.setTextWidth(120)
+        self.setX(0)
+        self.setY(0)
         self.setZValue(100000)
+
+    def setText(self, text):
+        self.setToolTip(text)
+        len = text.length()
+        if len < 16:
+            self.setPlainText(text)
+        else:
+            self.setPlainText(text.remove(13, len - 13 + QtCore.QString(u'...'))) 
 
     def setColor(self, color):
         self.color = color
@@ -479,18 +602,7 @@ class ThesisView(QtGui.QGraphicsItem):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
         painter.setBrush(QtGui.QBrush(self.color))
         painter.drawRect(self.form)
-        font = painter.font()
-        font.setPixelSize(13)
-        painter.setFont(font)
-        text = self.item.text()
-        len = text.length()
-        if len < 16:
-            painter.drawText(self.form,
-                            QtCore.Qt.AlignCenter, text)
-        else:
-            painter.drawText(self.form, QtCore.Qt.AlignCenter,
-                text.remove(13, len - 13) + QtCore.QString(u'...'))
-        self.setToolTip(self.item.text())
+        super(ThesisView, self).paint(painter, option, widget)
 
     def boundingRect(self):
         x, y, w, h = self.form.getRect()

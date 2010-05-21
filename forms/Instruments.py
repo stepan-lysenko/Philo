@@ -242,7 +242,6 @@ class rmLink:
 
     @staticmethod
     def mouseMoveEvent(self, event):
-        print 11
         self.arrows.rmOn = 1
         self.arrows.pos = self.mapToScene(event.pos())
         self.arrows.update()
@@ -723,12 +722,18 @@ class Mutation:
             if not self.isFull(thesis):
                 return
             self.setLink = 1
+            self.mutRoot = thesis
             for key in self.itemsOnScheme.keys():
                 self.delThesis(key)
             self.emit(QtCore.SIGNAL('addColorsBar()'))
             self.setColor(QtCore.Qt.red)
             self.viewNine(thesis)
             return
+        self.setColorToMutation(thesis)
+        if len(self.greenItems + self.redItems + self.yellowItems) == 9:
+            self.emit(QtCore.SIGNAL('activateMutation()'))
+        else:
+            self.emit(QtCore.SIGNAL('disactivateMutation()'))
 
     @staticmethod
     def mouseMoveEvent(self, event):
@@ -744,6 +749,7 @@ class Mutation:
             if not self.Scheme.isFull(item):
                 return
             self.Scheme.setLink = 1
+            self.mutRoot = item
             for key in self.Scheme.itemsOnScheme.keys():
                 self.Scheme.delThesis(key)
             self.emit(QtCore.SIGNAL('addColorsBar()'))
