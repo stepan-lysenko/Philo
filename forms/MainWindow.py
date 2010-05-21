@@ -248,8 +248,20 @@ class MainWindow(QtGui.QMainWindow):
         self.aSaveAs.setText(self.tr('Save As'))
         self.aSaveAs.setStatusTip(self.tr('Save scheme as'))
 
+        if (self.tbColors != None):
+            self.tbColor.setText(self.tr('Colors'))
+
         self.aConfig.setText(self.tr('Configure')) 
         self.aConfig.setStatusTip(self.tr('Open configure window'))
+
+        self.aRedColor.setText(self.tr('Red color'))
+        self.aRedColor.setStatusTip(self.tr('Red color for mutation'))
+
+        self.aGreenColor.setText(self.tr('Green color'))
+        self.aGreenColor.setStatusTip(self.tr('Green color for mutation'))
+
+        self.aYellowColor.setText(self.tr('Yellow color'))
+        self.aYellowColor.setStatusTip(self.tr('Yellow color for mutation'))
 
         self.aSave.setText(self.tr('Save'))
         self.aSave.setStatusTip(self.tr('Save scheme'))
@@ -279,6 +291,12 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrMove.setText(self.tr('Move'))
         self.aInstrMove.setStatusTip(
                             self.tr('This is a hand, you can move thesis on scheme with this')) 
+
+        self.aInstrMutation.setText(self.tr('Mutation'))
+        self.aInstrMutation.setStatusTip(self.tr('Mutation'))
+
+        self.aInstrLamination.setText(self.tr('Lamination'))
+        self.aInstrLamination.setStatusTip(self.tr('Lamination'))
 
         self.aInstrGlue.setText(self.tr('Glue'))
         self.aInstrGlue.setStatusTip(self.tr('Glue has made links'))
