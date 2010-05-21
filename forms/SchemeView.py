@@ -118,8 +118,8 @@ class SchemeView(QtGui.QGraphicsView):
         elemsToView = [self.searchThesis(elem) for elem in elemsToView] #
         for elems in elemsToView:
             self.addThesis(elems)
-        if len(elemsToView) == 0:
-            self.emit(QtCore.SIGNAL('glue(list)'), self.selItems)
+#        if len(elemsToView) == 0:
+#            self.emit(QtCore.SIGNAL('glue(list)'), self.selItems)
 
     def searchAntiDers(self, thesis):
         res = []
@@ -199,8 +199,8 @@ class SchemeView(QtGui.QGraphicsView):
     def mouseMoveEvent(self, event):
         self.MouseMoveEvent(self, event)
 
-    def keyReleaseEvent(self, event):
-        self.KeyReleaseEvent(self, event)
+#    def keyReleaseEvent(self, event):
+#        self.KeyReleaseEvent(self, event)
 
     def mousePressEvent(self, event):
         self.MousePressEvent(self, event)
@@ -216,7 +216,7 @@ class SchemeView(QtGui.QGraphicsView):
         self.MouseMoveEvent = instr.mouseMoveEvent
         self.MouseReleaseEvent = instr.mouseReleaseEvent
         self.MousePressEvent = instr.mousePressEvent
-        self.KeyReleaseEvent = instr.keyReleaseEvent
+#        self.KeyReleaseEvent = instr.keyReleaseEvent
         self.setCursor(instr.cursor)
 
     def getSubGraph(self, root, sub = []):

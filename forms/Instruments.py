@@ -612,18 +612,18 @@ class Glue:
             self.Scheme.selItems.append(item)
         for i in self.Scheme.selItems:
             self.Scheme.setColorOfThesis(i, QtCore.Qt.yellow)
-
-        if len(self.Scheme.selItems) >= 3:
+#
+        if (len(self.Scheme.selItems) >= 3) or (QtCore.Qt.ControlModifier != QtGui.QApplication.keyboardModifiers()):
             self.Scheme.glue()
             self.Scheme.selItems = []
             self.Scheme.updateSelection()
 
     @staticmethod
     def keyReleaseEvent(self, event):
-        self.glue()
-        self.selItems = []
-        self.resort()
-        self.updateSelection()
+        self.Scheme.glue()
+        self.Scheme.selItems = []
+        self.Scheme.resort()
+        self.Scheme.updateSelection()
 
 class Lamination:
     cursor = QtCore.Qt.CrossCursor
@@ -696,10 +696,10 @@ class Lamination:
 
     @staticmethod
     def keyReleaseEvent(self, event):
-        self.lamination()
-        self.selItems = []
-        self.resort()
-        self.updateSelection()
+        self.Scheme.lamination()
+        self.Scheme.selItems = []
+        self.Scheme.resort()
+        self.Scheme.updateSelection()
 
 class Mutation:
     cursor = QtCore.Qt.ArrowCursor

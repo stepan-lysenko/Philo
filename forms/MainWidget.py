@@ -82,8 +82,8 @@ class MainWidget(QtGui.QWidget):
                                                     self.glue)
         self.connect(self.Scheme, QtCore.SIGNAL('itemOnLamClicked(Thesis *)'),
                                                     self.itemOnLamClicked)
-#        self.connect(self.Scheme, QtCore.SIGNAL('renameOnScheme(QString *, QListWidgetItem *)'),
-#                                                    self.rename)
+        self.connect(self.Scheme, QtCore.SIGNAL('renameOnScheme(QString *, QListWidgetItem *)'),
+                                                    self.rename)
 
         Box = QtGui.QHBoxLayout(self)
 
@@ -109,6 +109,13 @@ class MainWidget(QtGui.QWidget):
 
         self.conMenu.addAction(self.aSort1)
         self.conMenu.addAction(self.aSort2)
+
+    def keyReleaseEvent(self, event):
+        self.KeyReleaseEvent(self, event)
+
+    @staticmethod
+    def KeyReleaseEvent(self, event):
+        pass
 
     def itemOnLamClicked(self, it):
         item = self.lvThesis.findItems(it.text(), QtCore.Qt.MatchExactly)
@@ -168,6 +175,7 @@ class MainWidget(QtGui.QWidget):
         self.listItemClicked = instr.listItemClicked
         self.Scheme.setInstr(instr)
         self.lvThesis.setCursor(instr.listCursor)
+        self.KeyReleaseEvent = instr.keyReleaseEvent
         for lam in self.Scheme.lams:
             lam.lvThesis.setCursor(instr.listCursor)
 
