@@ -86,7 +86,7 @@ class SchemeView(QtGui.QGraphicsView):
             return 0
         links = []
         for lnk in [self.searchThesis(it) for it in item.links]:
-            links.append(lnk.links)
+            links = links + lnk.links
         links = set(links)
         if (len(links) < 9):
             QtGui.QMessageBox.warning(self, self.tr('Mutation'),
