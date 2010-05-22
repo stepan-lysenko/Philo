@@ -504,12 +504,12 @@ class Arrows(QtGui.QGraphicsItem):
                         for end in self.dic[thesis]:
                             painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
                             if self.rmOn and (not self.flag) and (start.x() != end.x()) and (start.y() != end.y()):
-                                det0 = (self.pos.y() - start.y() + 20) / (end.y() - start.y())
-                                det0 -= (self.pos.x() - start.x() + 20) / (end.x() - start.x())
-                                det1 = (self.pos.y() - start.y() - 20) / (end.y() - start.y())
-                                det1 -= (self.pos.x() - start.x() - 20) / (end.x() - start.x())
-                                det2 = self.pos.y() - start.y() - self.pos.x() + start.x()
-                                det3 = self.pos.y() - end.y() - self.pos.x() + end.x()
+                                det0 = (self.pos.y() - start.y() + dlty + 20) / (end.y() - start.y())
+                                det0 -= (self.pos.x() - start.x() + dltx + 20) / (end.x() - start.x())
+                                det1 = (self.pos.y() - start.y() + dlty - 20) / (end.y() - start.y())
+                                det1 -= (self.pos.x() - start.x() +dltx- 20) / (end.x() - start.x())
+                                det2 = self.pos.y() - start.y() +dlty - self.pos.x() + start.x() - dltx
+                                det3 = self.pos.y() - end.y() - dlty+self.pos.x() + end.x() -dltx
 
                                 if ((det0 * det1 < 0) and (det2 * det3 < 0)):
                                     painter.setPen(QtGui.QPen(
