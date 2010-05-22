@@ -153,8 +153,8 @@ class MainWidget(QtGui.QWidget):
         self.lvThesis.editItem(thesis)
 
     def newToScheme(self, der, point, thesis):
-        if der == None:
-            if thesis == None:
+        if (der == None):
+            if (thesis == None):
                 tmp = self.AddNewThesis()
             else:
                 tmp = thesis
@@ -162,7 +162,7 @@ class MainWidget(QtGui.QWidget):
             return
         if len(der.links) >= 3:
             return
-        if thesis == None:
+        if (thesis == None):
             tmp = self.AddNewThesis()
         else:
             tmp = thesis
