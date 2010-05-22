@@ -14,7 +14,7 @@ class MainWindow(QtGui.QMainWindow):
                     QtCore.QLocale.system().language())
         self.translator.load(lang, './tr')
 
-        self.setGeometry(100, 150, 850, 550)
+        self.setGeometry(100, 150, 900, 550)
 
         self.widget = MainWidget.MainWidget()
         self.connect(self.widget.Scheme, QtCore.SIGNAL('addColorsBar()'),
@@ -63,6 +63,12 @@ class MainWindow(QtGui.QMainWindow):
         self.aNewThesis.setStatusTip(self.tr('Add new thesis'))
         self.connect(self.aNewThesis, QtCore.SIGNAL('triggered()'),
                                             self.widget.AddNewThesis)
+
+        self.aClearScheme = QtGui.QAction(QtGui.QIcon('icons/clear_scheme.png'),
+                                                self.tr('Clear scheme'), self)
+        self.aClearScheme.setStatusTip(self.tr('Clear scheme'))
+        self.connect(self.aClearScheme, QtCore.SIGNAL('triggered()'),
+                                            self.widget.Scheme.delAll)
 
         self.aNewWorkspace = QtGui.QAction(QtGui.QIcon('icons/new.png'),
                                                     self.tr('Remove all'), self)
@@ -216,6 +222,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrMutation.setActionGroup(grInstr)
 
         self.tbInstruments.addAction(self.aNewThesis)
+        self.tbInstruments.addAction(self.aClearScheme)
         for instr in grInstr.actions():
             instr.setCheckable(1)
             self.tbInstruments.addAction(instr)
@@ -276,6 +283,9 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aConfig.setText(self.tr('Configure')) 
         self.aConfig.setStatusTip(self.tr('Open configure window'))
+
+        self.aClearScheme.setText(self.tr('Clear scheme'))
+        self.aClearScheme.setStatusTip(self.tr('Clear scheme'))
 
         self.aRedColor.setText(self.tr('Red color'))
         self.aRedColor.setStatusTip(self.tr('Red color for mutation'))

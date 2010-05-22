@@ -187,8 +187,8 @@ class createLink:
         if len(items) < 2:
             self.setLink = 0
             self.emit(QtCore.SIGNAL(
-                    'createNewThesis(Thesis *, QPointF *)'),
-                                    self.curItem, self.mapToScene(self.sp))
+                    'createNewThesis(Thesis *, QPointF *, Thesis *)'),
+                                    self.curItem, self.mapToScene(self.sp), None)
             self.updateSelection()
             self.update()
             self.arrows.update()
@@ -270,8 +270,8 @@ class addToScheme:
         if len(items) < 2:
             self.setLink = 0
             self.emit(QtCore.SIGNAL(
-                    'createNewThesis(Thesis *, QPointF *)'),
-                                    None, self.mapToScene(self.sp))
+                    'createNewThesis(Thesis *, QPointF *, Thesis *)'),
+                                    None, self.mapToScene(self.sp), None)
             self.updateSelection()
             self.update()
             self.arrows.update()
@@ -723,6 +723,7 @@ class Mutation:
                 return
             self.setLink = 1
             self.mutRoot = thesis
+            self.matrix = None
             for key in self.itemsOnScheme.keys():
                 self.delThesis(key)
             self.emit(QtCore.SIGNAL('addColorsBar()'))
@@ -731,8 +732,11 @@ class Mutation:
             return
         self.setColorToMutation(thesis)
         if len(self.greenItems + self.redItems + self.yellowItems) == 9:
+            if self.matrix == None:
+                self.makeMatrix()
             self.emit(QtCore.SIGNAL('activateMutation()'))
         else:
+            self.matrix = None;
             self.emit(QtCore.SIGNAL('disactivateMutation()'))
 
     @staticmethod
@@ -750,6 +754,7 @@ class Mutation:
                 return
             self.Scheme.setLink = 1
             self.mutRoot = item
+            self.matrix = None
             for key in self.Scheme.itemsOnScheme.keys():
                 self.Scheme.delThesis(key)
             self.emit(QtCore.SIGNAL('addColorsBar()'))

@@ -71,7 +71,7 @@ class MainWidget(QtGui.QWidget):
         self.connect(self.Scheme, QtCore.SIGNAL('selectOne(Thesis *)'),
                                                     self.selectOne)
         self.connect(self.Scheme, QtCore.SIGNAL(
-                'createNewThesis(Thesis *, QPointF *)'), self.newToScheme)
+                'createNewThesis(Thesis *, QPointF *, Thesis *)'), self.newToScheme)
         self.connect(self.Scheme, QtCore.SIGNAL('editThesisName(Thesis *)'),
                                                     self.editThesisName)
         self.connect(self.Scheme, QtCore.SIGNAL('delThesis(Thesis *)'),
@@ -152,15 +152,21 @@ class MainWidget(QtGui.QWidget):
         self.lvThesis.setCurrentItem(thesis)
         self.lvThesis.editItem(thesis)
 
-    def newToScheme(self, thesis, point):
-        if thesis == None:
-            tmp = self.AddNewThesis()
+    def newToScheme(self, der, point, thesis):
+        if der == None:
+            if thesis == None:
+                tmp = self.AddNewThesis()
+            else:
+                tmp = thesis
             self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
             return
-        if len(thesis.links) >= 3:
+        if len(der.links) >= 3:
             return
-        tmp = self.AddNewThesis()
-        thesis.links.append(tmp.text())
+        if thesis == None:
+            tmp = self.AddNewThesis()
+        else:
+            tmp = thesis
+        der.links.append(tmp.text())
         self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
 
     def selectOne(self, thesis):

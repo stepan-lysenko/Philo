@@ -72,157 +72,157 @@
         <translation type="obsolete">Когнитивный Ассистент v0.3</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="265"/>
+        <location filename="MainWindow.py" line="276"/>
         <source>Quit</source>
         <translation type="unfinished">Выход</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="267"/>
+        <location filename="MainWindow.py" line="278"/>
         <source>Save As</source>
         <translation type="unfinished">Сохранить Как</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="268"/>
+        <location filename="MainWindow.py" line="279"/>
         <source>Save scheme as</source>
         <translation type="unfinished">Сохранить схему как</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="273"/>
+        <location filename="MainWindow.py" line="284"/>
         <source>Configure</source>
         <translation type="unfinished">Настройки</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="274"/>
+        <location filename="MainWindow.py" line="285"/>
         <source>Open configure window</source>
         <translation type="unfinished">Открыть окно настроек</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="285"/>
+        <location filename="MainWindow.py" line="302"/>
         <source>Save</source>
         <translation type="unfinished">Сохранить</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="286"/>
+        <location filename="MainWindow.py" line="303"/>
         <source>Save scheme</source>
         <translation type="unfinished">Сохранить схему</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="288"/>
+        <location filename="MainWindow.py" line="305"/>
         <source>Open</source>
         <translation type="unfinished">Открыть</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="289"/>
+        <location filename="MainWindow.py" line="306"/>
         <source>Select work directory</source>
         <translation type="unfinished">Выбор рабочей папки</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="291"/>
+        <location filename="MainWindow.py" line="308"/>
         <source>New thesis</source>
         <translation type="unfinished">Новое понятие</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="292"/>
+        <location filename="MainWindow.py" line="309"/>
         <source>Add new thesis</source>
         <translation type="unfinished">Создание нового понятия</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="294"/>
+        <location filename="MainWindow.py" line="311"/>
         <source>Remove thesis</source>
         <translation type="unfinished">Удалить понятие</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="295"/>
+        <location filename="MainWindow.py" line="312"/>
         <source>Remove current thesis</source>
         <translation type="unfinished">Удаление текущего понятия</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="302"/>
+        <location filename="MainWindow.py" line="319"/>
         <source>Remove all</source>
         <translation type="unfinished">Очистка базы</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="304"/>
+        <location filename="MainWindow.py" line="321"/>
         <source>Remove from scheme</source>
         <translation type="unfinished">Удаление со схемы</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="305"/>
+        <location filename="MainWindow.py" line="322"/>
         <source>Remove thesis from scheme</source>
         <translation type="unfinished">Удаление понятия со схемы</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="307"/>
+        <location filename="MainWindow.py" line="324"/>
         <source>Add to scheme</source>
         <translation type="unfinished">Добавление на схему</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="308"/>
+        <location filename="MainWindow.py" line="325"/>
         <source>Add thesis to scheme</source>
         <translation type="unfinished">Добавление понятия на схему</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="310"/>
+        <location filename="MainWindow.py" line="327"/>
         <source>Move</source>
         <translation type="unfinished">Передвинуть</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="311"/>
+        <location filename="MainWindow.py" line="328"/>
         <source>This is a hand, you can move thesis on scheme with this</source>
         <translation type="unfinished">Это рука, с её помощью вы можете передвигать предметы</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="324"/>
+        <location filename="MainWindow.py" line="341"/>
         <source>Remove</source>
         <translation type="unfinished">Удалить</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="325"/>
+        <location filename="MainWindow.py" line="342"/>
         <source>Instrument for remove thesis from scheme</source>
         <translation type="unfinished">Инструмент для удаления понятий со схемы</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="328"/>
+        <location filename="MainWindow.py" line="345"/>
         <source>Add link</source>
         <translation type="unfinished">Добавить связь</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="329"/>
+        <location filename="MainWindow.py" line="346"/>
         <source>Instrument for adding links</source>
         <translation type="unfinished">Инструмент для создания связей</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="332"/>
+        <location filename="MainWindow.py" line="349"/>
         <source>Remove link</source>
         <translation type="unfinished">Удалить связь</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="333"/>
+        <location filename="MainWindow.py" line="350"/>
         <source>Instrument for remove links</source>
         <translation type="unfinished">Инструмент для удаления связей</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="336"/>
+        <location filename="MainWindow.py" line="353"/>
         <source>Derivatives show</source>
         <translation type="unfinished">Проявить производные</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="337"/>
+        <location filename="MainWindow.py" line="354"/>
         <source>Instrument for show derivatives</source>
         <translation type="unfinished">Инструмент для проявления производных</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="340"/>
+        <location filename="MainWindow.py" line="357"/>
         <source>Antiderivatives show</source>
         <translation type="unfinished">Проявить Первообразные</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="341"/>
+        <location filename="MainWindow.py" line="358"/>
         <source>Instrument for show antiderivatives</source>
         <translation type="unfinished">Интсрумент для проявления первообразных</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="344"/>
+        <location filename="MainWindow.py" line="361"/>
         <source>&amp;File</source>
         <translation type="unfinished">&amp;Файл</translation>
     </message>
@@ -232,7 +232,7 @@
         <translation type="obsolete">&amp;Понятия</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="346"/>
+        <location filename="MainWindow.py" line="363"/>
         <source>File</source>
         <translation type="unfinished">Файл</translation>
     </message>
@@ -242,105 +242,110 @@
         <translation type="obsolete">Понятия</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="347"/>
+        <location filename="MainWindow.py" line="364"/>
         <source>Instruments</source>
         <translation type="unfinished">Инструменты</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="361"/>
+        <location filename="MainWindow.py" line="378"/>
         <source>Are you sure?</source>
         <translation type="unfinished">Вы уверены?</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="121"/>
+        <location filename="MainWindow.py" line="127"/>
         <source>Instrument for remove thesis</source>
         <translation type="unfinished">Инструмент для удаления понятий</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="297"/>
+        <location filename="MainWindow.py" line="314"/>
         <source>Convolution</source>
         <translation type="unfinished">Свёртка</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="298"/>
+        <location filename="MainWindow.py" line="315"/>
         <source>Instrument to convolution thesises</source>
         <translation type="unfinished">Инструмент для свёртки понятий</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="262"/>
+        <location filename="MainWindow.py" line="273"/>
         <source>Cognitive assistent v0.4</source>
         <translation type="unfinished">Когнитивный Ассистент v0.4</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="320"/>
+        <location filename="MainWindow.py" line="337"/>
         <source>Glue</source>
         <translation type="unfinished">Клей</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="321"/>
+        <location filename="MainWindow.py" line="338"/>
         <source>Glue has made links</source>
         <translation type="unfinished">Склейка позволяет проявлять общие первообразные</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="318"/>
+        <location filename="MainWindow.py" line="335"/>
         <source>Lamination</source>
         <translation type="unfinished">Расслоение</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="315"/>
+        <location filename="MainWindow.py" line="332"/>
         <source>Mutation</source>
         <translation type="unfinished">Мутация</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="276"/>
+        <location filename="MainWindow.py" line="290"/>
         <source>Red color</source>
         <translation type="unfinished">Красный цвет</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="277"/>
+        <location filename="MainWindow.py" line="291"/>
         <source>Red color for mutation</source>
         <translation type="unfinished">Выбор красного цвета для настройки мутации</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="279"/>
+        <location filename="MainWindow.py" line="293"/>
         <source>Green color</source>
         <translation type="unfinished">Зелёный цвет</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="280"/>
+        <location filename="MainWindow.py" line="294"/>
         <source>Green color for mutation</source>
         <translation type="unfinished">Выбор зелёного цвета для настройки мутации</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="282"/>
+        <location filename="MainWindow.py" line="296"/>
         <source>Yellow color</source>
         <translation type="unfinished">Желтый цвет</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="283"/>
+        <location filename="MainWindow.py" line="297"/>
         <source>Yellow color for mutation</source>
         <translation type="unfinished">Выбор желтого цвета для настройки мутации</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="271"/>
+        <location filename="MainWindow.py" line="282"/>
         <source>Colors</source>
         <translation type="unfinished">Цвета</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="182"/>
+        <location filename="MainWindow.py" line="300"/>
         <source>Start mutation</source>
         <translation type="unfinished">Запустить мутацию</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.py" line="288"/>
+        <source>Clear scheme</source>
+        <translation type="unfinished">Очистить схему</translation>
     </message>
 </context>
 <context>
     <name>SchemeView</name>
     <message>
-        <location filename="SchemeView.py" line="328"/>
+        <location filename="SchemeView.py" line="338"/>
         <source>Cycle</source>
         <translation type="unfinished">Цикл</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="328"/>
+        <location filename="SchemeView.py" line="338"/>
         <source>Adding this link will lead to a cycle</source>
         <translation type="unfinished">Добавление данной связи приведёт к возникновению цикла</translation>
     </message>
@@ -360,12 +365,12 @@
         <translation type="obsolete">Свёртка невозможна. Первообразное понятие имеет производные отличные от выбранных</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="72"/>
+        <location filename="SchemeView.py" line="78"/>
         <source>Mutation</source>
         <translation type="unfinished">Мутация</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="72"/>
+        <location filename="SchemeView.py" line="78"/>
         <source>This elem can not be mutate</source>
         <translation type="unfinished">Данный элемент не задаёт полный девятивершинник</translation>
     </message>

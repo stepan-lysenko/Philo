@@ -32,10 +32,29 @@ class SchemeView(QtGui.QGraphicsView):
     setLink = 0
     lams = []
     mutRoot = None
+    matrix = None
+
+    def delAll(self):
+        for key in self.itemsOnScheme.keys():
+            for view in self.itemsOnScheme[key]:
+                self.rmView(view)
+        self.scene.update()
+
+    def searchAderForMut(self, item):
+        for it in [self.searchThesis(i) for i in self.mutRoot.links]:
+            if item.text() in it.links:
+                return it
+
+    def makeMatrix():
+        self.matrix = {}
+        self.aders = {}
+        for i in self.redItems:
+            self.aders[self.redItems.index(i)] = self.searchAderForMut(i)
+        for items in self.redItems:
+            pass
 
     def activateMutation():
-        pass
-
+       pass 
     def viewNine(self, item):
         coords_lnk = [[0, -70], [100, 50], [-100, 50]]
         coords = []
@@ -66,7 +85,7 @@ class SchemeView(QtGui.QGraphicsView):
             return 0
         links = []
         for lnk in [self.searchThesis(it) for it in item.links]:
-            links += lnk.links
+            links.append(lnk.links)
         links = set(links)
         if (len(links) < 9):
             QtGui.QMessageBox.warning(self, self.tr('Mutation'),
@@ -284,6 +303,7 @@ class SchemeView(QtGui.QGraphicsView):
 
     def setInstr(self, instr):
         self.selItems = []
+        self.delAllGags()
         self.arrows.rmOn = 0
         self.setLink = 0
         self.updateSelection()
@@ -595,7 +615,7 @@ class ThesisView(QtGui.QGraphicsTextItem):
         if len < 16:
             self.setPlainText(text)
         else:
-            self.setPlainText(text.remove(13, len - 13 + QtCore.QString(u'...'))) 
+            self.setPlainText(text.remove(13, len - 13) + QtCore.QString(u'...'))
 
     def setColor(self, color):
         self.color = color
