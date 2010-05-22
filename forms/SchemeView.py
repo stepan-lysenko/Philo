@@ -49,9 +49,10 @@ class SchemeView(QtGui.QGraphicsView):
         self.matrix = {}
         self.aders = {}
         for i in self.redItems:
-            self.aders[self.redItems.index(i)] = self.searchAderForMut(i)
+            self.aders[self.searchAderForMut(i)] = self.redItems.index(i)
         for items in self.redItems:
-            pass
+            self.matrix[str(self.aders[self.searchAderForMut(i)])]
+            
 
     def activateMutation():
        pass 
