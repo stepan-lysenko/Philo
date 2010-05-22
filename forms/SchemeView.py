@@ -605,8 +605,8 @@ class ThesisView(QtGui.QGraphicsTextItem):
         self.setDefaultTextColor(QtCore.Qt.black)
         self.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         self.setTextWidth(120)
-        self.setX(0)
-        self.setY(0)
+#        self.setX(0)
+#        self.setY(0)
         self.setZValue(100000)
 
     def setText(self, text):
