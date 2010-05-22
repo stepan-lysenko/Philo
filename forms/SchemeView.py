@@ -613,10 +613,10 @@ class ThesisView(QtGui.QGraphicsTextItem):
     def setText(self, text):
         self.setToolTip(text)
         len = text.length()
-        if len < 16:
+        if len < 13:
             self.setPlainText(text)
         else:
-            self.setPlainText(text.remove(13, len - 13) + QtCore.QString(u'...'))
+            self.setPlainText(text.remove(10, len - 10) + QtCore.QString(u'...'))
 
     def setColor(self, color):
         self.color = color

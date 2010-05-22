@@ -688,7 +688,7 @@ class Lamination:
         for i in self.Scheme.selItems:
             self.Scheme.setColorOfThesis(i, QtCore.Qt.yellow)
 
-        if len(self.Scheme.selItems) >= 3:
+        if (len(self.Scheme.selItems) >= 3) or (QtCore.Qt.ControlModifier != QtGui.QApplication.keyboardModifiers()): 
             self.Scheme.lamination()
             self.Scheme.selItems = []
             self.Scheme.updateSelection()
