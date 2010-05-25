@@ -394,6 +394,7 @@ class SchemeView(QtGui.QGraphicsView):
             for item in self.itemsOnScheme[thesis]:
                 self.rmView(item)
             self.scene.update()
+        self.itemsOnScheme.pop(thesis)
 
     def clear(self):
         self.scene.clear()
@@ -431,13 +432,14 @@ class SchemeView(QtGui.QGraphicsView):
         print 1234
 
     def delAllGags(self):
-        for key in self.itemsOnScheme.keys():
-            for view in self.itemsOnScheme[key]:
-                if (view.textInteractionFlags() == QtCore.Qt.TextEditable):
-                    for v in self.itemsOnScheme[key]:
-                        self.rmView(v)
-                    self.itemsOnScheme.pop(key)
-                    break
+        pass
+#        for key in self.itemsOnScheme.keys():
+#            for view in self.itemsOnScheme[key]:
+#                if (view.textInteractionFlags() == QtCore.Qt.TextEditable):
+#                    for v in self.itemsOnScheme[key]:
+#                        self.rmView(v)
+#                    self.itemsOnScheme.pop(key)
+#                    break
             
 
     def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None, setCenter = 1):
@@ -498,8 +500,8 @@ class Arrows(QtGui.QGraphicsItem):
                 thesis = self.searchThesis(link)
                 if thesis != 0:
                     for start in self.dic[key]:
-                        dltx = -50
-                        dlty = -13
+                        dltx = 0#-50
+                        dlty = 0#-13
                         StartPoint = QtCore.QPointF(start.x() - dltx, start.y() - dlty)
                         for end in self.dic[thesis]:
                             painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
@@ -590,7 +592,46 @@ class Arrows(QtGui.QGraphicsItem):
     def boundingRect(self):
         return QtCore.QRectF(-1000, -1000, 2000, 2000)
 
-class ThesisView(QtGui.QGraphicsTextItem):
+class ThesisView(QtGui.QGraphicsItem):
+
+    form = QtCore.QRectF(-65, -20, 130, 40)
+
+    def __init__(self, item = QtGui.QListWidgetItem(),
+                                    color = QtCore.Qt.white):
+        QtGui.QGraphicsItem.__init__(self)
+        self.color = color
+        self.item = item
+        self.setZValue(100000)
+
+    def setText(self, text):
+        pass
+
+    def setColor(self, color):
+        self.color = color
+        self.update()
+
+    def paint(self, painter, option, widget):
+        painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
+        painter.setBrush(QtGui.QBrush(self.color))
+        painter.drawRect(self.form)
+        font = painter.font()
+        font.setPixelSize(13)
+        painter.setFont(font)
+        text = self.item.text()
+        len = text.length()
+        if len < 16:
+            painter.drawText(self.form,
+                            QtCore.Qt.AlignCenter, text)
+        else:
+            painter.drawText(self.form, QtCore.Qt.AlignCenter,
+                text.remove(13, len - 13) + QtCore.QString(u'...'))
+        self.setToolTip(self.item.text())
+
+    def boundingRect(self):
+        x, y, w, h = self.form.getRect()
+        return QtCore.QRectF(x - 0.5, y - 0.5, w + 1, h + 1)
+
+class Gag(QtGui.QGraphicsTextItem):
 
     form = QtCore.QRectF(-15, -7, 130, 40)
 

@@ -531,9 +531,8 @@ class delThesis:
     def listItemClicked(self, item):
         self.Scheme.delThesis(item)
         for thesis in self.lvThesis.findItems('', QtCore.Qt.MatchContains):
-            for link in thesis.links:
-                if link == item.text():
-                    thesis.links.pop(thesis.links.index(link))
+            if item.text() in thesis.links:
+                thesis.links.pop(thesis.links.index(item.text()))
         self.lvThesis.takeItem(self.lvThesis.row(item))
         for lam in self.Scheme.lams:
             if item.text() in [i.text() for i in lam.labels]:

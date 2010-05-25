@@ -160,7 +160,7 @@ class MainWidget(QtGui.QWidget):
                 tmp = thesis
             self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
             return
-        if len(der.links) >= 3:
+        if (len(der.links) >= 3):
             return
         if (thesis == None):
             tmp = self.AddNewThesis()
@@ -168,6 +168,8 @@ class MainWidget(QtGui.QWidget):
             tmp = thesis
         der.links.append(tmp.text())
         self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
+        self.Scheme.arrows.updateDic(self.Scheme.itemsOnScheme)
+        self.Scheme.arrows.update()
 
     def selectOne(self, thesis):
         self.lvThesis.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
@@ -320,6 +322,9 @@ class MainWidget(QtGui.QWidget):
         self.desc = QtCore.QString()
         self.curItemText = QtCore.QString()
         self.Scheme.clear()
+        for lam in self.Scheme.lams:
+            lam.close()
+        self.Scheme.lams = []
 
     def DelCurrentThesis(self):
         i = self.lvThesis.currentRow()

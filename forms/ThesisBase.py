@@ -101,7 +101,7 @@ class Thesis(QListWidgetItem):
     def loadLinks(self, path):
         return
 
-    def saveDesc(self, path, force=0):
+    def saveDesc(self, path, force=1):
         if (force == 1) | (self.DescChanged == 1):
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             file = open(path + '/' + str(self.hash[:2]) + '/' +
@@ -110,7 +110,7 @@ class Thesis(QListWidgetItem):
             file.close()
             self.DescChanged = 0
 
-    def saveLinks(self, path, force=0):
+    def saveLinks(self, path, force=1):
         if (force == 1) | (self.LinksChanged == 1):
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             f = open(path + '/' + str(self.hash[:2]) + '/' +
@@ -120,7 +120,7 @@ class Thesis(QListWidgetItem):
             f.close()
             self.ListChanged = 0
 
-    def saveThesis(self, path, force=0):
+    def saveThesis(self, path, force=1):
         if (force == 0) & (self.DescChanged == 0):
             return
         self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
