@@ -248,9 +248,9 @@ class MainWidget(QtGui.QWidget):
 					self.tr('List empty.'))
             return
         if self.path == '':
-            path = str(QtGui.QFileDialog.getExistingDirectory(self,
+            path = QtGui.QFileDialog.getExistingDirectory(self,
                                     self.tr('Select directory'), './',
-                                QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+                                        QtGui.QFileDialog.ShowDirsOnly)
             if path == '':
                 return
             for Bill, SubDirs, Bob in os.walk(path):
@@ -275,16 +275,16 @@ class MainWidget(QtGui.QWidget):
             QtGui.QMessageBox.warning(self, self.tr('Save'),
 					self.tr('Empty list'))
             return
-        path = str(QtGui.QFileDialog.getExistingDirectory(self,
+        path = QtGui.QFileDialog.getExistingDirectory(self,
 			            			u"Сохранить Как", './',
-            				QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+            				QtGui.QFileDialog.ShowDirsOnly)
         if path == '':
             return
         self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(path, 1)
         self.path = path
-        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
+        ThesisBase.saveScheme(self.Scheme, self.path + QtCore.QString('/scheme.sch'))
 
     def addToScheme(self):
         i = self.lvThesis.currentRow()
@@ -305,8 +305,8 @@ class MainWidget(QtGui.QWidget):
                                 QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
             if reply == QtGui.QMessageBox.No:
                 return
-        path = str(QtGui.QFileDialog.getExistingDirectory(self, self.tr("Open"),
-                            './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+        path = QtGui.QFileDialog.getExistingDirectory(self, self.tr("Open"),
+                            './', QtGui.QFileDialog.ShowDirsOnly)
         if path == '':
             return
         self.NewWorkspace()

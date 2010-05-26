@@ -3,11 +3,11 @@
 import os, sys, string, hashlib
 from PyQt4.QtGui import QListWidgetItem
 from PyQt4.QtGui import QListWidget
-from PyQt4.QtCore import Qt, QString
+from PyQt4 import QtCore
 from SchemeView import SchemeView
 
 def saveScheme(scheme, path):
-    f = open(path, 'w')
+    f = open(str(path.toUtf8()), 'w')
     for key in scheme.itemsOnScheme.keys():
         for item in scheme.itemsOnScheme[key]:
             f.write(str(key.text().toUtf8()) + '  ' +
@@ -16,9 +16,9 @@ def saveScheme(scheme, path):
 
 def loadScheme(path, list, scheme):
     scheme.clear()
-    if not os.path.exists(path):
+    f = open(str(path.toUtf8()), 'r')
+    if (not f):
         return
-    f = open(path, 'r')
     for line in f.readlines():
         tmp = line.split()
         y = float(tmp.pop())
@@ -27,11 +27,11 @@ def loadScheme(path, list, scheme):
         for s in tmp:
             name += ' ' + s
         name = name[1:]
-        item = SearchInList(list, QString(unicode(name, 'UTF8')))
+        item = SearchInList(list, QtCore.QString(unicode(name, 'UTF8')))
         if item != 0:
             scheme.addThesis(item, x = x, y = y)
 
-    l = list.findItems('', Qt.MatchContains)
+    l = list.findItems('', QtCore.Qt.MatchContains)
     for i in l:
         if not scheme.itemsOnScheme.has_key(i):
             scheme.itemsOnScheme[i] = []
@@ -39,7 +39,7 @@ def loadScheme(path, list, scheme):
     
    
 def SearchInList(list, name):
-    n = QString(name)
+    n = QtCore.QString(name)
     for i in xrange(list.count()):
         if n == list.item(i).text():
             return list.item(i)
@@ -49,17 +49,17 @@ def SearchInList(list, name):
 
 def loadThesisesToList(QListWidget, path):
     ListDir = []
-    for Bill, ListDir, Bob in os.walk(path):
+    for Bill, ListDir, Bob in os.walk(str(path.toUtf8())):
         break
     for dir in ListDir:
         SubDirs = []
-        for Bill, SubDirs, Bob in os.walk(path + '/' + dir):
+        for Bill, SubDirs, Bob in os.walk(str(path.toUtf8()) + '/' + dir):
             break
         for sdir in SubDirs:
-            QListWidget.addItem(Thesis(path = path + '/' + dir + '/' + sdir))
+            QListWidget.addItem(Thesis(path = path + QtCore.QString('/') + QtCore.QString(dir) + QtCore.QString('/') + QtCore.QString(sdir)))
 
 class Thesis(QListWidgetItem):
-    def __init__(self, name='', desc=QString(), path=''):
+    def __init__(self, name='', desc=QtCore.QString(), path=''):
         if path == '':
             QListWidgetItem.__init__(self, name)
             self.desc = desc
@@ -68,16 +68,16 @@ class Thesis(QListWidgetItem):
             self.DescChanged = 1
             self.LinksChanged = 1
         if path != '':
-            self.desc = QString()
-            f = open(path + '/name.txt', 'r')
+            self.desc = QtCore.QString()
+            f = open(str(path.toUtf8()) + '/name.txt', 'r')
             QListWidgetItem.__init__(self, unicode(f.readline(), 'UTF8'))
             f.close()
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             self.DescChanged = 0
-            self.setFlags(Qt.ItemIsEditable | Qt.ItemIsSelectable
-                                                | Qt.ItemIsEnabled)
-            f = open(path + '/links.txt', 'r')
-            self.links = [QString(unicode(l[:len(l) - 1], 'UTF8')) for l in f.readlines()]
+            self.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
+                                                | QtCore.Qt.ItemIsEnabled)
+            f = open(str(path.toUtf8()) + '/links.txt', 'r')
+            self.links = [QtCore.QString(unicode(l[:len(l) - 1], 'UTF8')) for l in f.readlines()]
             f.close()
             self.LinksChanged = 0
 
@@ -88,7 +88,7 @@ class Thesis(QListWidgetItem):
     def getDesc(self, path):
         if self.DescChanged == 0:
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
-            file = open(path + '/' + self.hash[:2] + '/' + self.hash[2:] +
+            file = open(str(path.toUtf8()) + '/' + self.hash[:2] + '/' + self.hash[2:] +
                                                         '/desc.txt', 'r')
             desc = ''
             for line in file.readlines():
@@ -125,14 +125,20 @@ class Thesis(QListWidgetItem):
             return
         self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
         if not os.path.exists(path + '/' + str(self.hash[:2])):
-            os.makedirs(path + '/' + str(self.hash[:2]))
+#            os.makedirs(path + '/' + str(self.hash[:2]))
+            dr = QtCore.QDir(path)
+            dr.mkdir(str(self.hash[:2]))
         if not os.path.exists(path + '/' + str(self.hash[:2]) + '/' +
                                                     str(self.hash[2:])):
-            os.makedirs(path + '/' + str(self.hash[:2]) + '/' +
-                                                    str(self.hash[2:]))
-        self.saveDesc(path, force)
-        f = open(path + '/' + self.hash[:2] + '/' + self.hash[2:] + '/' +
+            dr = QtCore.QDir(path)
+            dr.mkdir(str(self.hash[:2]))
+            dr.cd(str(self.hash[:2]))
+            dr.mkdir(str(self.hash[2:]))
+#           os.makedirs(path + '/' + str(self.hash[:2]) + '/' +
+#                                                   str(self.hash[2:]))
+        self.saveDesc(str(path.toUtf8()), force)
+        f = open(str(path.toUtf8()) + '/' + self.hash[:2] + '/' + self.hash[2:] + '/' +
                                                             'name.txt', 'w')
         f.write(str(self.text().toUtf8()))      
         f.close()
-        self.saveLinks(path, force)
+        self.saveLinks(str(path.toUtf8()), force)
