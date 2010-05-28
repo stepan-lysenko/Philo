@@ -35,6 +35,8 @@ def loadScheme(path, list, scheme):
     for i in l:
         if not scheme.itemsOnScheme.has_key(i):
             scheme.itemsOnScheme[i] = []
+
+    f.close()
             
     
    

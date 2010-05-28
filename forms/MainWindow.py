@@ -78,8 +78,8 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aDelFromScheme = QtGui.QAction(QtGui.QIcon(
                 'icons/del_all_from_scheme.png'), self.tr(
-                                        'Remove from scheme'), self)
-        self.aDelFromScheme.setStatusTip(self.tr('Remove thesis from scheme'))
+                                        'Remove all from scheme'), self)
+        self.aDelFromScheme.setStatusTip(self.tr('Remove all thesis from scheme'))
         self.connect(self.aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         self.widget.delFromScheme)
 
@@ -129,7 +129,7 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(self.aInstrDelThesis, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrRm = QtGui.QAction(QtGui.QIcon(
-                'icons/del_from_scheme.png'), self.tr('Remove'), self)
+                'icons/del_from_scheme.png'), self.tr('Remove from scheme'), self)
         self.aInstrRm.setStatusTip(
                             self.tr('Instrument for remove thesis from scheme'))
         self.aInstrRm.setShortcut('Ctrl+D')
@@ -206,29 +206,69 @@ class MainWindow(QtGui.QMainWindow):
         self.tbWorkspace.addAction(self.aSaveAs)
         self.tbWorkspace.addAction(self.aConfig)
 
-        self.tbInstruments = self.addToolBar(self.tr('Instruments'))
+        self.tbInstruments = self.addToolBar(self.tr('Base instruments'))
+
         grInstr = QtGui.QActionGroup(self.tbInstruments)
         self.aInstrAddToScheme.setActionGroup(grInstr)
-        self.aInstrMove.setActionGroup(grInstr)
         self.aInstrDelThesis.setActionGroup(grInstr)
-        self.aInstrRm.setActionGroup(grInstr)
         self.aInstrLink.setActionGroup(grInstr)
         self.aInstrRmLink.setActionGroup(grInstr)
-        self.aInstrAddADer.setActionGroup(grInstr)
-        self.aInstrAddDer.setActionGroup(grInstr)
         self.aInstrConvolution.setActionGroup(grInstr)
-        self.aInstrGlue.setActionGroup(grInstr)
-        self.aInstrLamination.setActionGroup(grInstr)
         self.aInstrMutation.setActionGroup(grInstr)
 
+        self.aInstrMove.setActionGroup(grInstr)
+        self.aInstrRm.setActionGroup(grInstr)
+        self.aInstrAddADer.setActionGroup(grInstr)
+        self.aInstrAddDer.setActionGroup(grInstr)
+        self.aInstrGlue.setActionGroup(grInstr)
+        self.aInstrLamination.setActionGroup(grInstr)
+
         self.tbInstruments.addAction(self.aNewThesis)
-        self.tbInstruments.addAction(self.aClearScheme)
+        self.tbInstruments.addAction(self.aInstrAddToScheme)
+        self.tbInstruments.addAction(self.aInstrDelThesis)
+        self.tbInstruments.addAction(self.aInstrLink)
+        self.tbInstruments.addAction(self.aInstrRmLink)
+        self.tbInstruments.addAction(self.aInstrConvolution)
+        self.tbInstruments.addAction(self.aInstrMutation)
+
+        self.tbVisioInstr = self.addToolBar(self.tr('Visualisation instruments'))
+        self.tbVisioInstr.addAction(self.aInstrMove)
+        self.tbVisioInstr.addAction(self.aInstrRm)
+        self.tbVisioInstr.addAction(self.aInstrAddADer)
+        self.tbVisioInstr.addAction(self.aInstrAddDer)
+        self.tbVisioInstr.addAction(self.aInstrGlue)
+        self.tbVisioInstr.addAction(self.aInstrLamination)
+        self.tbVisioInstr.addAction(self.aClearScheme)
+
+        self.mbBaseInstr = MenuBar.addMenu(self.tr('&Base'))
+        self.mbVisioInstr = MenuBar.addMenu(self.tr('&Visualisation'))
+
+        self.mbBaseInstr.addAction(self.aNewThesis)
+        self.mbBaseInstr.addAction(self.aInstrAddToScheme)
+        self.mbBaseInstr.addAction(self.aInstrDelThesis)
+        self.mbBaseInstr.addAction(self.aInstrLink)
+        self.mbBaseInstr.addAction(self.aInstrRmLink)
+        self.mbBaseInstr.addAction(self.aInstrConvolution)
+        self.mbBaseInstr.addAction(self.aInstrMutation)
+
+        self.mbVisioInstr.addAction(self.aInstrMove)
+        self.mbVisioInstr.addAction(self.aInstrRm)
+        self.mbVisioInstr.addAction(self.aInstrAddADer)
+        self.mbVisioInstr.addAction(self.aInstrAddDer)
+        self.mbVisioInstr.addAction(self.aInstrGlue)
+        self.mbVisioInstr.addAction(self.aInstrLamination)
+        self.mbVisioInstr.addAction(self.aClearScheme)
+
+
+
+
         for instr in grInstr.actions():
             instr.setCheckable(1)
-            self.tbInstruments.addAction(instr)
+
         grInstr.setExclusive(1)
         self.aInstrMove.setChecked(1)
         self.tbColors = None
+
 #       self.statusBar()
 
         self.cfgDialog = ConfigDialog.cfgDialog(self)
@@ -338,7 +378,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrGlue.setStatusTip(self.tr('Glue has made links'))
 
 
-        self.aInstrRm.setText(self.tr('Remove'))
+        self.aInstrRm.setText(self.tr('Remove from scheme'))
         self.aInstrRm.setStatusTip(
                             self.tr('Instrument for remove thesis from scheme')) 
 
@@ -359,9 +399,12 @@ class MainWindow(QtGui.QMainWindow):
                             self.tr('Instrument for show antiderivatives'))
 
         self.mbFile.setTitle(self.tr('&File'))
+        self.mbBaseInstr.setTitle(self.tr('&Base'))
+        self.mbVisioInstr.setTitle(self.tr('&Visualisation'))
 
         self.tbWorkspace.setWindowTitle(self.tr('File'))
-        self.tbInstruments.setWindowTitle(self.tr('Instruments'))
+        self.tbInstruments.setWindowTitle(self.tr('Base instruments'))
+        self.tbVisioInstr.setWindowTitle(self.tr('Visualisation instruments')) 
 
         self.widget.retranslateUi()
         self.cfgDialog.retranslateUi()
