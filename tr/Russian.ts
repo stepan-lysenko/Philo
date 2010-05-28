@@ -381,16 +381,21 @@
         <source>Zoom Out</source>
         <translation type="unfinished">Уменьшить</translation>
     </message>
+    <message>
+        <location filename="MainWindow.py" line="441"/>
+        <source>Quit?</source>
+        <translation type="unfinished">Вы действительно хотите выйти?</translation>
+    </message>
 </context>
 <context>
     <name>SchemeView</name>
     <message>
-        <location filename="SchemeView.py" line="467"/>
+        <location filename="SchemeView.py" line="466"/>
         <source>Cycle</source>
         <translation type="unfinished">Цикл</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="467"/>
+        <location filename="SchemeView.py" line="466"/>
         <source>Adding this link will lead to a cycle</source>
         <translation type="unfinished">Добавление данной связи приведёт к возникновению цикла</translation>
     </message>
@@ -410,22 +415,22 @@
         <translation type="obsolete">Свёртка невозможна. Первообразное понятие имеет производные отличные от выбранных</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="202"/>
+        <location filename="SchemeView.py" line="197"/>
         <source>Mutation</source>
         <translation type="unfinished">Мутация</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="202"/>
+        <location filename="SchemeView.py" line="197"/>
         <source>This elem can not be mutate</source>
         <translation type="unfinished">Данный элемент не задаёт полный девятивершинник</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="574"/>
+        <location filename="SchemeView.py" line="573"/>
         <source>Gag</source>
         <translation type="unfinished">Заглушка</translation>
     </message>
     <message>
-        <location filename="SchemeView.py" line="574"/>
+        <location filename="SchemeView.py" line="573"/>
         <source>Item with current name have been exist.</source>
         <translation type="unfinished">Понятие с таким именем присутствует в базе.</translation>
     </message>

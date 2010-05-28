@@ -439,9 +439,10 @@ class MainWindow(QtGui.QMainWindow):
         
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, self.tr('Are you sure?'),
-		u"Вы действительно хотите выйти?", QtGui.QMessageBox.Yes, 
+		self.tr("Quit?"), QtGui.QMessageBox.Yes, 
                                                     QtGui.QMessageBox.No)
         if reply == QtGui.QMessageBox.Yes:
+            self.widget.NewWorkspace()
             event.accept()
         else:
             event.ignore()
