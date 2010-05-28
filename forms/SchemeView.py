@@ -331,7 +331,7 @@ class SchemeView(QtGui.QGraphicsView):
         return res
         
                 
-    def mouseDoubleClickEvent(self, event):
+    def MmouseDoubleClickEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
            event.ignore()
            return
@@ -343,8 +343,7 @@ class SchemeView(QtGui.QGraphicsView):
         
         self.cur = items[1]
         if (self.cur.textInteractionFlags() == QtCore.Qt.TextEditable):
-            super(SchemeView, self).mouseDoubleClickEvent(event)
-            return
+            return super(SchemeView, self).mouseDoubleClickEvent(event)
         thesis = self.searchByView(self.cur)
         self.emit(QtCore.SIGNAL('editThesisName(Thesis *)'), thesis)
         

@@ -60,6 +60,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aNewThesis = QtGui.QAction(QtGui.QIcon('icons/new_thesis.png'),
                                                 self.tr('New thesis'), self)
+        self.aNewThesis.setShortcut('Ctrl+N')
         self.aNewThesis.setStatusTip(self.tr('Add new thesis'))
         self.connect(self.aNewThesis, QtCore.SIGNAL('triggered()'),
                                             self.widget.AddNewThesis)
@@ -85,12 +86,14 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aZoomIn = QtGui.QAction(QtGui.QIcon(
                     'icons/zoom_in.png'), self.tr('Zoom In'), self)
+        self.aZoomIn.setShortcut('Ctrl++')
         self.aZoomIn.setStatusTip(self.tr('Zoom In'))
         self.connect(self.aZoomIn, QtCore.SIGNAL('triggered()'),
                                                 self.widget.Scheme.zoomIn)
 
         self.aZoomOut = QtGui.QAction(QtGui.QIcon(
                     'icons/zoom_out.png'), self.tr('Zoom Out'), self)
+        self.aZoomOut.setShortcut('Ctrl+-')
         self.aZoomOut.setStatusTip(self.tr('Zoom Out'))
         self.connect(self.aZoomOut, QtCore.SIGNAL('triggered()'),
                                                 self.widget.Scheme.zoomOut)
@@ -105,18 +108,21 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aInstrGlue = QtGui.QAction(QtGui.QIcon(
                     'icons/glue.png'), self.tr('Glue'), self)
+        self.aInstrGlue.setShortcut('Ctrl+G')
         self.aInstrGlue.setStatusTip(self.tr('Glue has made links'))
         reg = lambda: self.setInstr(Instruments.Glue)
         self.connect(self.aInstrGlue, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrMutation = QtGui.QAction(QtGui.QIcon(
                     'icons/mutation.png'), self.tr('Mutation'), self)
+        self.aInstrMutation.setShortcut('Ctrl+U')
         self.aInstrMutation.setStatusTip(self.tr('Mutation'))
         reg = lambda: self.setMutation(Instruments.Mutation)
         self.connect(self.aInstrMutation, QtCore.SIGNAL('triggered()'), reg)
 
         self.aInstrLamination = QtGui.QAction(QtGui.QIcon(
                     'icons/lamination.png'), self.tr('Lamination'), self)
+        self.aInstrLamination.setShortcut('Ctrl+Shift+L')
         self.aInstrLamination.setStatusTip(self.tr('Lamination'))
         reg = lambda: self.setInstr(Instruments.Lamination)
         self.connect(self.aInstrLamination, QtCore.SIGNAL('triggered()'), reg)
@@ -138,6 +144,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrDelThesis = QtGui.QAction(QtGui.QIcon('icons/del_thesis.png'),
                                                 self.tr('Remove thesis'), self) 
         self.aInstrDelThesis.setStatusTip(self.tr('Instrument for remove thesis'))
+        self.aInstrDelThesis.setShortcut('Ctrl+Shift+D')
         reg = lambda: self.setInstr(Instruments.delThesis)
         self.connect(self.aInstrDelThesis, QtCore.SIGNAL('triggered()'), reg)
 
