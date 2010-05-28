@@ -84,6 +84,7 @@ class MainWidget(QtGui.QWidget):
                                                     self.itemOnLamClicked)
         self.connect(self.Scheme, QtCore.SIGNAL('renameOnScheme(QString *, QListWidgetItem *)'),
                                                     self.rename)
+        self.connect(self.Scheme, QtCore.SIGNAL('addItemToList(item, x, y)'), self.addItemToList)
 
         Box = QtGui.QHBoxLayout(self)
 
@@ -109,6 +110,14 @@ class MainWidget(QtGui.QWidget):
 
         self.conMenu.addAction(self.aSort1)
         self.conMenu.addAction(self.aSort2)
+
+    def addItemToList(self, item, x, y):
+        tmp = ThesisBase.Thesis(item.text())
+        tmp.links = item.links
+        tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
+                                                    | QtCore.Qt.ItemIsEnabled)
+        self.lvThesis.addItem(tmp)
+        self.Scheme.addThesis(tmp, x=x, y=y)
 
     def keyReleaseEvent(self, event):
         self.KeyReleaseEvent(self, event)

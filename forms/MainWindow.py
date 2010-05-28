@@ -186,7 +186,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aDoneMut = QtGui.QAction(QtGui.QIcon(
                 'icons/start_mutation.png'), self.tr('Start mutation'), self)
         self.aDoneMut.setStatusTip(self.tr('Start mutation'))
-        self.connect(self.aDoneMut, QtCore.SIGNAL('triggered'),
+        self.connect(self.aDoneMut, QtCore.SIGNAL('triggered()'),
                                     self.widget.Scheme.activateMutation)
         self.aDoneMut.setEnabled(0)
             

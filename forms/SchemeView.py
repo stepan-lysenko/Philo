@@ -54,8 +54,8 @@ class SchemeView(QtGui.QGraphicsView):
 #            self.matrix[str(self.aders[self.searchAderForMut(i)])]
             
 
-    def activateMutation():
-       pass 
+    def activateMutation(self):
+        self.newGag(self.mutRoot.links)
 
     def viewNine(self, item):
         coords_lnk = [[0, -70], [100, 50], [-100, 50]]
@@ -409,14 +409,39 @@ class SchemeView(QtGui.QGraphicsView):
                 item.setColor(color)
         self.update()
 
-    def newGag(self, links, color = QtCore.Qt.white, x = None, y = None):
+    def SearchName(self, name):
+        n = QtCore.QString(name)
+        for i in self.itemsOnScheme.keys():
+            if i.text() == name:
+                return 1
+        return 0
+
+
+    def newGag(self, links, parent = None, color = QtCore.Qt.white, x = None, y = None):
+        name = QtCore.QString('Gag')
+        tmp = u''
+        i = 0
+        while self.SearchName(name + tmp) == 1:
+            i += 1
+            if i < 10:
+                tmp = unicode(str(0) + str(i), 'UTF8')
+            else:
+                tmp = unicode(str(i), 'UTF8')
+        if 0 < i < 10:
+            name += unicode(str(0) + str(i), 'UTF8')
+        elif i >= 10:
+            name += unicode(str(i), 'UTF8')
+
+        tmp = ThesisBase.Thesis(name = name)
+        tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
+                                                    | QtCore.Qt.ItemIsEnabled)
         tmp = ThesisBase.Thesis()
         self.itemsOnScheme[tmp] = []
         tmp.links = links
-        item = ThesisView(tmp, color)
+        item = Gag(tmp, color)
+        self.connect(item, QtCore.SIGNAL('renameGag(Gag *)'), self.renameGag)
         item.setText(QtCore.QString('???'))
         item.setTextInteractionFlags(QtCore.Qt.TextEditable)
-        self.connect(item, QtCore.SIGNAL('contentsChanged()'), self.gagChanged)
         self.itemsOnScheme[tmp].append(item)
         item.setZValue(10000)
         if (x == None) | (y == None):
@@ -428,19 +453,35 @@ class SchemeView(QtGui.QGraphicsView):
         self.scene.addItem(item)
         self.arrows.updateDic(self.itemsOnScheme)
         self.resort()
+        if ((parent != None) and (len(parent.links()) < 3)):
+            parent.links.append(tmp.text())
 
-    def gagChanged(self):
-        print 1234
+    def renameGag(self, gag):
+        for item in self.itemsOnScheme.keys():
+            if (gag.toPlainText() == item.text()):
+                QtGui.QMessageBox.warning(self, self.tr('Gag'),
+                        self.tr('Item with current name have been exist.'))
+                return
+        for item in self.itemsOnScheme.keys():
+            if gag in self.itemsOnScheme[item]:
+                break
+        item.setText(gag.toPlainText())
+        self.emit(QtCore.SIGNAL('addItemToList(item, x, y)'), item, gag.x(), gag.y())
+        self.rmView(gag)
+        self.itemsOnScheme.pop(item)
+                
+
+                
 
     def delAllGags(self):
         pass
-#        for key in self.itemsOnScheme.keys():
-#            for view in self.itemsOnScheme[key]:
-#                if (view.textInteractionFlags() == QtCore.Qt.TextEditable):
-#                    for v in self.itemsOnScheme[key]:
-#                        self.rmView(v)
-#                    self.itemsOnScheme.pop(key)
-#                    break
+        for key in self.itemsOnScheme.keys():
+            for view in self.itemsOnScheme[key]:
+                if (view.textInteractionFlags() == QtCore.Qt.TextEditable):
+                    for v in self.itemsOnScheme[key]:
+                        self.rmView(v)
+                    self.itemsOnScheme.pop(key)
+                    break
             
 
     def addThesis(self, thesis, color = QtCore.Qt.white, x = None, y = None, setCenter = 1):
@@ -604,6 +645,9 @@ class ThesisView(QtGui.QGraphicsItem):
         self.item = item
         self.setZValue(100000)
 
+    def textInteractionFlags(self):
+        return 121
+
     def setText(self, text):
         pass
 
@@ -668,8 +712,14 @@ class Gag(QtGui.QGraphicsTextItem):
         painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
         painter.setBrush(QtGui.QBrush(self.color))
         painter.drawRect(self.form)
-        super(ThesisView, self).paint(painter, option, widget)
+        super(Gag, self).paint(painter, option, widget)
 
     def boundingRect(self):
         x, y, w, h = self.form.getRect()
         return QtCore.QRectF(x - 0.5, y - 0.5, w + 1, h + 1)
+
+    def keyPressEvent(self, e):
+        if e.key() == 16777220:
+            self.emit(QtCore.SIGNAL('renameGag(Gag *)'), self)
+            return
+        return super(Gag, self).keyPressEvent(e)
