@@ -56,6 +56,7 @@ class SchemeView(QtGui.QGraphicsView):
 
     def activateMutation():
        pass 
+
     def viewNine(self, item):
         coords_lnk = [[0, -70], [100, 50], [-100, 50]]
         coords = []

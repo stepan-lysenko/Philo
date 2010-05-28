@@ -72,7 +72,7 @@ class Thesis(QListWidgetItem):
         if path != '':
             self.desc = QString()
             f = open(path + '/name.txt', 'r')
-            QListWidgetItem.__init__(self, unicode(f.readline(), 'UTF8'))
+            QListWidgetItem.__init__(self, QString(unicode(f.readline(), 'UTF8')))
             f.close()
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             self.DescChanged = 0

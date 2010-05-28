@@ -723,8 +723,9 @@ class Mutation:
             self.setLink = 1
             self.mutRoot = thesis
             self.matrix = None
-            for key in self.itemsOnScheme.keys():
-                self.delThesis(key)
+
+            self.delAll()
+
             self.emit(QtCore.SIGNAL('addColorsBar()'))
             self.setColor(QtCore.Qt.red)
             self.viewNine(thesis)
