@@ -232,7 +232,7 @@
         <translation type="obsolete">&amp;Понятия</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="403"/>
+        <location filename="MainWindow.py" line="405"/>
         <source>File</source>
         <translation type="unfinished">Файл</translation>
     </message>
@@ -244,10 +244,10 @@
     <message>
         <location filename="MainWindow.py" line="404"/>
         <source>Instruments</source>
-        <translation type="unfinished">Инструменты</translation>
+        <translation type="obsolete">Инструменты</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="418"/>
+        <location filename="MainWindow.py" line="421"/>
         <source>Are you sure?</source>
         <translation type="unfinished">Вы уверены?</translation>
     </message>
@@ -347,24 +347,29 @@
         <translation type="unfinished">Очистка схемы</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="209"/>
+        <location filename="MainWindow.py" line="406"/>
         <source>Base instruments</source>
         <translation type="unfinished">Изменение данных</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="234"/>
+        <location filename="MainWindow.py" line="407"/>
         <source>Visualisation instruments</source>
         <translation type="unfinished">Инструменты визуализации</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="243"/>
+        <location filename="MainWindow.py" line="402"/>
         <source>&amp;Base</source>
         <translation type="unfinished">&amp;Данные</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="244"/>
+        <location filename="MainWindow.py" line="403"/>
         <source>&amp;Visualisation</source>
         <translation type="unfinished">&amp;Визуализация</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.py" line="27"/>
+        <source>Cognitive assistent v0.5</source>
+        <translation type="unfinished">Когнитивный Ассистент v0.5</translation>
     </message>
 </context>
 <context>

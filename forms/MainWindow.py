@@ -24,7 +24,7 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(self.widget.Scheme, QtCore.SIGNAL('disactivateMutation()'),
                                                 self.disactivateMutation)
 
-        self.setWindowTitle(self.tr('Cognitive assistent v0.4'))
+        self.setWindowTitle(self.tr('Cognitive assistent v0.5'))
 
         self.aExit = QtGui.QAction(QtGui.QIcon('icons/exit.png'),
                                                 self.tr('Quit'), self)
@@ -310,7 +310,7 @@ class MainWindow(QtGui.QMainWindow):
         self.widget.setInstr(instr)
 
     def retranslateUi(self):
-        self.setWindowTitle(self.tr('Cognitive assistent v0.4'))
+        self.setWindowTitle(self.tr('Cognitive assistent v0.5'))
 
         self.aExit.setText(self.tr('Quit'))
         self.aExit.setStatusTip(self.tr('Quit'))
