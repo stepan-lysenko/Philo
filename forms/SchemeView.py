@@ -23,8 +23,11 @@ class SchemeView(QtGui.QGraphicsView):
         self.verticalScrollBar().setRange(-1000, 1000)
         self.verticalScrollBar().setPageStep(1)
 
+
     curPos = QtCore.QPointF(0, 0)
+    mut = 0
     itemsOnScheme = {}
+    aders = []
     redItems = []
     greenItems = []
     yellowItems = []
@@ -33,6 +36,7 @@ class SchemeView(QtGui.QGraphicsView):
     lams = []
     mutRoot = None
     matrix = None
+    nMut = 0
 
     def delAll(self):
         for key in self.itemsOnScheme.keys():
@@ -47,15 +51,107 @@ class SchemeView(QtGui.QGraphicsView):
 
     def makeMatrix(self):
         self.matrix = {}
-        self.aders = {}
-        for i in self.redItems:
-            self.aders[self.searchAderForMut(i)] = self.redItems.index(i)
-#        for items in self.redItems:
-#            self.matrix[str(self.aders[self.searchAderForMut(i)])]
-            
+        for a in self.aders:
+            for lnk in [self.searchThesis(it) for it in a.links]:
+                if lnk in self.redItems:
+                    self.matrix[str(self.aders.index(a)) + str((0 -
+                                            self.aders.index(a)) % 3)] = lnk
+                if lnk in self.greenItems:
+                    self.matrix[str(self.aders.index(a)) + str((1 -
+                                            self.aders.index(a)) % 3)] = lnk
+                if lnk in self.yellowItems:
+                    self.matrix[str(self.aders.index(a)) + str((2 -
+                                            self.aders.index(a)) % 3)] = lnk
+
+
+                
 
     def activateMutation(self):
-        self.newGag(self.mutRoot.links)
+        self.MouseMoveEvent = lambda s, e: 1+1
+        self.MouseReleaseEvent = lambda s, e: 1-1
+        self.MousePressEvent = lambda s, e: 1/1
+
+        self.makeMatrix()
+
+        self.nMut = (self.nMut + 1) % 3
+
+        if self.nMut == 0:
+            tr = [['00', '01', '02'], ['10', '11', '12'], ['20', '21', '22']]
+        elif self.nMut == 1:
+            tr = [['00', '10', '20'], ['01', '11', '21'], ['02', '12', '22']]
+        elif self.nMut == 2:
+            tr = [['00', '22', '11'], ['01', '20', '12'], ['02', '21', '10']]
+
+        self.delAllGags()
+        self.delAll()
+
+        coords_lnk = [[0, -70], [100, 50], [-100, 50]]
+        coords = []
+        coords.append([[-150, -70], [0, -140], [150, -70]])
+        coords.append([[250, 50], [250, 150], [100, 150]])
+        coords.append([[-100, 150], [-250, 150], [-250, 50]])
+
+        lnks = [set([]), set([]), set([])]
+
+        i = 0
+        newAders = []
+        newGag = []
+
+        for ind in tr:
+            lnks[i].add(self.matrix[ind[0]].text())
+            lnks[i].add(self.matrix[ind[1]].text())
+            lnks[i].add(self.matrix[ind[2]].text())
+
+            tmp = self.searchByLinks(lnks[i])
+            if tmp:
+                self.addThesis(tmp, x = coords_lnk[i][0], y = coords_lnk[i][1])
+                newAders.append(tmp)
+            else:
+                tmp = self.newGag(lnks[i], x = coords_lnk[i][0], y = coords_lnk[i][1])
+                newGag.append(tmp)
+
+            self.addThesis(self.matrix[ind[0]], x = coords[i][0][0],
+                                    y = coords[i][0][1], setCenter = 0)
+            self.addThesis(self.matrix[ind[1]], x = coords[i][1][0],
+                                    y = coords[i][1][1], setCenter = 0)
+            self.addThesis(self.matrix[ind[2]], x = coords[i][2][0],
+                                    y = coords[i][2][1], setCenter = 0)
+            self.centerOn(QtCore.QPointF(0, 0))
+            i += 1
+
+        if not len(newGag):
+            tmp = self.searchByLinks([item.text() for item in newAders])
+            if tmp:
+                self.addThesis(tmp, x=0, y=0, setCenter=1)
+            else:
+                self.newGag([i.text() for i in (newAders + newGag)], x=0, y=0)
+        else:
+            self.newGag([i.text() for i in (newAders + newGag)], x=0, y=0)
+
+        for thesis in self.greenItems:
+            for view in self.itemsOnScheme[thesis]:
+                view.setColor(QtCore.Qt.green)
+        for thesis in self.redItems:
+            for view in self.itemsOnScheme[thesis]:
+                view.setColor(QtCore.Qt.red)
+        for thesis in self.yellowItems:
+            for view in self.itemsOnScheme[thesis]:
+                view.setColor(QtCore.Qt.yellow)
+
+        
+#        else:
+#            ap = QtCore.QString(u"'")
+#            while self.searchThesis(self.mutRoot.text() + ap):
+#                ap = ap + QtCore.QString(u"'")
+#            tmp = ThesisBase.Thesis(name = self.mutRoot.text() + ap)
+#            tmp.links = newAders + newGag
+#            self.emit(QtCore.SIGNAL('addItemToList(item, x, y)'), tmp, 0, 0)
+
+    def searchByLinks(self, links):
+        for key in self.itemsOnScheme.keys():
+            if (set(key.links) == set(links)):
+                return key
+        return 0
 
     def viewNine(self, item):
         coords_lnk = [[0, -70], [100, 50], [-100, 50]]
@@ -87,7 +183,7 @@ class SchemeView(QtGui.QGraphicsView):
             return 0
         links = []
         for lnk in [self.searchThesis(it) for it in item.links]:
-            links = links + lnk.links
+            links = list(list(links) + list(lnk.links))
         links = set(links)
         if (len(links) < 9):
             QtGui.QMessageBox.warning(self, self.tr('Mutation'),
@@ -115,6 +211,9 @@ class SchemeView(QtGui.QGraphicsView):
             if self.curColor == QtCore.Qt.yellow:
                 return
 
+        if self.searchAderForMut(thesis) not in self.aders:
+            self.aders.append(self.searchAderForMut(thesis))
+        
         if self.curColor == QtCore.Qt.green:
             ls = self.greenItems
         if self.curColor == QtCore.Qt.red:
@@ -140,8 +239,8 @@ class SchemeView(QtGui.QGraphicsView):
             for i in self.itemsOnScheme[thesis]:
                 i.setColor(self.curColor)
             return
-        aders = [self.searchThesis(i) for i in self.mutRoot.links]
-        for ad in aders:
+        aderss = [self.searchThesis(i) for i in self.mutRoot.links]
+        for ad in aderss:
             if (thesis.text() in ad.links):
                 if (ls[0].text() in ad.links):
                     for view in self.itemsOnScheme[ls[0]]:
@@ -304,6 +403,8 @@ class SchemeView(QtGui.QGraphicsView):
         self.MouseReleaseEvent(self, event)
 
     def setInstr(self, instr):
+        self.nMut = 0
+        self.aders = []
         self.selItems = []
         self.delAllGags()
         self.arrows.rmOn = 0
@@ -433,9 +534,6 @@ class SchemeView(QtGui.QGraphicsView):
             name += unicode(str(i), 'UTF8')
 
         tmp = ThesisBase.Thesis(name = name)
-        tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
-                                                    | QtCore.Qt.ItemIsEnabled)
-        tmp = ThesisBase.Thesis()
         self.itemsOnScheme[tmp] = []
         tmp.links = links
         item = Gag(tmp, color)
@@ -444,17 +542,18 @@ class SchemeView(QtGui.QGraphicsView):
         item.setTextInteractionFlags(QtCore.Qt.TextEditable)
         self.itemsOnScheme[tmp].append(item)
         item.setZValue(10000)
-        if (x == None) | (y == None):
+        if ((x == None) or (y == None)):
             pos = self.curPos
             self.curPos += QtCore.QPointF(10, 10)
         else:
-            pos = QtCore.QPointF(x, y)
+            pos = QtCore.QPointF(x - 50, y - 13)
         item.setPos(pos)
         self.scene.addItem(item)
         self.arrows.updateDic(self.itemsOnScheme)
         self.resort()
         if ((parent != None) and (len(parent.links()) < 3)):
             parent.links.append(tmp.text())
+        return tmp
 
     def renameGag(self, gag):
         for item in self.itemsOnScheme.keys():
@@ -465,8 +564,13 @@ class SchemeView(QtGui.QGraphicsView):
         for item in self.itemsOnScheme.keys():
             if gag in self.itemsOnScheme[item]:
                 break
+        for it in self.itemsOnScheme.keys():
+            if item.text() in it.links:
+                it.links.pop(it.links.index(item.text()))
+                it.links.append(gag.toPlainText())
         item.setText(gag.toPlainText())
-        self.emit(QtCore.SIGNAL('addItemToList(item, x, y)'), item, gag.x(), gag.y())
+        self.emit(QtCore.SIGNAL('addItemToList(item, x, y)'),
+                                    item, gag.x() + 50, gag.y() + 13)
         self.rmView(gag)
         self.itemsOnScheme.pop(item)
                 
@@ -480,6 +584,9 @@ class SchemeView(QtGui.QGraphicsView):
                 if (view.textInteractionFlags() == QtCore.Qt.TextEditable):
                     for v in self.itemsOnScheme[key]:
                         self.rmView(v)
+                    for item in self.itemsOnScheme.keys():
+                        if key.text() in item.links:
+                            item.links.pop(item.links.index(key.text()))
                     self.itemsOnScheme.pop(key)
                     break
             
@@ -542,18 +649,28 @@ class Arrows(QtGui.QGraphicsItem):
                 thesis = self.searchThesis(link)
                 if thesis != 0:
                     for start in self.dic[key]:
-                        dltx = 0#-50
-                        dlty = 0#-13
-                        StartPoint = QtCore.QPointF(start.x() - dltx, start.y() - dlty)
+                        if (start.textInteractionFlags() == QtCore.Qt.TextEditable):
+                            sdltx = -50
+                            sdlty = -13
+                        else:
+                            sdltx = 0
+                            sdlty = 0
+                        StartPoint = QtCore.QPointF(start.x() - sdltx, start.y() - sdlty)
                         for end in self.dic[thesis]:
                             painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
+                            if (end.textInteractionFlags() == QtCore.Qt.TextEditable): 
+                                edltx = -50
+                                edlty = -13
+                            else:
+                                edltx = 0
+                                edlty = 0
                             if self.rmOn and (not self.flag) and (start.x() != end.x()) and (start.y() != end.y()):
-                                det0 = (self.pos.y() - start.y() + dlty + 20) / (end.y() - start.y())
-                                det0 -= (self.pos.x() - start.x() + dltx + 20) / (end.x() - start.x())
-                                det1 = (self.pos.y() - start.y() + dlty - 20) / (end.y() - start.y())
-                                det1 -= (self.pos.x() - start.x() +dltx- 20) / (end.x() - start.x())
-                                det2 = self.pos.y() - start.y() +dlty - self.pos.x() + start.x() - dltx
-                                det3 = self.pos.y() - end.y() - dlty+self.pos.x() + end.x() -dltx
+                                det0 = (self.pos.y() - start.y() + sdlty + 20) / (end.y() - start.y() - edlty + sdlty)
+                                det0 -= (self.pos.x() - start.x() + sdltx + 20) / (end.x() - start.x() - edltx + sdltx)
+                                det1 = (self.pos.y() - start.y() + sdlty - 20) / (end.y() - start.y() - edlty + sdlty)
+                                det1 -= (self.pos.x() - start.x() +sdltx- 20) / (end.x() - start.x() - edltx + sdltx)
+                                det2 = self.pos.y() - start.y() +sdlty - self.pos.x() + start.x() - sdltx
+                                det3 = self.pos.y() - end.y() - edlty+self.pos.x() + end.x() - edltx
 
                                 if ((det0 * det1 < 0) and (det2 * det3 < 0)):
                                     painter.setPen(QtGui.QPen(
@@ -566,7 +683,7 @@ class Arrows(QtGui.QGraphicsItem):
                             if (len(self.linkToDel) > 0):
                                 if ((key == self.linkToDel[0]) and (thesis == self.linkToDel[1])):
                                     painter.setPen(QtGui.QPen(QtCore.Qt.red, 2))
-                            EndPoint = QtCore.QPointF(end.x() - dltx, end.y() - dlty)
+                            EndPoint = QtCore.QPointF(end.x() - edltx, end.y() - edlty)
                             n = EndPoint - StartPoint
                             n = n / (0.05 * math.sqrt(n.x() * n.x() +
                                                             n.y() * n.y()))

@@ -117,7 +117,7 @@ class MainWidget(QtGui.QWidget):
         tmp.setFlags(QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable
                                                     | QtCore.Qt.ItemIsEnabled)
         self.lvThesis.addItem(tmp)
-        self.Scheme.addThesis(tmp, x=x, y=y)
+        self.Scheme.addThesis(tmp, x=x, y=y, setCenter=0)
 
     def keyReleaseEvent(self, event):
         self.KeyReleaseEvent(self, event)

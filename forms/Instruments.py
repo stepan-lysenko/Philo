@@ -753,14 +753,24 @@ class Mutation:
             if not self.Scheme.isFull(item):
                 return
             self.Scheme.setLink = 1
-            self.mutRoot = item
-            self.matrix = None
-            for key in self.Scheme.itemsOnScheme.keys():
-                self.Scheme.delThesis(key)
-            self.emit(QtCore.SIGNAL('addColorsBar()'))
-            self.setColor(QtCore.Qt.red)
-            self.viewNine(item)
-            return
+            self.Scheme.mutRoot = item
+            self.Scheme.matrix = None
+
+            self.Scheme.delAll()
+
+            self.Scheme.emit(QtCore.SIGNAL('addColorsBar()'))
+            self.Scheme.setColor(QtCore.Qt.red)
+            self.Scheme.viewNine(item)
+
+        self.Scheme.setColorToMutation(item)
+        if len(self.Scheme.greenItems + self.Scheme.redItems + self.Scheme.yellowItems) == 9:
+            if self.Scheme.matrix == None:
+                self.Scheme.makeMatrix()
+            self.Scheme.emit(QtCore.SIGNAL('activateMutation()'))
+        else:
+            self.Scheme.matrix = None;
+            self.Scheme.emit(QtCore.SIGNAL('disactivateMutation()'))
+
 
     @staticmethod
     def keyReleaseEvent(self, event):
