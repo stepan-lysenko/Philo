@@ -13,8 +13,8 @@ class cfgDialog(QtGui.QDialog):
 
         self.base = self.makeBase()
         self.tabs.addTab(self.base, self.tr('Main'))
-        self.instruments = self.makeInstruments()
-        self.tabs.addTab(self.instruments, self.tr('Instruments'))
+#        self.instruments = self.makeInstruments()
+#        self.tabs.addTab(self.instruments, self.tr('Instruments'))
 
         vBox = QtGui.QVBoxLayout(self)
         vBox.addWidget(self.tabs)
