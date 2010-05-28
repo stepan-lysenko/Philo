@@ -53,10 +53,12 @@ def loadThesisesToList(QListWidget, path):
         break
     for dir in ListDir:
         SubDirs = []
-        for Bill, SubDirs, Bob in os.walk(str(path.toUtf8()) + '/' + dir):
+        for Bill, SubDirs, Bob in os.walk(str(path.toUtf8()) + u'/' + dir):
             break
         for sdir in SubDirs:
-            QListWidget.addItem(Thesis(path = path + QtCore.QString('/') + QtCore.QString(dir) + QtCore.QString('/') + QtCore.QString(sdir)))
+            tmp = Thesis(path = path + QtCore.QString(u'/') + QtCore.QString(dir) + QtCore.QString(u'/') + QtCore.QString(sdir))
+            tmp.getDesc(path)
+            QListWidget.addItem(tmp)
 
 class Thesis(QListWidgetItem):
     def __init__(self, name='', desc=QtCore.QString(), path=''):
