@@ -32,9 +32,9 @@ class cfgDialog(QtGui.QDialog):
     def retranslateUi(self):
         self.setWindowTitle(self.tr('Configuration'))
         self.tabs.setTabText(self.tabs.indexOf(self.base), self.tr('Main'))
-        self.tabs.setTabText(self.tabs.indexOf(self.instruments),
-                                                self.tr('Instruments'))
-        self.lLam.setText(self.tr('Lamination'))
+#        self.tabs.setTabText(self.tabs.indexOf(self.instruments),
+#                                                self.tr('Instruments'))
+#        self.lLam.setText(self.tr('Lamination'))
 
     def abstractClicked(self, button):
         b = self.buttonBox.standardButton(button)
