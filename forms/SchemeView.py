@@ -38,6 +38,14 @@ class SchemeView(QtGui.QGraphicsView):
     matrix = None
     nMut = 0
 
+    def zoomIn(self):
+        self.scale(1.25, 1.25)
+        self.update()
+
+    def zoomOut(self):
+        self.scale(0.8, 0.8)
+        self.update()
+
     def delAll(self):
         for key in self.itemsOnScheme.keys():
             for view in self.itemsOnScheme[key]:
@@ -323,7 +331,7 @@ class SchemeView(QtGui.QGraphicsView):
         return res
         
                 
-    def MmouseDoubleClickEvent(self, event):
+    def mouseDoubleClickEvent(self, event):
         if (event.button() != QtCore.Qt.LeftButton):
            event.ignore()
            return
@@ -334,6 +342,9 @@ class SchemeView(QtGui.QGraphicsView):
             return
         
         self.cur = items[1]
+        if (self.cur.textInteractionFlags() == QtCore.Qt.TextEditable):
+            super(SchemeView, self).mouseDoubleClickEvent(event)
+            return
         thesis = self.searchByView(self.cur)
         self.emit(QtCore.SIGNAL('editThesisName(Thesis *)'), thesis)
         
@@ -404,6 +415,7 @@ class SchemeView(QtGui.QGraphicsView):
 
     def setInstr(self, instr):
         self.nMut = 0
+        self.resetTransform()
         self.aders = []
         self.selItems = []
         self.delAllGags()

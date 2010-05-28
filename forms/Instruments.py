@@ -761,7 +761,7 @@ class Mutation:
             self.Scheme.emit(QtCore.SIGNAL('addColorsBar()'))
             self.Scheme.setColor(QtCore.Qt.red)
             self.Scheme.viewNine(item)
-
+            return
         self.Scheme.setColorToMutation(item)
         if len(self.Scheme.greenItems + self.Scheme.redItems + self.Scheme.yellowItems) == 9:
             if self.Scheme.matrix == None:

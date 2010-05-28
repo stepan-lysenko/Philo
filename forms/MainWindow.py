@@ -14,7 +14,7 @@ class MainWindow(QtGui.QMainWindow):
                     QtCore.QLocale.system().language())
         self.translator.load(lang, './tr')
 
-        self.setGeometry(100, 150, 900, 550)
+        self.setGeometry(50, 150, 1000, 600)
 
         self.widget = MainWidget.MainWidget()
         self.connect(self.widget.Scheme, QtCore.SIGNAL('addColorsBar()'),
@@ -82,6 +82,19 @@ class MainWindow(QtGui.QMainWindow):
         self.aDelFromScheme.setStatusTip(self.tr('Remove all thesis from scheme'))
         self.connect(self.aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         self.widget.delFromScheme)
+
+        self.aZoomIn = QtGui.QAction(QtGui.QIcon(
+                    'icons/zoom_in.png'), self.tr('Zoom In'), self)
+        self.aZoomIn.setStatusTip(self.tr('Zoom In'))
+        self.connect(self.aZoomIn, QtCore.SIGNAL('triggered()'),
+                                                self.widget.Scheme.zoomIn)
+
+        self.aZoomOut = QtGui.QAction(QtGui.QIcon(
+                    'icons/zoom_out.png'), self.tr('Zoom Out'), self)
+        self.aZoomOut.setStatusTip(self.tr('Zoom Out'))
+        self.connect(self.aZoomOut, QtCore.SIGNAL('triggered()'),
+                                                self.widget.Scheme.zoomOut)
+
 
         self.aInstrConvolution = QtGui.QAction(QtGui.QIcon(
                     'icons/convolution.png'), self.tr('Convolution'), self)
@@ -239,6 +252,8 @@ class MainWindow(QtGui.QMainWindow):
         self.tbVisioInstr.addAction(self.aInstrGlue)
         self.tbVisioInstr.addAction(self.aInstrLamination)
         self.tbVisioInstr.addAction(self.aClearScheme)
+        self.tbVisioInstr.addAction(self.aZoomIn)
+        self.tbVisioInstr.addAction(self.aZoomOut)
 
         self.mbBaseInstr = MenuBar.addMenu(self.tr('&Base'))
         self.mbVisioInstr = MenuBar.addMenu(self.tr('&Visualisation'))
@@ -258,9 +273,8 @@ class MainWindow(QtGui.QMainWindow):
         self.mbVisioInstr.addAction(self.aInstrGlue)
         self.mbVisioInstr.addAction(self.aInstrLamination)
         self.mbVisioInstr.addAction(self.aClearScheme)
-
-
-
+        self.mbVisioInstr.addAction(self.aZoomIn)
+        self.mbVisioInstr.addAction(self.aZoomOut)
 
         for instr in grInstr.actions():
             instr.setCheckable(1)
@@ -397,6 +411,12 @@ class MainWindow(QtGui.QMainWindow):
         self.aInstrAddADer.setText(self.tr('Antiderivatives show')) 
         self.aInstrAddADer.setStatusTip(
                             self.tr('Instrument for show antiderivatives'))
+
+        self.aZoomIn.setText(self.tr('Zoom In'))
+        self.aZoomIn.setStatusTip(self.tr('Zoom In'))
+
+        self.aZoomOut.setText(self.tr('Zoom Out'))
+        self.aZoomOut.setStatusTip(self.tr('Zoom Out'))
 
         self.mbFile.setTitle(self.tr('&File'))
         self.mbBaseInstr.setTitle(self.tr('&Base'))
