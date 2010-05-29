@@ -47,6 +47,7 @@ class SchemeView(QtGui.QGraphicsView):
         self.update()
 
     def delAll(self):
+        self.delAllGags()
         for key in self.itemsOnScheme.keys():
             for view in self.itemsOnScheme[key]:
                 self.rmView(view)
@@ -419,6 +420,7 @@ class SchemeView(QtGui.QGraphicsView):
         self.selItems = []
         self.delAllGags()
         self.arrows.rmOn = 0
+        self.arrows.linkToDel = []
         self.setLink = 0
         self.updateSelection()
         self.redItems = []
@@ -429,6 +431,8 @@ class SchemeView(QtGui.QGraphicsView):
         self.MousePressEvent = instr.mousePressEvent
 #        self.KeyReleaseEvent = instr.keyReleaseEvent
         self.setCursor(instr.cursor)
+        self.arrows.update()
+        self.update()
 
     def getSubGraph(self, root, sub = []):
         list = []
@@ -645,12 +649,22 @@ class Arrows(QtGui.QGraphicsItem):
         return 0
 
     def paint(self, painter, option, widget):
-        det0 = (self.pos.y() - self.sp.y() + 20) / (self.ep.y() - self.sp.y() + 0.0000001)  
-        det0 -= (self.pos.x() - self.sp.x() + 20) / (self.ep.x() - self.sp.x() + 0.0000001)  
-        det1 = (self.pos.y() - self.sp.y() - 20) / (self.ep.y() - self.sp.y() + 0.0000001)  
-        det1 -= (self.pos.x() - self.sp.x() - 20) / (self.ep.x() - self.sp.x() + 0.0000001)  
-        det2 = self.pos.y() - self.sp.y() - self.pos.x() + self.sp.x() 
-        det3 = self.pos.y() - self.sp.y() - self.pos.x() + self.ep.x() 
+        nrm = QtCore.QPointF(self.ep.x() - self.sp.x(), self.sp.y() - self.ep.y())
+        nrm = nrm / (0.1 * math.sqrt(nrm.x() * nrm.x() + nrm.y() * nrm.y()))
+        det0 = (self.pos.y() - self.sp.y() + nrm.y()) / (self.ep.y() - self.sp.y() + 0.000001)
+        det0 -= (self.pos.x() - self.sp.x() + nrm.x()) / (self.ep.x() - self.sp.x() + 0.000001)
+        det1 = (self.pos.y() - self.sp.y() - nrm.y()) / (self.ep.y() - self.sp.y() + 0.000001)
+        det1 -= (self.pos.x() - self.sp.x() - nrm.x()) / (self.ep.x() - self.sp.x() + 0.000001)
+        det2 = (self.pos.y() - self.sp.y() + nrm.y()) / (-nrm.y() + 0.000001)
+        det2 -= (self.pos.x() - self.sp.x() + nrm.x()) / (-nrm.x()+ 0.000001)
+        det3 = (self.pos.y() - self.ep.y() - nrm.y()) / (-nrm.y() + 0.000001)
+        det3 -= (self.pos.x() - self.ep.x() - nrm.x()) / (-nrm.x() + 0.000001)
+#        det0 = (self.pos.y() - self.sp.y() + 20) / (self.ep.y() - self.sp.y() + 0.0000001)  
+#        det0 -= (self.pos.x() - self.sp.x() + 20) / (self.ep.x() - self.sp.x() + 0.0000001)  
+#        det1 = (self.pos.y() - self.sp.y() - 20) / (self.ep.y() - self.sp.y() + 0.0000001)  
+#        det1 -= (self.pos.x() - self.sp.x() - 20) / (self.ep.x() - self.sp.x() + 0.0000001)  
+#        det2 = self.pos.y() - self.sp.y() - self.pos.x() + self.sp.x() 
+#        det3 = self.pos.y() - self.sp.y() - self.pos.x() + self.ep.x() 
         if not ((det0 * det1 < 0) and (det2 * det3 < 0)):
             self.linkToDel = []
             self.flag = 0
@@ -675,15 +689,54 @@ class Arrows(QtGui.QGraphicsItem):
                             else:
                                 edltx = 0
                                 edlty = 0
-                            if self.rmOn and (not self.flag) and (start.x() != end.x()) and (start.y() != end.y()):
-                                det0 = (self.pos.y() - start.y() + sdlty + 20) / (end.y() - start.y() - edlty + sdlty)
-                                det0 -= (self.pos.x() - start.x() + sdltx + 20) / (end.x() - start.x() - edltx + sdltx)
-                                det1 = (self.pos.y() - start.y() + sdlty - 20) / (end.y() - start.y() - edlty + sdlty)
-                                det1 -= (self.pos.x() - start.x() +sdltx- 20) / (end.x() - start.x() - edltx + sdltx)
-                                det2 = self.pos.y() - start.y() +sdlty - self.pos.x() + start.x() - sdltx
-                                det3 = self.pos.y() - end.y() - edlty+self.pos.x() + end.x() - edltx
 
-                                if ((det0 * det1 < 0) and (det2 * det3 < 0)):
+                            EndPoint = QtCore.QPointF(end.x() - edltx, end.y() - edlty)
+                            
+                            if self.rmOn and (not self.flag):# and (start.x() != end.x()) and (start.y() != end.y()):
+#                                det0 = (self.pos.y() - StartPoint.y() + 20) / (EndPoint.y() - StartPoint.y() + 0.000001)
+#                                det0 -= (self.pos.x() - StartPoint.x() + 20) / (EndPoint.x() - StartPoint.x() + 0.000001)
+#                                det1 = (self.pos.y() - StartPoint.y() - 20) / (EndPoint.y() - StartPoint.y() + 0.000001)
+#                                det1 -= (self.pos.x() - StartPoint.x() - 20) / (EndPoint.x() - StartPoint.x() + 0.000001)
+#                                det2 = self.pos.y() - StartPoint.y() - self.pos.x() + StartPoint.x()
+#                                det3 = self.pos.y() - EndPoint.y() + self.pos.x() + EndPoint.x()
+                                nrm = QtCore.QPointF(EndPoint.x() - StartPoint.x(), StartPoint.y() - EndPoint.y())
+                                nrm = nrm / (0.05 * math.sqrt(nrm.x() * nrm.x() + nrm.y() * nrm.y()))
+    
+                                det0 = (self.pos.y() - StartPoint.y() + nrm.y()) / (EndPoint.y() - StartPoint.y() + 0.000001)
+                                det0 -= (self.pos.x() - StartPoint.x() + nrm.x()) / (EndPoint.x() - StartPoint.x() + 0.000001)
+                                det1 = (self.pos.y() - StartPoint.y() - nrm.y()) / (EndPoint.y() - StartPoint.y() + 0.000001)
+                                det1 -= (self.pos.x() - StartPoint.x() - nrm.x()) / (EndPoint.x() - StartPoint.x() + 0.000001)
+                                
+                                det2 = (self.pos.y() - StartPoint.y() + 10 * nrm.y()) / (-nrm.y() + 0.000001)
+                                det2 -= (self.pos.x() - StartPoint.x() + 10 * nrm.x()) / (-nrm.x()+ 0.000001)
+                                det3 = (self.pos.y() - EndPoint.y() - 10 * nrm.y()) / (-nrm.y() + 0.000001)
+                                det3 -= (self.pos.x() - EndPoint.x() - 10 * nrm.x()) / (-nrm.x() + 0.000001)
+
+                                if ((((EndPoint.x() - 10) < StartPoint.x() < (EndPoint.x() + 10)) or (StartPoint.y() == EndPoint.y())) and ((StartPoint.y()< self.pos.y() < EndPoint.y())or(EndPoint.y()<self.pos.y()<StartPoint.y()))):
+                                    if ((StartPoint.x() - 20) < self.pos.x() < (StartPoint.x() + 20)):
+                                        det0 = -1
+                                        det1 = 1
+                                        det2 = 1
+                                        det3 = -1
+                                if ((((EndPoint.y() - 10) < StartPoint.y() < (EndPoint.y() + 10)) or (StartPoint.y() == EndPoint.y())) and ((StartPoint.x()< self.pos.x() < EndPoint.x())or(EndPoint.x()<self.pos.x()<StartPoint.x()))):
+                                    if ((StartPoint.y() - 20) < self.pos.y() < (StartPoint.y() + 20)):
+                                        det0 = -1
+                                        det1 = 1
+                                        det2 = 1
+                                        det3 = -1
+                                if ((StartPoint.y() == EndPoint.y())and(((StartPoint.x()< self.pos.x() < EndPoint.x())or(EndPoint.x()<self.pos.x()<StartPoint.x())))):
+                                    if ((EndPoint.y() - 20) < self.pos.y() < (EndPoint.y() + 20)):
+                                        det0 = -1
+                                        det1 = 1
+                                        det2 = 1
+                                        det3 = -1
+                                if ((StartPoint.x() == EndPoint.x())and(((StartPoint.y()< self.pos.y() < EndPoint.y())or(EndPoint.y()<self.pos.y()<StartPoint.y())))):
+                                    if ((EndPoint.x() - 20) < self.pos.x() < (EndPoint.x() + 20)):
+                                        det0 = -1
+                                        det1 = 1
+                                        det2 = 1
+                                        det3 = -1
+                                if ((det0 * det1 < 0) and (det2 * det3 <= 0)):
                                     painter.setPen(QtGui.QPen(
                                                     QtCore.Qt.red, 2))
                                     self.linkToDel.append(key)
@@ -694,7 +747,6 @@ class Arrows(QtGui.QGraphicsItem):
                             if (len(self.linkToDel) > 0):
                                 if ((key == self.linkToDel[0]) and (thesis == self.linkToDel[1])):
                                     painter.setPen(QtGui.QPen(QtCore.Qt.red, 2))
-                            EndPoint = QtCore.QPointF(end.x() - edltx, end.y() - edlty)
                             n = EndPoint - StartPoint
                             n = n / (0.05 * math.sqrt(n.x() * n.x() +
                                                             n.y() * n.y()))

@@ -69,7 +69,7 @@ class MainWindow(QtGui.QMainWindow):
                                                 self.tr('Clear scheme'), self)
         self.aClearScheme.setStatusTip(self.tr('Clear scheme'))
         self.connect(self.aClearScheme, QtCore.SIGNAL('triggered()'),
-                                            self.widget.Scheme.delAll)
+                                            self.clearScheme)
 
         self.aNewWorkspace = QtGui.QAction(QtGui.QIcon('icons/new.png'),
                                                     self.tr('Remove all'), self)
@@ -83,6 +83,13 @@ class MainWindow(QtGui.QMainWindow):
         self.aDelFromScheme.setStatusTip(self.tr('Remove all thesis from scheme'))
         self.connect(self.aDelFromScheme, QtCore.SIGNAL('triggered()'),
                                         self.widget.delFromScheme)
+
+        self.aZoomOrig = QtGui.QAction(QtGui.QIcon(
+                    'icons/zoom_original.png'), self.tr('Zoom Original'), self)
+        self.aZoomOrig.setShortcut('Ctrl++')
+        self.aZoomOrig.setStatusTip(self.tr('Zoom Original'))
+        self.connect(self.aZoomOrig, QtCore.SIGNAL('triggered()'),
+                                                self.widget.Scheme.resetTransform)
 
         self.aZoomIn = QtGui.QAction(QtGui.QIcon(
                     'icons/zoom_in.png'), self.tr('Zoom In'), self)
@@ -261,6 +268,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tbVisioInstr.addAction(self.aClearScheme)
         self.tbVisioInstr.addAction(self.aZoomIn)
         self.tbVisioInstr.addAction(self.aZoomOut)
+        self.tbVisioInstr.addAction(self.aZoomOrig)
 
         self.mbBaseInstr = MenuBar.addMenu(self.tr('&Base'))
         self.mbVisioInstr = MenuBar.addMenu(self.tr('&Visualisation'))
@@ -282,6 +290,7 @@ class MainWindow(QtGui.QMainWindow):
         self.mbVisioInstr.addAction(self.aClearScheme)
         self.mbVisioInstr.addAction(self.aZoomIn)
         self.mbVisioInstr.addAction(self.aZoomOut)
+        self.mbVisioInstr.addAction(self.aZoomOrig)
 
         for instr in grInstr.actions():
             instr.setCheckable(1)
@@ -296,6 +305,10 @@ class MainWindow(QtGui.QMainWindow):
         self.connect(self.cfgDialog, QtCore.SIGNAL('ChangeLanguage(QString *)'), self.changLang) 
 
         self.setCentralWidget(self.widget)
+
+    def clearScheme(self):
+        self.widget.Scheme.delAll()
+        self.disactivateMutation()
 
     def activateMutation(self):
         self.aDoneMut.setEnabled(1)
@@ -424,6 +437,9 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aZoomOut.setText(self.tr('Zoom Out'))
         self.aZoomOut.setStatusTip(self.tr('Zoom Out'))
+        
+        self.aZoomIn.setText(self.tr('Zoom Original'))
+        self.aZoomIn.setStatusTip(self.tr('Zoom Original'))
 
         self.mbFile.setTitle(self.tr('&File'))
         self.mbBaseInstr.setTitle(self.tr('&Base'))
