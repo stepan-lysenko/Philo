@@ -170,13 +170,16 @@ class MainWidget(QtGui.QWidget):
                 tmp = thesis
             self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
             return
-        if (len(der.links) >= 3):
-            return
+#       if (len(der.links) >= 3):
+#            return
         if (thesis == None):
             tmp = self.AddNewThesis()
         else:
             tmp = thesis
-        der.links.append(tmp.text())
+        if (len(tmp.links) >= 3):
+            return
+#       der.links.append(tmp.text())
+        tmp.links.append(der.text())
         self.Scheme.addThesis(tmp, x=point.x(), y=point.y(), setCenter=0)
         self.Scheme.arrows.updateDic(self.Scheme.itemsOnScheme)
         self.Scheme.arrows.update()
