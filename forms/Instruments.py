@@ -36,10 +36,10 @@ class moveView:
         if self.move == 1:
             dp = event.pos() - self.sp
             self.sp = event.pos()
-            self.cur.moveBy(dp.x(), dp.y())
+            self.cur.moveBy(dp.x() / float(self.scaleXY), dp.y() / float(self.scaleXY))
             self.arrows.update()
         if self.scroll == 1:
-            dp = event.pos() - self.sp
+            dp = (event.pos() - self.sp)
             self.sp = event.pos()
             x = self.horizontalScrollBar().value() - dp.x()
             y = self.verticalScrollBar().value() - dp.y()

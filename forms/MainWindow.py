@@ -89,7 +89,7 @@ class MainWindow(QtGui.QMainWindow):
         self.aZoomOrig.setShortcut('Ctrl++')
         self.aZoomOrig.setStatusTip(self.tr('Zoom Original'))
         self.connect(self.aZoomOrig, QtCore.SIGNAL('triggered()'),
-                                                self.widget.Scheme.resetTransform)
+                                                self.widget.Scheme.resetZoom)
 
         self.aZoomIn = QtGui.QAction(QtGui.QIcon(
                     'icons/zoom_in.png'), self.tr('Zoom In'), self)

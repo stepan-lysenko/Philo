@@ -28,6 +28,7 @@ class SchemeView(QtGui.QGraphicsView):
     mut = 0
     itemsOnScheme = {}
     aders = []
+    scaleXY = 1.
     redItems = []
     greenItems = []
     yellowItems = []
@@ -37,6 +38,10 @@ class SchemeView(QtGui.QGraphicsView):
     mutRoot = None
     matrix = None
     nMut = 0
+
+    def resetZoom(self):
+        self.resetTransform()
+        self.scaleXY = 1.
 
     def realyDelete(self):
         reply = QtGui.QMessageBox.question(self, self.tr("Delete thesis"),
@@ -49,10 +54,12 @@ class SchemeView(QtGui.QGraphicsView):
 
     def zoomIn(self):
         self.scale(1.25, 1.25)
+        self.scaleXY *= 1.25
         self.update()
 
     def zoomOut(self):
         self.scale(0.8, 0.8)
+        self.scaleXY *= 0.8
         self.update()
 
     def delAll(self):
