@@ -86,7 +86,6 @@ class MainWindow(QtGui.QMainWindow):
 
         self.aZoomOrig = QtGui.QAction(QtGui.QIcon(
                     'icons/zoom_original.png'), self.tr('Zoom Original'), self)
-        self.aZoomOrig.setShortcut('Ctrl++')
         self.aZoomOrig.setStatusTip(self.tr('Zoom Original'))
         self.connect(self.aZoomOrig, QtCore.SIGNAL('triggered()'),
                                                 self.widget.Scheme.resetZoom)
@@ -438,8 +437,8 @@ class MainWindow(QtGui.QMainWindow):
         self.aZoomOut.setText(self.tr('Zoom Out'))
         self.aZoomOut.setStatusTip(self.tr('Zoom Out'))
         
-        self.aZoomIn.setText(self.tr('Zoom Original'))
-        self.aZoomIn.setStatusTip(self.tr('Zoom Original'))
+        self.aZoomOrig.setText(self.tr('Zoom Original'))
+        self.aZoomOrig.setStatusTip(self.tr('Zoom Original'))
 
         self.mbFile.setTitle(self.tr('&File'))
         self.mbBaseInstr.setTitle(self.tr('&Base'))
