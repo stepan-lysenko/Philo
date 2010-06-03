@@ -318,17 +318,18 @@ class MainWidget(QtGui.QWidget):
                             './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
         if path == '':
             return
-        self.NewWorkspace()
+        self.NewWorkspace(1)
         self.path = path
         ThesisBase.loadThesisesToList(self.lvThesis, path)
         ThesisBase.loadScheme(path + '/scheme.sch', self.lvThesis, self.Scheme)
 
-    def NewWorkspace(self):
-        reply = QtGui.QMessageBox.question(self, self.tr("Clear base"),
-          self.tr("All changes will be lost. Continue?"),
+    def NewWorkspace(self, noque = 0):
+        if not noque:
+            reply = QtGui.QMessageBox.question(self, self.tr("Clear base"),
+              self.tr("All changes will be lost. Continue?"),
                             QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.No:
-            return
+            if reply == QtGui.QMessageBox.No:
+                return
 
         self.Scheme.delAll()
         self.lvThesis.clear()
@@ -395,6 +396,8 @@ class MainWidget(QtGui.QWidget):
             item.getDesc(self.path)
             text += item.text() + ':\n'
             text += item.desc + '\n'
+            if (item.desc != ''):
+                text += '\n'
             self.Scheme.setColorOfThesis(item, QtCore.Qt.green)
 
         self.teThesisView.setText(text)
