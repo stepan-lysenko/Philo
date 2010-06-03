@@ -506,7 +506,6 @@ class delThesis:
             event.ignore()
             return
 
-
         self.sp = event.pos()
         items = self.items(event.pos())
         if len(items) < 2:
@@ -529,6 +528,8 @@ class delThesis:
 
     @staticmethod
     def listItemClicked(self, item):
+        if self.Scheme.realyDelete():
+            return
         self.Scheme.delThesis(item)
         for thesis in self.lvThesis.findItems('', QtCore.Qt.MatchContains):
             if item.text() in thesis.links:

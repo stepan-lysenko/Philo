@@ -38,6 +38,15 @@ class SchemeView(QtGui.QGraphicsView):
     matrix = None
     nMut = 0
 
+    def realyDelete(self):
+        reply = QtGui.QMessageBox.question(self, self.tr("Delete thesis"),
+          self.tr("Are you realy wont delete thesis?"),
+                            QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        if reply == QtGui.QMessageBox.No:
+            return 1
+        return 0
+
+
     def zoomIn(self):
         self.scale(1.25, 1.25)
         self.update()

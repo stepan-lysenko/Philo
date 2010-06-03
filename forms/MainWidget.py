@@ -324,6 +324,12 @@ class MainWidget(QtGui.QWidget):
         ThesisBase.loadScheme(path + '/scheme.sch', self.lvThesis, self.Scheme)
 
     def NewWorkspace(self):
+        reply = QtGui.QMessageBox.question(self, self.tr("Clear base"),
+          self.tr("All changes will be lost. Continue?"),
+                            QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        if reply == QtGui.QMessageBox.No:
+            return
+
         self.Scheme.delAll()
         self.lvThesis.clear()
         self.teThesisView.clear()
