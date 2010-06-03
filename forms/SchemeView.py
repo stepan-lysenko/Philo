@@ -47,6 +47,10 @@ class SchemeView(QtGui.QGraphicsView):
         self.update()
 
     def delAll(self):
+        for lam in self.lams:
+            lam.close()
+        for lam in self.lams:
+            lam.close()
         self.delAllGags()
         for key in self.itemsOnScheme.keys():
             for view in self.itemsOnScheme[key]:
@@ -276,7 +280,12 @@ class SchemeView(QtGui.QGraphicsView):
     def lamination(self):
         if (len(self.selItems) == 0) or (len(self.lams) >= 3):
             return
+        for lm in self.lams:
+            if (set([i.text() for i in self.selItems]) == set([i.text() for i in lm.labels])): 
+                return
+
         lam = LamWidget.lamDialog(self, self.selItems)
+        self.lams.append(lam)
         self.connect(lam, QtCore.SIGNAL('closeLam(QDialog *)'),
                                                     self.delDialog)
         self.connect(lam, QtCore.SIGNAL('itemOnLamClicked(Thesis *)'),
@@ -293,7 +302,6 @@ class SchemeView(QtGui.QGraphicsView):
             lam.addThesis(tmp)
 #        self.emit(QtCore.SIGNAL('newLam(QDialog *)'), lam)             
         lam.show()
-        self.lams.append(lam)
         lam.allThesises = self.itemsOnScheme
 
     def itemOnLamClicked(self, item):
@@ -593,7 +601,6 @@ class SchemeView(QtGui.QGraphicsView):
                 
 
     def delAllGags(self):
-        pass
         for key in self.itemsOnScheme.keys():
             for view in self.itemsOnScheme[key]:
                 if (view.textInteractionFlags() == QtCore.Qt.TextEditable):

@@ -324,6 +324,7 @@ class MainWidget(QtGui.QWidget):
         ThesisBase.loadScheme(path + '/scheme.sch', self.lvThesis, self.Scheme)
 
     def NewWorkspace(self):
+        self.Scheme.delAll()
         self.lvThesis.clear()
         self.teThesisView.clear()
         self.path = ''
@@ -331,9 +332,6 @@ class MainWidget(QtGui.QWidget):
         self.desc = QtCore.QString()
         self.curItemText = QtCore.QString()
         self.Scheme.clear()
-        for lam in self.Scheme.lams:
-            lam.close()
-        self.Scheme.lams = []
 
     def DelCurrentThesis(self):
         i = self.lvThesis.currentRow()
