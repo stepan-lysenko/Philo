@@ -586,10 +586,10 @@ class Glue:
             self.selItems = []
         else:
             self.setColorOfThesis(item, QtCore.Qt.yellow)
-            if len(self.selItems) >= 3:
-                self.glue()
-                self.selItems = []
-                self.updateSelection()
+#            if len(self.selItems) >= 3:
+#                self.glue()
+#                self.selItems = []
+#                self.updateSelection()
 
 
     @staticmethod
@@ -615,7 +615,8 @@ class Glue:
         for i in self.Scheme.selItems:
             self.Scheme.setColorOfThesis(i, QtCore.Qt.yellow)
 #
-        if (len(self.Scheme.selItems) >= 3) or (QtCore.Qt.ControlModifier != QtGui.QApplication.keyboardModifiers()):
+#        if (len(self.Scheme.selItems) >= 3) or (QtCore.Qt.ControlModifier != QtGui.QApplication.keyboardModifiers()):
+        if (QtCore.Qt.ControlModifier != QtGui.QApplication.keyboardModifiers()):
             self.Scheme.glue()
             self.Scheme.selItems = []
             self.Scheme.updateSelection()
