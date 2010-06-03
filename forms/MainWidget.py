@@ -323,6 +323,9 @@ class MainWidget(QtGui.QWidget):
         self.path = path
         ThesisBase.loadThesisesToList(self.lvThesis, path)
         ThesisBase.loadScheme(path + '/scheme.sch', self.lvThesis, self.Scheme)
+        self.Scheme.update()
+        self.Scheme.updateSelection()
+        self.Scheme.arrows.update()
 
     def NewWorkspace(self, noque = 0):
         if not noque:

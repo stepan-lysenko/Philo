@@ -71,7 +71,7 @@ class SchemeView(QtGui.QGraphicsView):
         for key in self.itemsOnScheme.keys():
             for view in self.itemsOnScheme[key]:
                 self.rmView(view)
-        self.scene.update()
+        self.update()
 
     def searchAderForMut(self, item):
         for it in [self.searchThesis(i) for i in self.mutRoot.links]:
