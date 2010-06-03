@@ -152,6 +152,7 @@ class MainWidget(QtGui.QWidget):
         self.Scheme.addThesis(tmp, setCenter=0)
         for item in list:
             tmp.links.append(item.text())
+        self.Scheme.updateSelection()
 
     @staticmethod
     def listItemClicked(self, item):

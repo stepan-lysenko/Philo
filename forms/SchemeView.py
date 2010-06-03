@@ -380,6 +380,7 @@ class SchemeView(QtGui.QGraphicsView):
                     if item.text() == link:
                         cand.append(thesis)
         cand = list(set(cand))
+        cnv = []
         for item in cand:
             selTexts = [a.text() for a in self.selItems]
             f = lambda a: a in item.links
@@ -388,12 +389,17 @@ class SchemeView(QtGui.QGraphicsView):
                 self.updateSelection()
                 self.arrows.update()
                 self.update()
-                return
-
+                cnv.append(item)
+#                return
+        self.updateSelection()
+        if len(cnv) > 1:
+            for c in cnv:
+                self.setColorOfThesis(c, QtCore.Qt.red)
+        if len(cnv):
+            return
         self.emit(QtCore.SIGNAL('convolution(list)'), self.selItems)
         self.arrows.update()
         self.update()
-            
  
     def updateSelection(self):
         for thesis in self.itemsOnScheme.keys():

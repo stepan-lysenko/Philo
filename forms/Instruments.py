@@ -465,7 +465,6 @@ class convolution:
         if len(self.selItems) == 3:
             self.convolution() 
             self.selItems = []
-            self.updateSelection()
 
     @staticmethod
     def mouseMoveEvent(self, event):
@@ -493,7 +492,6 @@ class convolution:
         if len(self.Scheme.selItems) == 3:
             self.Scheme.convolution()
             self.Scheme.selItems = []
-            self.Scheme.updateSelection()
 
     @staticmethod
     def keyReleaseEvent(self, event):
