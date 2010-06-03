@@ -439,7 +439,7 @@ class SchemeView(QtGui.QGraphicsView):
 
     def setInstr(self, instr):
         self.nMut = 0
-        self.resetTransform()
+#        self.resetTransform()
         self.aders = []
         self.selItems = []
         self.delAllGags()

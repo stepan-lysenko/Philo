@@ -138,8 +138,9 @@ class createLink:
     @staticmethod
     def mouseMoveEvent(self, event):
         if self.setLink == 1:
-            self.curArrow.setLine(0, 0, event.pos().x() - self.evPos.x(),
-                                        event.pos().y() - self.evPos.y())
+            self.curArrow.setLine(0, 0, (event.pos().x() - self.evPos.x()) / 
+                        self.scaleXY, (event.pos().y() - self.evPos.y()) /
+                                                                self.scaleXY)
 
             end = self.mapToScene(event.pos())
 
