@@ -242,7 +242,8 @@ class rmLink:
                         if (lam.lvThesis.item(i).text() == linkToDel[0].text()):
                             lam.lvThesis.takeItem(i)
                             break
-            linkToDel[0].links.pop(linkToDel[0].links.index(linkToDel[1].text()))
+            if linkToDel[1].text() in linkToDel[0].links:
+                linkToDel[0].links.pop(linkToDel[0].links.index(linkToDel[1].text()))
             self.arrows.update()
             self.update()
 
