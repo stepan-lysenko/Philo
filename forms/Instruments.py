@@ -199,10 +199,12 @@ class createLink:
 
         if self.setLink == 1:
             self.setLink = 0
-            link = self.searchByView(self.cur)
+#            link = self.searchByView(self.cur)
+            link = self.curItem
+            self.curItem = self.searchByView(self.cur)
             if link == self.curItem:
                 return
-            if (self.curItem.text() in self.searchByView(self.cur).links):
+            if (self.curItem.text() in link.links):
                 self.setLink = 0
                 return
             flag = 0

@@ -709,7 +709,8 @@ class Arrows(QtGui.QGraphicsItem):
                         else:
                             sdltx = 0
                             sdlty = 0
-                        StartPoint = QtCore.QPointF(start.x() - sdltx, start.y() - sdlty)
+#                        StartPoint = QtCore.QPointF(start.x() - sdltx, start.y() - sdlty)
+                        EndPoint = QtCore.QPointF(start.x() - sdltx, start.y() - sdlty)
                         for end in self.dic[thesis]:
                             painter.setPen(QtGui.QPen(QtCore.Qt.black, 2))
                             if (end.textInteractionFlags() == QtCore.Qt.TextEditable): 
@@ -719,7 +720,8 @@ class Arrows(QtGui.QGraphicsItem):
                                 edltx = 0
                                 edlty = 0
 
-                            EndPoint = QtCore.QPointF(end.x() - edltx, end.y() - edlty)
+#                            EndPoint = QtCore.QPointF(end.x() - edltx, end.y() - edlty)
+                            StartPoint = QtCore.QPointF(end.x() - edltx, end.y() - edlty)
                             
                             if self.rmOn and (not self.flag):# and (start.x() != end.x()) and (start.y() != end.y()):
 #                                det0 = (self.pos.y() - StartPoint.y() + 20) / (EndPoint.y() - StartPoint.y() + 0.000001)
