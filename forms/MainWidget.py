@@ -279,7 +279,7 @@ class MainWidget(QtGui.QWidget):
         for dir in SubDirs:
             removeall(self.path + '/' + dir, self)
         sel = self.lvThesis.selectedItems()
-        if (sel <= 1):
+        if (len(sel) <= 1):
             self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(self.path, 1)
@@ -296,7 +296,7 @@ class MainWidget(QtGui.QWidget):
         if path == '':
             return
         sel = self.lvThesis.selectedItems()
-        if (sel <= 1):
+        if (len(sel) <= 1):
             self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(path, 1)
