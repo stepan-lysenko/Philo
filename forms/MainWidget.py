@@ -278,7 +278,9 @@ class MainWidget(QtGui.QWidget):
             break
         for dir in SubDirs:
             removeall(self.path + '/' + dir, self)
-        self.currentItem.setDesc(self.teThesisView.toPlainText())
+        sel = self.lvThesis.selectedItems()
+        if (sel <= 1):
+            self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(self.path, 1)
         ThesisBase.saveScheme(self.Scheme, self.path + u'/scheme.sch')
@@ -293,7 +295,9 @@ class MainWidget(QtGui.QWidget):
             				QtGui.QFileDialog.ShowDirsOnly).toUtf8()), 'UTF8')
         if path == '':
             return
-        self.currentItem.setDesc(self.teThesisView.toPlainText())
+        sel = self.lvThesis.selectedItems()
+        if (sel <= 1):
+            self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(path, 1)
         self.path = path
