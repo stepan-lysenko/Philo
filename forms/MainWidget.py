@@ -261,9 +261,9 @@ class MainWidget(QtGui.QWidget):
 					self.tr('List empty.'))
             return
         if self.path == '':
-            path = str(QtGui.QFileDialog.getExistingDirectory(self,
+            path = unicode(str(QtGui.QFileDialog.getExistingDirectory(self,
                                     self.tr('Select directory'), './',
-                                QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+                                QtGui.QFileDialog.ShowDirsOnly).toUtf8()), 'UTF8')
             if path == '':
                 return
             for Bill, SubDirs, Bob in os.walk(path):
@@ -281,23 +281,23 @@ class MainWidget(QtGui.QWidget):
         self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(self.path, 1)
-        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
+        ThesisBase.saveScheme(self.Scheme, self.path + u'/scheme.sch')
 
     def SaveListAs(self):
         if self.lvThesis.count() <= 0:
             QtGui.QMessageBox.warning(self, self.tr('Save'),
 					self.tr('Empty list'))
             return
-        path = str(QtGui.QFileDialog.getExistingDirectory(self,
+        path = unicode(str(QtGui.QFileDialog.getExistingDirectory(self,
 			            			u"Сохранить Как", './',
-            				QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+            				QtGui.QFileDialog.ShowDirsOnly).toUtf8()), 'UTF8')
         if path == '':
             return
         self.currentItem.setDesc(self.teThesisView.toPlainText())
         for i in xrange(self.lvThesis.count()):
             self.lvThesis.item(i).saveThesis(path, 1)
         self.path = path
-        ThesisBase.saveScheme(self.Scheme, self.path + '/scheme.sch')
+        ThesisBase.saveScheme(self.Scheme, self.path + u'/scheme.sch')
 
     def addToScheme(self):
         i = self.lvThesis.currentRow()
