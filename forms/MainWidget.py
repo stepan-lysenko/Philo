@@ -318,14 +318,14 @@ class MainWidget(QtGui.QWidget):
                                 QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
             if reply == QtGui.QMessageBox.No:
                 return
-        path = str(QtGui.QFileDialog.getExistingDirectory(self, self.tr("Open"),
-                            './', QtGui.QFileDialog.ShowDirsOnly).toUtf8())
+        path = unicode(str(QtGui.QFileDialog.getExistingDirectory(self, self.tr("Open"),
+                            './', QtGui.QFileDialog.ShowDirsOnly).toUtf8()), 'UTF8')
         if path == '':
             return
         self.NewWorkspace(1)
         self.path = path
         ThesisBase.loadThesisesToList(self.lvThesis, path)
-        ThesisBase.loadScheme(path + '/scheme.sch', self.lvThesis, self.Scheme)
+        ThesisBase.loadScheme(path + u'/scheme.sch', self.lvThesis, self.Scheme)
         self.Scheme.update()
         self.Scheme.updateSelection()
         self.Scheme.arrows.update()
