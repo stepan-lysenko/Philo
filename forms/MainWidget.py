@@ -260,6 +260,7 @@ class MainWidget(QtGui.QWidget):
             QtGui.QMessageBox.warning(self, self.tr('Save'),
 					self.tr('List empty.'))
             return
+        SubDirs = []
         if self.path == '':
             path = unicode(str(QtGui.QFileDialog.getExistingDirectory(self,
                                     self.tr('Select directory'), './',
@@ -295,6 +296,17 @@ class MainWidget(QtGui.QWidget):
             				QtGui.QFileDialog.ShowDirsOnly).toUtf8()), 'UTF8')
         if path == '':
             return
+        SubDirs = []
+        for Bill, SubDirs, Bob in os.walk(path):
+            break
+        print SubDirs
+        for dir in SubDirs:
+            if len(dir) != 2:
+                QtGui.QMessageBox.warning(self, self.tr('Save'),
+                                self.tr('That directory in not valid'))
+                return
+        for dir in SubDirs:
+            removeall(self.path + u'/' + dir, self)
         sel = self.lvThesis.selectedItems()
         if (len(sel) <= 1):
             self.currentItem.setDesc(self.teThesisView.toPlainText())
@@ -405,10 +417,10 @@ class MainWidget(QtGui.QWidget):
         sel.sort()
         for item in sel:
             item.getDesc(self.path)
-            text += item.text() + ':\n'
-            text += item.desc + '\n'
+            text += item.text() + QtCore.QString(':\n')
+            text += item.desc + QtCore.QString('\n')
             if (item.desc != ''):
-                text += '\n'
+                text += QtCore.QString('\n')
             self.Scheme.setColorOfThesis(item, QtCore.Qt.green)
 
         self.teThesisView.setText(text)

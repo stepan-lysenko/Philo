@@ -94,13 +94,13 @@ class Thesis(QListWidgetItem):
             self.hash = hashlib.sha1(str(self.text().toUtf8())).hexdigest()
             file = open(path + '/' + self.hash[:2] + '/' + self.hash[2:] +
                                                         '/desc.txt', 'r')
-            desc = ''
+            desc = QString('')
             for line in file.readlines():
                 desc += QString(unicode(line, 'UTF8'))
             file.close()
-            self.desc = desc
-            return desc
-        return self.desc
+            self.desc = QString(desc)
+            return QString(desc)
+        return QString(self.desc)
             
     def loadLinks(self, path):
         return
